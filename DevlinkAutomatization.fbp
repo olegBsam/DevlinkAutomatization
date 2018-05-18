@@ -50,7 +50,11 @@ count=0
 table_id=321
 count=0
 [PROGRAMS]
-count=0
+count=1
+program1_name=Main
+program1_line=1
+program1_filename=Main.lg
+program1_loadtocontrdb=0
 [DEBUG_VARIABLES]
 window_count=8
 1_window_name=Окно 1
