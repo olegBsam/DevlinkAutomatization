@@ -5,7 +5,7 @@ target_os=514
 target_ver=19
 target_name=DevLink-D500 7.1x Linux
 files=2
-path=C:\Projects\DevlinkAutomatization\db
+path=C:\Projects\DevlinkTask2\DevlinkAutomatization\db
 ip=192.168.11.155
 port=0
 variablecontrol=0
@@ -31,9 +31,9 @@ cyclecount=1000
 cycletime=1000
 steptime=500
 [CONTROLLER_SETTINGS]
-contr_autoprogupdate=0
-contr_contrdbupdate=0
-contr_runenvinit=0
+contr_autoprogupdate=1
+contr_contrdbupdate=1
+contr_runenvinit=1
 [FILE1]
 name=Main.lg
 type=program
@@ -78,7 +78,7 @@ count=1
 program1_name=Main
 program1_line=1
 program1_filename=Main.lg
-program1_loadtocontrdb=0
+program1_loadtocontrdb=1
 [DEBUG_VARIABLES]
 window_count=8
 1_window_name=Окно 1
