@@ -5,8 +5,30 @@
 	ПБ3-ПБ5
 *)
 
-опнжедспю GetMsuValue
+(*
+тсмйжхъ GetMsuValue
 	бундмше_оепелеммше
 		мювюкн
 			жек16 sensorType
 		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			жек16 sensorValue
+		йнмеж
+	мювюкн
+		дкъ iSensorInnerId[10...12]
+		{
+			еякх (iSensorInnerId = sensorType){
+				sensorValue = ОЖ[iSensorInnerId]
+			}
+		}
+	йнмеж
+*)
+опнжедспю MsuValueToOpc
+	мювюкн
+		дкъ iSensorInnerId[10...12],
+			iSensorIdInOpc[3...5]
+		{
+			ПБ[iSensorIdInOpc] = ЖБ(ОЖ[iSensorInnerId])
+		}
+	йнмеж
