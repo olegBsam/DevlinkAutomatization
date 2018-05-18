@@ -4,7 +4,7 @@ target_rts=2051
 target_os=514
 target_ver=19
 target_name=DevLink-D500 7.1x Linux
-files=1
+files=2
 path=C:\Projects\DevlinkAutomatization\db
 ip=192.168.11.155
 port=0
@@ -43,12 +43,36 @@ RightMargin=100
 BottomMargin=100
 Orientation=1
 Format=9
+[FILE2]
+name=MsuController.lg
+type=program
+LeftMargin=100
+TopMargin=100
+RightMargin=100
+BottomMargin=100
+Orientation=1
+Format=9
 [VARIABLES]
 table_id=320
 count=0
 [CONSTANTS]
 table_id=321
-count=0
+count=3
+const1_id=1
+const1_name=SENSOR_TYPE_TEMP
+const1_type=INT16
+const1_value=0
+const1_comment=Тип датчика температуры
+const2_id=2
+const2_name=SENSOR_TYPE_WETNESS
+const2_type=INT16
+const2_value=1
+const2_comment=Тип датчика влажности
+const3_id=3
+const3_name=SENSOR_TYPE_LIGHT
+const3_type=INT16
+const3_value=2
+const3_comment=Тип датчика освещенности
 [PROGRAMS]
 count=1
 program1_name=Main
