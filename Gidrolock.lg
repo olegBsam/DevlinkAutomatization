@@ -1,0 +1,45 @@
+(**
+* Управление краном Gidrolock
+* @пл10 - выход датчика, показывает, что кран открыт
+* @пл11 - выход датчика, показывает, что кран закрыт
+* если XOR(пл10, пл11), то состояние не определено
+* 
+* @пл12 - управление краном (1 - открыт;0 - закрыт)
+**)
+
+ПРОЦЕДУРА Gidrolock_MonitoringAndOpcControl
+
+	НАЧАЛО
+		КОНСТАНТЫ
+			НАЧАЛО
+				ЛОГ isOpenCrane = 1
+			КОНЕЦ
+	
+		ПЕРЕМЕННЫЕ
+			НАЧАЛО
+				ЛОГ openCraneVar
+				ЛОГ closeCraneVar
+				ЦЕЛ16 opcStateValueVar
+			КОНЕЦ
+			
+		opcStateValueVar = вц(рв6)
+		
+		ЕСЛИ (opcStateValueVar = GIDROLOCK_CRANE_OPEN){
+			пл12 = isOpenCrane
+		}
+		ИНАЧЕ_ЕСЛИ (opcStateValueVar = GIDROLOCK_CRANE_CLOSE){
+			пл12 = !isOpenCrane
+		}
+			
+		openCraneVar = пл13
+		closeCraneVar = пл14		
+		
+		ЕСЛИ (openCraneVar & !closeCraneVar){
+			рв6 = GIDROLOCK_CRANE_OPEN
+		} ИНАЧЕ_ЕСЛИ (!openCraneVar & closeCraneVar){
+			рв6 = GIDROLOCK_CRANE_CLOSE
+		} ИНАЧЕ{
+			рв6 = GIDROLOCK_CRANE_UNDEFINED
+		}
+
+	КОНЕЦ
