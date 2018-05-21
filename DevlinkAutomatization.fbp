@@ -44,7 +44,7 @@ BottomMargin=100
 Orientation=1
 Format=9
 [FILE2]
-name=MsuController.lg
+name=Msu24.lg
 type=program
 LeftMargin=100
 TopMargin=100

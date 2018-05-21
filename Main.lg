@@ -1,4 +1,4 @@
 ПРОГРАММА Main
 	НАЧАЛО
-		MsuValueToOpc :Мониторинг МСУ и вывод в OPC
+		Msu24_Monitoring
 	КОНЕЦ

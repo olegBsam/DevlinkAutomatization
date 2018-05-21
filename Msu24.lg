@@ -1,12 +1,12 @@
 (**
 *	Внутренние переменные для общения с МСУ
-*	пц10 - влаж
-*	пц11 - освещ
-*	пц12 - темп
+*	@пц10 - влаж
+*	@пц11 - освещ
+*	@пц12 - темп
 *	Переменные OPC для общения с МСУ
-*	рв3 - влаж
-*	рв4 - освещ
-*	рв5 - темп
+*	@рв3 - влаж
+*	@рв4 - освещ
+*	@рв5 - темп
 *	
 **)
 
@@ -29,11 +29,16 @@
 		}
 	КОНЕЦ
 *)
-ПРОЦЕДУРА MsuController_monitoringMsu24
-	НАЧАЛО
-		ДЛЯ iSensorInnerId[10...12],
-			iSensorIdInOpc[3...5]
+ПРОЦЕДУРА Msu24_Monitoring
+	НАЧАЛО			
+		ДЛЯ iMdbPcSensorValue[10...12],
+			iOpcSensorValue[3...5]
 		{
-			рв[iSensorIdInOpc] = цв(пц[iSensorInnerId])
+			рв[iOpcSensorValue] = цв(пц[iMdbPcSensorValue])
+		}
+		ДЛЯ iOpcIsConnectionMsu24[6],
+			iMdbIsConnectionMsu24[20]
+		{
+			рв[iOpcIsConnectionMsu24] = лв(пл[iMdbIsConnectionMsu24])
 		}
 	КОНЕЦ
