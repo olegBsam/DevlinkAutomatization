@@ -9,50 +9,53 @@
 * @ПБ9 - ЯНЯРНЪМХЕ ЙПЮМЮ
 **)
 
-опнжедспю Gidrolock_MonitoringAndOpcControl
-
+опнжедспю Gidrolock_OpcControl
 	мювюкн
-		йнмярюмрш
-			мювюкн
-				кнц isOpenCrane = 1
-			йнмеж
-	
 		оепелеммше
 			мювюкн
-				кнц openCraneVar
-				кнц closeCraneVar
-				жек16 opcStateValueVar
+				жек16 opcCraneControlCmd
 			йнмеж
-			
+		йнмярюмрш
+			мювюкн
+				кнц IS_OPEN_CRANE = 1
+			йнмеж
+	
+	
+		opcCraneControlCmd = БЖ(ПБ8)
+		
+		еякх (opcCraneControlCmd = GIDROLOCK_CRANE_OPEN){
+			ОК12 = IS_OPEN_CRANE
+		}
+		хмюве_еякх (opcCraneControlCmd = GIDROLOCK_CRANE_CLOSE){
+			ОК12 = !IS_OPEN_CRANE
+		}
+	йнмеж
+	
+опнжедспю Gidrolock_Monitoring
+	мювюкн
+		оепелеммше
+			мювюкн
+				кнц openCrane
+				кнц closeCrane
+			йнмеж
+				
+		
+		openCrane = ОК13
+		closeCrane = ОК14		
+		
+	
 		дкъ iOpcIsConnectionGidrolockCrane[7],
 			iMdbIsConnectionGidrolockCrane[21]
 		{
 			ПБ[iOpcIsConnectionGidrolockCrane] = КБ(ОК[iMdbIsConnectionGidrolockCrane])
 		}
-			
-		opcStateValueVar = БЖ(ПБ8)
 		
-		еякх (opcStateValueVar = GIDROLOCK_CRANE_OPEN){
-			ОК12 = isOpenCrane
-		}
-		хмюве_еякх (opcStateValueVar = GIDROLOCK_CRANE_CLOSE){
-			ОК12 = !isOpenCrane
-		}
-			
-		openCraneVar = ОК13
-		closeCraneVar = ОК14		
-		
-		еякх (openCraneVar & !closeCraneVar){
+		еякх (openCrane & !closeCrane){
 			ПБ9 = GIDROLOCK_CRANE_OPEN
-		} хмюве_еякх (!openCraneVar & closeCraneVar){
+		} хмюве_еякх (!openCrane & closeCrane){
 			ПБ9 = GIDROLOCK_CRANE_CLOSE
 		} хмюве{
 			ПБ9 = GIDROLOCK_CRANE_UNDEFINED
 		}
-
-	йнмеж
-	
-опнжедспю
-	мювюкн
-		
+			
 	йнмеж
