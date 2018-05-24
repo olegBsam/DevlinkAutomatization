@@ -1,5 +1,10 @@
 опнцпюллю Main
 	мювюкн
+		еякх (ПБ1 = 0){
+			Initialization_OnReboot
+			ПБ1 = 1
+		}
+		
 		Msu24_Monitoring
 		Gidrolock_Monitoring
 		Gidrolock_OpcControl
