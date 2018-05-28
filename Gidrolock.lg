@@ -5,49 +5,78 @@
 * если XOR(пл10, пл11), то состояние не определено
 * Связь:
 * @пл21 - рв7
-* @пл12 - рв8 управление краном (1 - открыт;0 - закрыт)
+* @пл12 - рв8 управление краном (1 - открыт (белый);0 - закрыт(зелено-желтый))
 * @рв9 - состояние крана
 **)
 
-ПРОЦЕДУРА Gidrolock_MonitoringAndOpcControl
-
+ПРОЦЕДУРА Gidrolock_InitOnReboot
 	НАЧАЛО
-		КОНСТАНТЫ
-			НАЧАЛО
-				ЛОГ isOpenCrane = 1
-			КОНЕЦ
-	
 		ПЕРЕМЕННЫЕ
 			НАЧАЛО
-				ЛОГ openCraneVar
-				ЛОГ closeCraneVar
-				ЦЕЛ16 opcStateValueVar
+				ЛОГ openCrane
+				ЛОГ closeCrane
 			КОНЕЦ
 			
+		openCrane = пл13
+		closeCrane = пл14
+		
+		ЕСЛИ (openCrane & !closeCrane){
+			рв8 = GIDROLOCK_CRANE_OPEN
+		} ИНАЧЕ_ЕСЛИ (!openCrane & closeCrane){
+			рв8 = GIDROLOCK_CRANE_CLOSE
+		} ИНАЧЕ{
+			рв8 = GIDROLOCK_CRANE_UNDEFINED
+		}
+	КОНЕЦ
+	
+
+ПРОЦЕДУРА Gidrolock_OpcControl
+	НАЧАЛО
+		ПЕРЕМЕННЫЕ
+			НАЧАЛО
+				ЦЕЛ16 opcCraneControlCmd
+			КОНЕЦ
+		КОНСТАНТЫ
+			НАЧАЛО
+				ЛОГ IS_OPEN_CRANE = 1
+			КОНЕЦ
+	
+	
+		opcCraneControlCmd = вц(рв8)
+		
+		ЕСЛИ (opcCraneControlCmd = GIDROLOCK_CRANE_OPEN){
+			пл12 = IS_OPEN_CRANE
+		}
+		ИНАЧЕ_ЕСЛИ (opcCraneControlCmd = GIDROLOCK_CRANE_CLOSE){
+			пл12 = !IS_OPEN_CRANE
+		}
+	КОНЕЦ
+	
+ПРОЦЕДУРА Gidrolock_Monitoring
+	НАЧАЛО
+		ПЕРЕМЕННЫЕ
+			НАЧАЛО
+				ЛОГ openCrane
+				ЛОГ closeCrane
+			КОНЕЦ
+				
+		
+		openCrane = пл13
+		closeCrane = пл14		
+		
+	
 		ДЛЯ iOpcIsConnectionGidrolockCrane[7],
 			iMdbIsConnectionGidrolockCrane[21]
 		{
 			рв[iOpcIsConnectionGidrolockCrane] = лв(пл[iMdbIsConnectionGidrolockCrane])
 		}
-			
-		opcStateValueVar = вц(рв8)
 		
-		ЕСЛИ (opcStateValueVar = GIDROLOCK_CRANE_OPEN){
-			пл12 = isOpenCrane
-		}
-		ИНАЧЕ_ЕСЛИ (opcStateValueVar = GIDROLOCK_CRANE_CLOSE){
-			пл12 = !isOpenCrane
-		}
-			
-		openCraneVar = пл13
-		closeCraneVar = пл14		
-		
-		ЕСЛИ (openCraneVar & !closeCraneVar){
+		ЕСЛИ (openCrane & !closeCrane){
 			рв9 = GIDROLOCK_CRANE_OPEN
-		} ИНАЧЕ_ЕСЛИ (!openCraneVar & closeCraneVar){
+		} ИНАЧЕ_ЕСЛИ (!openCrane & closeCrane){
 			рв9 = GIDROLOCK_CRANE_CLOSE
 		} ИНАЧЕ{
 			рв9 = GIDROLOCK_CRANE_UNDEFINED
 		}
-
+			
 	КОНЕЦ
