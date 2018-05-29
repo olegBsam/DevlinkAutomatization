@@ -12,25 +12,6 @@
 *	ПБ6
 **)
 
-(*
-тсмйжхъ GetMsuValue
-	бундмше_оепелеммше
-		мювюкн
-			жек16 sensorType
-		йнмеж
-	бшундмше_оепелеммше
-		мювюкн
-			жек16 sensorValue
-		йнмеж
-	мювюкн
-		дкъ iSensorInnerId[10...12]
-		{
-			еякх (iSensorInnerId = sensorType){
-				sensorValue = ОЖ[iSensorInnerId]
-			}
-		}
-	йнмеж
-*)
 опнжедспю Msu24_Monitoring
 	мювюкн			
 		дкъ iMdbPcSensorValue[10...12],
