@@ -1,0 +1,59 @@
+тсмйжхъ Msu24Api_GetIlluminationValue
+	бундмше_оепелеммше
+		мювюкн
+			жек16 msuId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			жек16 sensorValue
+		йнмеж
+	мювюкн
+		дкъ iMsuId[0],
+			iMdbPcSensorValue[11]
+		{
+			еякх (iMsuId = msuId)
+			{
+				sensorValue = ОЖ[iMdbPcSensorValue]
+			}
+		}
+	йнмеж
+
+тсмйжхъ Msu24Api_GetMoistureValue
+	бундмше_оепелеммше
+		мювюкн
+			жек16 msuId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			жек16 sensorValue
+		йнмеж
+	мювюкн
+		дкъ iMsuId[0],
+			iMdbPcSensorValue[10]
+		{
+			еякх (iMsuId = msuId)
+			{
+				sensorValue = ОЖ[iMdbPcSensorValue]
+			}
+		}
+	йнмеж
+
+тсмйжхъ Msu24Api_GetTemperatureValue
+	бундмше_оепелеммше
+		мювюкн
+			жек16 msuId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			жек16 sensorValue
+		йнмеж
+	мювюкн
+		дкъ iMsuId[0],
+			iMdbPcSensorValue[12]
+		{
+			еякх (iMsuId = msuId)
+			{
+				sensorValue = ОЖ[iMdbPcSensorValue]
+			}
+		}
+	йнмеж
