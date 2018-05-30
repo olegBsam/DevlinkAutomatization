@@ -20,13 +20,7 @@
 		openCrane = ОК13
 		closeCrane = ОК14
 		
-		еякх (openCrane & !closeCrane){
-			ПБ8 = GIDROLOCK_CRANE_OPEN
-		} хмюве_еякх (!openCrane & closeCrane){
-			ПБ8 = GIDROLOCK_CRANE_CLOSE
-		} хмюве{
-			ПБ8 = GIDROLOCK_CRANE_UNDEFINED
-		}
+		ПБ8 = ЖБ(Decoder_GetGidrolockCraneState(openCrane, closeCrane))
 	йнмеж
 	
 
@@ -59,26 +53,17 @@
 				кнц openCrane
 				кнц closeCrane
 			йнмеж
-				
-		
+						
 		openCrane = ОК13
 		closeCrane = ОК14		
 		
-	
 		дкъ iOpcIsConnectionGidrolockCrane[7],
 			iMdbIsConnectionGidrolockCrane[21]
 		{
 			ПБ[iOpcIsConnectionGidrolockCrane] = КБ(ОК[iMdbIsConnectionGidrolockCrane])
 		}
 		
-		еякх (openCrane & !closeCrane){
-			ПБ9 = GIDROLOCK_CRANE_OPEN
-		} хмюве_еякх (!openCrane & closeCrane){
-			ПБ9 = GIDROLOCK_CRANE_CLOSE
-		} хмюве{
-			ПБ9 = GIDROLOCK_CRANE_UNDEFINED
-		}
-			
+		ПБ9 = ЖБ(Decoder_GetGidrolockCraneState(openCrane, closeCrane))			
 	йнмеж
 	
 тсмйжхъ Gidrolock_CmdClose
@@ -130,13 +115,7 @@
 			
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId){
-				еякх (ОК[iMdbCraneOpenWire] & !ОК[iMdbCraneCloseWire]){
-					gidrolockCraneState = GIDROLOCK_CRANE_OPEN
-				} хмюве_еякх (!ОК[iMdbCraneOpenWire] & ОК[iMdbCraneCloseWire]){
-					gidrolockCraneState = GIDROLOCK_CRANE_CLOSE
-				} хмюве{
-					gidrolockCraneState = GIDROLOCK_CRANE_UNDEFINED
-				}
+				gidrolockCraneState = Decoder_GetGidrolockCraneState(ЖК(iMdbCraneOpenWire), ЖК(iMdbCraneCloseWire))
 				опепбюрэ
 			}
 		}
@@ -158,7 +137,7 @@
 			iMdbCraneCloseWire[14]
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId){
-				isClosedCrane = !ОК[iMdbCraneOpenWire] & ОК[iMdbCraneCloseWire]
+				isClosedCrane = (Decoder_GetGidrolockCraneState(ЖК(iMdbCraneOpenWire), ЖК(iMdbCraneCloseWire)) = GIDROLOCK_CRANE_CLOSE)
 				опепбюрэ
 			}
 		}
@@ -180,7 +159,7 @@
 			iMdbCraneCloseWire[14]
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId){
-				isOpenedCrane = ОК[iMdbCraneOpenWire] & !ОК[iMdbCraneCloseWire]
+					isOpenedCrane = (Decoder_GetGidrolockCraneState(ЖК(iMdbCraneOpenWire), ЖК(iMdbCraneCloseWire)) = GIDROLOCK_CRANE_OPEN)
 				опепбюрэ
 			}
 		}

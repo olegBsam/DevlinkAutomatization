@@ -4,7 +4,7 @@ target_rts=2051
 target_os=514
 target_ver=19
 target_name=DevLink-D500 7.1x Linux
-files=4
+files=6
 path=C:\Projects\DevlinkTask2\DevlinkAutomatization\db
 ip=192.168.11.155
 port=0
@@ -63,6 +63,24 @@ Orientation=1
 Format=9
 [FILE4]
 name=Initialization.lg
+type=program
+LeftMargin=100
+TopMargin=100
+RightMargin=100
+BottomMargin=100
+Orientation=1
+Format=9
+[FILE5]
+name=CraneStateInterpret.lg
+type=program
+LeftMargin=100
+TopMargin=100
+RightMargin=100
+BottomMargin=100
+Orientation=1
+Format=9
+[FILE6]
+name=Decoder.lg
 type=program
 LeftMargin=100
 TopMargin=100
