@@ -9,6 +9,7 @@
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId)	{
 				ОК[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_CLOSE 
+				опепбюрэ
 			}
 		}
 	йнмеж
@@ -24,6 +25,7 @@
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId){
 				ОК[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_OPEN 
+				опепбюрэ
 			}
 		}
 	йнмеж
@@ -52,6 +54,7 @@
 				} хмюве{
 					gidrolockCraneState = GIDROLOCK_CRANE_UNDEFINED
 				}
+				опепбюрэ
 			}
 		}
 	йнмеж
