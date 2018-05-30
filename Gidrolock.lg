@@ -115,7 +115,7 @@
 			
 		{
 			ÅÑËÈ (iGidrolockCraneId = gidrolockCraneId){
-				gidrolockCraneState = Decoder_GetGidrolockCraneState(öë(iMdbCraneOpenWire), öë(iMdbCraneCloseWire))
+				gidrolockCraneState = Decoder_GetGidrolockCraneState(ïë[iMdbCraneOpenWire], ïë[iMdbCraneCloseWire])
 				ÏĞÅĞÂÀÒÜ
 			}
 		}
@@ -137,7 +137,7 @@
 			iMdbCraneCloseWire[14]
 		{
 			ÅÑËÈ (iGidrolockCraneId = gidrolockCraneId){
-				isClosedCrane = (Decoder_GetGidrolockCraneState(öë(iMdbCraneOpenWire), öë(iMdbCraneCloseWire)) = GIDROLOCK_CRANE_CLOSE)
+				isClosedCrane = (Decoder_GetGidrolockCraneState(ïë[iMdbCraneOpenWire], ïë[iMdbCraneCloseWire]) = GIDROLOCK_CRANE_CLOSE)
 				ÏĞÅĞÂÀÒÜ
 			}
 		}
@@ -159,7 +159,7 @@
 			iMdbCraneCloseWire[14]
 		{
 			ÅÑËÈ (iGidrolockCraneId = gidrolockCraneId){
-					isOpenedCrane = (Decoder_GetGidrolockCraneState(öë(iMdbCraneOpenWire), öë(iMdbCraneCloseWire)) = GIDROLOCK_CRANE_OPEN)
+					isOpenedCrane = (Decoder_GetGidrolockCraneState(ïë[iMdbCraneOpenWire], ïë[iMdbCraneCloseWire]) = GIDROLOCK_CRANE_OPEN)
 				ÏĞÅĞÂÀÒÜ
 			}
 		}
