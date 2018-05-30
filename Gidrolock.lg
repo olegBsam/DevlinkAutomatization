@@ -23,7 +23,6 @@
 		{
 			openCrane = пл[iMdbGidrolockCraneWireOpen]
 			closeCrane = пл[iMdbGidrolockCraneWireClose]
-			
 			рв[iOpcGidrolockCraneCmd] = цв(Decoder_GetGidrolockCraneState(openCrane, closeCrane))
 		}
 	КОНЕЦ
