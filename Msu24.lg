@@ -27,7 +27,7 @@
 	йнмеж
 
 
-тсмйжхъ Msu24Api_GetIlluminationValue
+тсмйжхъ Msu24_GetIlluminationValue
 	бундмше_оепелеммше
 		мювюкн
 			жек16 msuId
@@ -48,7 +48,7 @@
 		}
 	йнмеж
 
-тсмйжхъ Msu24Api_GetMoistureValue
+тсмйжхъ Msu24_GetMoistureValue
 	бундмше_оепелеммше
 		мювюкн
 			жек16 msuId
@@ -69,7 +69,7 @@
 		}
 	йнмеж
 
-тсмйжхъ Msu24Api_GetTemperatureValue
+тсмйжхъ Msu24_GetTemperatureValue
 	бундмше_оепелеммше
 		мювюкн
 			жек16 msuId

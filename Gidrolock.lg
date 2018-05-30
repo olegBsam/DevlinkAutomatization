@@ -81,7 +81,7 @@
 			
 	йнмеж
 	
-тсмйжхъ GidrolockCraneApi_CmdClose
+тсмйжхъ Gidrolock_CmdClose
 	бундмше_оепелеммше
 		мювюкн
 			жек16 gidrolockCraneId
@@ -97,7 +97,7 @@
 		}
 	йнмеж
 
-тсмйжхъ GidrolockCraneApi_CmdOpen
+тсмйжхъ Gidrolock_CmdOpen
 	бундмше_оепелеммше
 		мювюкн
 			жек16 gidrolockCraneId
@@ -113,7 +113,7 @@
 		}
 	йнмеж
 	
-тсмйжхъ GidrolockCraneApi_GetState
+тсмйжхъ Gidrolock_GetState
 	бундмше_оепелеммше
 		мювюкн
 			жек16 gidrolockCraneId
@@ -142,7 +142,7 @@
 		}
 	йнмеж
 	
-тсмйжхъ GidrolockCraneApi_IsClosed
+тсмйжхъ Gidrolock_IsClosed
 	бундмше_оепелеммше
 		мювюкн
 			жек16 gidrolockCraneId
@@ -164,7 +164,7 @@
 		}
 	йнмеж
 	
-тсмйжхъ GidrolockCraneApi_IsOpened 
+тсмйжхъ Gidrolock_IsOpened 
 	бундмше_оепелеммше
 		мювюкн
 			жек16 gidrolockCraneId

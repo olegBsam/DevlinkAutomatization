@@ -1,9 +1,16 @@
 [WINDOWS]
-count=1
+count=2
 [FILE1]
 name=Gidrolock.lg
 PositionX=4
 PositionY=2
 SizeX=734
 SizeY=561
+ShowType=1
+[FILE2]
+name=Msu24.lg
+PositionX=81
+PositionY=134
+SizeX=1483
+SizeY=406
 ShowType=1
