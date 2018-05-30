@@ -2,9 +2,9 @@
 count=3
 [FILE1]
 name=Gidrolock.lg
-PositionX=538
-PositionY=-4
-SizeX=1120
+PositionX=7
+PositionY=-2
+SizeX=1264
 SizeY=585
 ShowType=1
 [FILE2]

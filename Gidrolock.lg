@@ -132,12 +132,17 @@
 		йнмеж
 	
 	мювюкн
+		оепелеммше
+			мювюкн
+				жек16 craneState
+			йнмеж
 		дкъ iGidrolockCraneId[1],
 			iMdbCraneOpenWire[13],	
 			iMdbCraneCloseWire[14]
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId){
-				isClosedCrane = (Decoder_GetGidrolockCraneState(ОК[iMdbCraneOpenWire], ОК[iMdbCraneCloseWire]) = GIDROLOCK_CRANE_CLOSE)
+				craneState = Decoder_GetGidrolockCraneState(ОК[iMdbCraneOpenWire], ОК[iMdbCraneCloseWire])
+				isClosedCrane = (craneState = GIDROLOCK_CRANE_CLOSE)
 				опепбюрэ
 			}
 		}
@@ -154,12 +159,17 @@
 		йнмеж
 	
 	мювюкн
+		оепелеммше
+			мювюкн
+				жек16 craneState 
+			йнмеж
 		дкъ iGidrolockCraneId[1],
 			iMdbCraneOpenWire[13],	
 			iMdbCraneCloseWire[14]
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId){
-					isOpenedCrane = (Decoder_GetGidrolockCraneState(ОК[iMdbCraneOpenWire], ОК[iMdbCraneCloseWire]) = GIDROLOCK_CRANE_OPEN)
+				craneState = Decoder_GetGidrolockCraneState(ОК[iMdbCraneOpenWire], ОК[iMdbCraneCloseWire])
+				isOpenedCrane = (craneState = GIDROLOCK_CRANE_OPEN)
 				опепбюрэ
 			}
 		}
