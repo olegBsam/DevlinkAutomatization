@@ -8,20 +8,4 @@
 		Msu24_Monitoring
 		Gidrolock_Monitoring
 		Gidrolock_OpcControl
-		
-		если (тс1 = 0){
-			если (Gidrolock_IsClosed(1)){
-				Gidrolock_CmdOpen(1)
-			}
-			иначе_если(Gidrolock_IsOpened(1)){
-				Gidrolock_CmdClose(1)
-			}
-		}иначе_если(тс1 = 30){
-			если (Gidrolock_IsClosed(1)){
-				Gidrolock_CmdOpen(1)
-			}
-			иначе_если(Gidrolock_IsOpened(1)){
-				Gidrolock_CmdClose(1)
-			}
-		}
 	КОНЕЦ
