@@ -12,25 +12,6 @@
 *	ПБ6
 **)
 
-(*
-тсмйжхъ GetMsuValue
-	бундмше_оепелеммше
-		мювюкн
-			жек16 sensorType
-		йнмеж
-	бшундмше_оепелеммше
-		мювюкн
-			жек16 sensorValue
-		йнмеж
-	мювюкн
-		дкъ iSensorInnerId[10...12]
-		{
-			еякх (iSensorInnerId = sensorType){
-				sensorValue = ОЖ[iSensorInnerId]
-			}
-		}
-	йнмеж
-*)
 опнжедспю Msu24_Monitoring
 	мювюкн			
 		дкъ iMdbPcSensorValue[10...12],
@@ -42,5 +23,69 @@
 			iMdbIsConnectionMsu24[20]
 		{
 			ПБ[iOpcIsConnectionMsu24] = КБ(ОК[iMdbIsConnectionMsu24])
+		}
+	йнмеж
+
+
+тсмйжхъ Msu24_GetIlluminationValue
+	бундмше_оепелеммше
+		мювюкн
+			жек16 msuId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			жек16 sensorValue
+		йнмеж
+	мювюкн
+		дкъ iMsuId[1],
+			iMdbPcSensorValue[11]
+		{
+			еякх (iMsuId = msuId)
+			{
+				sensorValue = ОЖ[iMdbPcSensorValue]
+				опепбюрэ
+			}
+		}
+	йнмеж
+
+тсмйжхъ Msu24_GetMoistureValue
+	бундмше_оепелеммше
+		мювюкн
+			жек16 msuId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			жек16 sensorValue
+		йнмеж
+	мювюкн
+		дкъ iMsuId[1],
+			iMdbPcSensorValue[10]
+		{
+			еякх (iMsuId = msuId)
+			{
+				sensorValue = ОЖ[iMdbPcSensorValue]
+				опепбюрэ
+			}
+		}
+	йнмеж
+
+тсмйжхъ Msu24_GetTemperatureValue
+	бундмше_оепелеммше
+		мювюкн
+			жек16 msuId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			жек16 sensorValue
+		йнмеж
+	мювюкн
+		дкъ iMsuId[1],
+			iMdbPcSensorValue[12]
+		{
+			еякх (iMsuId = msuId)
+			{
+				sensorValue = ОЖ[iMdbPcSensorValue]
+				опепбюрэ
+			}
 		}
 	йнмеж

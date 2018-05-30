@@ -1,7 +1,7 @@
 (**
 * сОПЮБКЕМХЕ ЙПЮМНЛ Gidrolock
-* @ОК10 - БШУНД ДЮРВХЙЮ, ОНЙЮГШБЮЕР, ВРН ЙПЮМ НРЙПШР
-* @ОК11 - БШУНД ДЮРВХЙЮ, ОНЙЮГШБЮЕР, ВРН ЙПЮМ ГЮЙПШР
+* @ОК13 - БШУНД ДЮРВХЙЮ, ОНЙЮГШБЮЕР, ВРН ЙПЮМ НРЙПШР
+* @ОК14 - БШУНД ДЮРВХЙЮ, ОНЙЮГШБЮЕР, ВРН ЙПЮМ ГЮЙПШР
 * ЕЯКХ XOR(ОК10, ОК11), РН ЯНЯРНЪМХЕ МЕ НОПЕДЕКЕМН
 * яБЪГЭ:
 * @ОК21 - ПБ7
@@ -20,13 +20,7 @@
 		openCrane = ОК13
 		closeCrane = ОК14
 		
-		еякх (openCrane & !closeCrane){
-			ПБ8 = GIDROLOCK_CRANE_OPEN
-		} хмюве_еякх (!openCrane & closeCrane){
-			ПБ8 = GIDROLOCK_CRANE_CLOSE
-		} хмюве{
-			ПБ8 = GIDROLOCK_CRANE_UNDEFINED
-		}
+		ПБ8 = ЖБ(Decoder_GetGidrolockCraneState(openCrane, closeCrane))
 	йнмеж
 	
 
@@ -59,24 +53,124 @@
 				кнц openCrane
 				кнц closeCrane
 			йнмеж
-				
-		
+						
 		openCrane = ОК13
 		closeCrane = ОК14		
 		
-	
 		дкъ iOpcIsConnectionGidrolockCrane[7],
 			iMdbIsConnectionGidrolockCrane[21]
 		{
 			ПБ[iOpcIsConnectionGidrolockCrane] = КБ(ОК[iMdbIsConnectionGidrolockCrane])
 		}
 		
-		еякх (openCrane & !closeCrane){
-			ПБ9 = GIDROLOCK_CRANE_OPEN
-		} хмюве_еякх (!openCrane & closeCrane){
-			ПБ9 = GIDROLOCK_CRANE_CLOSE
-		} хмюве{
-			ПБ9 = GIDROLOCK_CRANE_UNDEFINED
+		ПБ9 = ЖБ(Decoder_GetGidrolockCraneState(openCrane, closeCrane))			
+	йнмеж
+	
+тсмйжхъ Gidrolock_CmdClose
+	бундмше_оепелеммше
+		мювюкн
+			жек16 gidrolockCraneId
+		йнмеж
+	мювюкн
+		дкъ iGidrolockCraneId[1],
+			iMdbCraneId[12]		
+		{
+			еякх (iGidrolockCraneId = gidrolockCraneId)	{
+				ОК[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_CLOSE 
+				опепбюрэ
+			}
 		}
+	йнмеж
+
+тсмйжхъ Gidrolock_CmdOpen
+	бундмше_оепелеммше
+		мювюкн
+			жек16 gidrolockCraneId
+		йнмеж
+	мювюкн
+		дкъ iGidrolockCraneId[1],
+			iMdbCraneId[12]		
+		{
+			еякх (iGidrolockCraneId = gidrolockCraneId){
+				ОК[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_OPEN 
+				опепбюрэ
+			}
+		}
+	йнмеж
+	
+тсмйжхъ Gidrolock_GetState
+	бундмше_оепелеммше
+		мювюкн
+			жек16 gidrolockCraneId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			жек16 gidrolockCraneState
+		йнмеж
+	
+	мювюкн
+		дкъ iGidrolockCraneId[1],
+			iMdbCraneOpenWire[13],	
+			iMdbCraneCloseWire[14]
 			
+		{
+			еякх (iGidrolockCraneId = gidrolockCraneId){
+				gidrolockCraneState = Decoder_GetGidrolockCraneState(ОК[iMdbCraneOpenWire], ОК[iMdbCraneCloseWire])
+				опепбюрэ
+			}
+		}
+	йнмеж
+	
+тсмйжхъ Gidrolock_IsClosed
+	бундмше_оепелеммше
+		мювюкн
+			жек16 gidrolockCraneId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			кнц isClosedCrane
+		йнмеж
+	
+	мювюкн
+		оепелеммше
+			мювюкн
+				жек16 craneState
+			йнмеж
+		дкъ iGidrolockCraneId[1],
+			iMdbCraneOpenWire[13],	
+			iMdbCraneCloseWire[14]
+		{
+			еякх (iGidrolockCraneId = gidrolockCraneId){
+				craneState = Decoder_GetGidrolockCraneState(ОК[iMdbCraneOpenWire], ОК[iMdbCraneCloseWire])
+				isClosedCrane = (craneState = GIDROLOCK_CRANE_CLOSE)
+				опепбюрэ
+			}
+		}
+	йнмеж
+	
+тсмйжхъ Gidrolock_IsOpened 
+	бундмше_оепелеммше
+		мювюкн
+			жек16 gidrolockCraneId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			кнц isOpenedCrane
+		йнмеж
+	
+	мювюкн
+		оепелеммше
+			мювюкн
+				жек16 craneState 
+			йнмеж
+		дкъ iGidrolockCraneId[1],
+			iMdbCraneOpenWire[13],	
+			iMdbCraneCloseWire[14]
+		{
+			еякх (iGidrolockCraneId = gidrolockCraneId){
+				craneState = Decoder_GetGidrolockCraneState(ОК[iMdbCraneOpenWire], ОК[iMdbCraneCloseWire])
+				isOpenedCrane = (craneState = GIDROLOCK_CRANE_OPEN)
+				опепбюрэ
+			}
+		}
 	йнмеж
