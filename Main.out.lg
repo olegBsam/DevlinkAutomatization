@@ -1,0 +1,225 @@
+Программа Main
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  Если (рв1 = 0.000000)
+  {
+    Initialization_OnReboot
+    рв1 = 1.00000
+  }
+  
+  Msu24_Monitoring
+  Gidrolock_Monitoring
+  Gidrolock_OpcControl
+  Если (рв25 = 1.00000)
+  {
+    Gidrolock_CmdClose(1)
+  }
+  Иначе
+  {
+    Если (рв25 = 11.0000)
+    {
+      Gidrolock_CmdOpen(1)
+    }
+    
+  }
+  
+Конец
+
+Процедура Gidrolock_InitOnReboot
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+      Лог openCrane
+      Лог closeCrane
+    Конец
+  Для iMdbGidrolockCraneWireOpen[13], iMdbGidrolockCraneWireClose[14], iOpcGidrolockCraneCmd[8]
+  {
+    openCrane = пл[iMdbGidrolockCraneWireOpen]
+    closeCrane = пл[iMdbGidrolockCraneWireClose]
+    рв[iOpcGidrolockCraneCmd] = цв(Decoder_GetGidrolockCraneState(openCrane, closeCrane))
+  }
+  
+Конец
+
+Процедура Gidrolock_OpcControl
+Начало
+  Константы
+    Начало
+      Лог IS_OPEN_CRANE = 1
+    Конец
+  Переменные
+    Начало
+      Цел16 opcCraneControlCmd
+    Конец
+  Для iOpcGidrolockCraneCmd[8], iMdbCraneId[12]
+  {
+    opcCraneControlCmd = вц(рв[iOpcGidrolockCraneCmd])
+    Если (opcCraneControlCmd = 1)
+    {
+      пл[iMdbCraneId] = 1
+    }
+    Иначе
+    {
+      Если (opcCraneControlCmd = 0)
+      {
+        пл[iMdbCraneId] = 0
+      }
+      
+    }
+    
+    рв[iOpcGidrolockCraneCmd] = 2.00000
+  }
+  
+Конец
+
+Процедура Gidrolock_Monitoring
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+      Лог openCrane
+      Лог closeCrane
+      Цел16 craneState
+    Конец
+  Для iOpcIsConnectionGidrolockCrane[7], iMdbIsConnectionGidrolockCrane[21], iMdbGidrolockCraneWireOpen[13], iMdbGidrolockCraneWireClose[14], iOpcGidrolockCraneState[9]
+  {
+    openCrane = пл[iMdbGidrolockCraneWireOpen]
+    closeCrane = пл[iMdbGidrolockCraneWireClose]
+    рв[iOpcIsConnectionGidrolockCrane] = лв(пл[iMdbIsConnectionGidrolockCrane])
+    craneState = Decoder_GetGidrolockCraneState(openCrane, closeCrane)
+    рв[iOpcGidrolockCraneState] = цв(craneState)
+  }
+  
+Конец
+
+Процедура Initialization_OnReboot
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  Gidrolock_InitOnReboot
+Конец
+
+Процедура Msu24_Monitoring
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  Для iMdbPcSensorValue[10...12], iOpcSensorValue[3...5]
+  {
+    рв[iOpcSensorValue] = цв(пц[iMdbPcSensorValue])
+  }
+  
+  Для iOpcIsConnectionMsu24[6], iMdbIsConnectionMsu24[20]
+  {
+    рв[iOpcIsConnectionMsu24] = лв(пл[iMdbIsConnectionMsu24])
+  }
+  
+Конец
+
+Функция Decoder_GetGidrolockCraneState
+  Входные_Переменные
+    Начало
+      Лог isWireOpen
+      Лог isWireClose
+    Конец
+  Выходные_Переменные
+    Начало
+      Цел16 craneState
+    Конец
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  Если (isWireOpen & (!isWireClose))
+  {
+    craneState = 1
+  }
+  Иначе
+  {
+    Если ((!isWireOpen) & isWireClose)
+    {
+      craneState = 0
+    }
+    Иначе
+    {
+      craneState = 2
+    }
+    
+  }
+  
+Конец
+
+Функция Gidrolock_CmdClose
+  Входные_Переменные
+    Начало
+      Цел16 gidrolockCraneId
+    Конец
+  Выходные_Переменные
+    Начало
+    Конец
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  Для iGidrolockCraneId[1], iMdbCraneId[12]
+  {
+    Если (iGidrolockCraneId = gidrolockCraneId)
+    {
+      пл[iMdbCraneId] = 0
+      Прервать
+    }
+    
+  }
+  
+Конец
+
+Функция Gidrolock_CmdOpen
+  Входные_Переменные
+    Начало
+      Цел16 gidrolockCraneId
+    Конец
+  Выходные_Переменные
+    Начало
+    Конец
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  Для iGidrolockCraneId[1], iMdbCraneId[12]
+  {
+    Если (iGidrolockCraneId = gidrolockCraneId)
+    {
+      пл[iMdbCraneId] = 1
+      Прервать
+    }
+    
+  }
+  
+Конец
+

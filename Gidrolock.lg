@@ -39,7 +39,6 @@
 				кнц IS_OPEN_CRANE = 1
 			йнмеж
 	
-	
 		дкъ iOpcGidrolockCraneCmd[8],
 			iMdbCraneId[12]
 		{		
@@ -50,6 +49,7 @@
 			хмюве_еякх (opcCraneControlCmd = GIDROLOCK_CRANE_CLOSE){
 				ОК[iMdbCraneId] = !IS_OPEN_CRANE
 			}
+			ПБ[iOpcGidrolockCraneCmd] = 2
 		}
 		
 	йнмеж
@@ -86,13 +86,10 @@
 		йнмеж
 	мювюкн
 		дкъ iGidrolockCraneId[1],
-			iMdbCraneId[12],
-			iCraneTestTmr[1]	
+			iMdbCraneId[12]	
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId)	{
-				ОК[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_CLOSE 
-				РЯ[iCraneTestTmr] = 0
-				БЙК РЯ[iCraneTestTmr]
+				ОК[iMdbCraneId]	= 0
 				опепбюрэ
 			}
 		}
@@ -106,11 +103,10 @@
 		йнмеж
 	мювюкн
 		дкъ iGidrolockCraneId[1],
-			iMdbCraneId[12]		
+			iMdbCraneId[12]
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId){
-				
-				ОК[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_OPEN 
+				ОК[iMdbCraneId]	= 1
 				опепбюрэ
 			}
 		}
