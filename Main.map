@@ -21,7 +21,7 @@
     :Всего локальных переменных - 0
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
     :Всего последовательностей - 0
     :Всего вызовов процедур - 4
@@ -97,9 +97,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -136,10 +137,10 @@
     :Всего переменных ВД - 0
     :Всего переменных ДВ - 0
     :Всего переменных РВ - 1
-    :Всего внутренних переменных - 2
+    :Всего внутренних переменных - 3
     :Всего переменных ПВ - 0
     :Всего переменных ПЦ - 0
-    :Всего переменных ПЛ - 2
+    :Всего переменных ПЛ - 3
     :Всего переменных ТС - 0
     :Всего переменных ТМ - 0
     :Всего переменных ТЧ - 0
@@ -147,9 +148,9 @@
     :Всего локальных переменных - 2
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
-    :Всего последовательностей - 3
+    :Всего последовательностей - 4
     :Всего вызовов процедур - 0
     :Всего вызовов функций - 2
 
@@ -165,7 +166,7 @@
 
     :ПВ - нет
     :ПЦ - нет
-    :ПЛ - 13, 14
+    :ПЛ - 10, 13, 14
     :ТС - нет
     :ТМ - нет
     :ТЧ - нет
@@ -223,9 +224,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -240,10 +242,11 @@
 
 :Последовательности
 
-    :Имена - iMdbGidrolockCraneWireOpen, iMdbGidrolockCraneWireClose, iOpcGidrolockCraneCmd
+    :Имена - iMdbGidrolockCraneWireOpen, iMdbGidrolockCraneWireClose, iOpcGidrolockCraneCmd, 
+    :        iCraneCmdChange
     :iMdbGidrolockCraneWireOpen - [ 13 ] всего элементов 1, iMdbGidrolockCraneWireClose - [ 14 ] 
     :                              всего элементов 1, iOpcGidrolockCraneCmd - [ 8 ] всего элементов 
-    :                        1
+    :                        1, iCraneCmdChange - [ 10 ] всего элементов 1
 
 :Вызовы функций
 
@@ -262,20 +265,20 @@
     :Всего переменных ВД - 0
     :Всего переменных ДВ - 0
     :Всего переменных РВ - 2
-    :Всего внутренних переменных - 4
+    :Всего внутренних переменных - 6
     :Всего переменных ПВ - 0
     :Всего переменных ПЦ - 0
-    :Всего переменных ПЛ - 4
-    :Всего переменных ТС - 0
+    :Всего переменных ПЛ - 5
+    :Всего переменных ТС - 1
     :Всего переменных ТМ - 0
     :Всего переменных ТЧ - 0
     :Всего глобальных переменных - 0
-    :Всего локальных переменных - 4
+    :Всего локальных переменных - 8
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
-    :Всего последовательностей - 6
+    :Всего последовательностей - 8
     :Всего вызовов процедур - 0
     :Всего вызовов функций - 3
 
@@ -291,8 +294,8 @@
 
     :ПВ - нет
     :ПЦ - нет
-    :ПЛ - 12...14, 21
-    :ТС - нет
+    :ПЛ - 10, 12...14, 21
+    :ТС - 5
     :ТМ - нет
     :ТЧ - нет
 
@@ -314,9 +317,9 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - craneState
+    :Цел16 - craneState, realCraneState
     :Цел8 - нет
-    :Лог - openCrane, closeCrane, isOpenCmdCur
+    :Лог - openCrane, closeCrane, lastCraneCmd, isOpenCmdCur, isStableState, isTmrTransitNotOver
 
 :Глобальные массивы
 
@@ -349,9 +352,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -368,12 +372,13 @@
 
     :Имена - iOpcIsConnectionGidrolockCrane, iMdbIsConnectionGidrolockCrane, 
     :        iMdbGidrolockCraneWireOpen, iMdbGidrolockCraneWireClose, iOpcGidrolockCraneState, 
-    :        iMdbCraneId
+    :        iMdbCraneId, iCraneChangeStateTmr, iCraneCmdChange
     :iOpcIsConnectionGidrolockCrane - [ 7 ] всего элементов 1, iMdbIsConnectionGidrolockCrane - [ 21
     :                                  ] всего элементов 1, iMdbGidrolockCraneWireOpen - [ 13 ] 
     :                             всего элементов 1, iMdbGidrolockCraneWireClose - [ 14 ] всего 
     :                              элементов 1, iOpcGidrolockCraneState - [ 9 ] всего элементов 1, 
-    :                          iMdbCraneId - [ 12 ] всего элементов 1
+    :                          iMdbCraneId - [ 12 ] всего элементов 1, iCraneChangeStateTmr - [ 5 ] 
+    :                       всего элементов 1, iCraneCmdChange - [ 10 ] всего элементов 1
 
 :Вызовы функций
 
@@ -393,10 +398,10 @@
     :Всего переменных ВД - 0
     :Всего переменных ДВ - 0
     :Всего переменных РВ - 1
-    :Всего внутренних переменных - 1
+    :Всего внутренних переменных - 2
     :Всего переменных ПВ - 0
     :Всего переменных ПЦ - 0
-    :Всего переменных ПЛ - 1
+    :Всего переменных ПЛ - 2
     :Всего переменных ТС - 0
     :Всего переменных ТМ - 0
     :Всего переменных ТЧ - 0
@@ -404,9 +409,9 @@
     :Всего локальных переменных - 1
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 1
-    :Всего последовательностей - 2
+    :Всего последовательностей - 3
     :Всего вызовов процедур - 0
     :Всего вызовов функций - 1
 
@@ -422,7 +427,7 @@
 
     :ПВ - нет
     :ПЦ - нет
-    :ПЛ - 12
+    :ПЛ - 10, 12
     :ТС - нет
     :ТМ - нет
     :ТЧ - нет
@@ -480,9 +485,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -497,8 +503,9 @@
 
 :Последовательности
 
-    :Имена - iOpcGidrolockCraneCmd, iMdbCraneId
-    :iOpcGidrolockCraneCmd - [ 8 ] всего элементов 1, iMdbCraneId - [ 12 ] всего элементов 1
+    :Имена - iOpcGidrolockCraneCmd, iMdbCraneId, iCraneCmdChange
+    :iOpcGidrolockCraneCmd - [ 8 ] всего элементов 1, iMdbCraneId - [ 12 ] всего элементов 1, 
+    :              iCraneCmdChange - [ 10 ] всего элементов 1
 
 :Вызовы функций
 
@@ -527,7 +534,7 @@
     :Всего локальных переменных - 0
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
     :Всего последовательностей - 0
     :Всего вызовов процедур - 1
@@ -603,9 +610,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -645,7 +653,7 @@
     :Всего локальных переменных - 0
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
     :Всего последовательностей - 4
     :Всего вызовов процедур - 0
@@ -721,9 +729,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -771,7 +780,7 @@
     :Всего локальных переменных - 3
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
     :Всего последовательностей - 0
     :Всего вызовов процедур - 0
@@ -847,9 +856,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -874,10 +884,10 @@
     :Всего переменных ВД - 0
     :Всего переменных ДВ - 0
     :Всего переменных РВ - 0
-    :Всего внутренних переменных - 1
+    :Всего внутренних переменных - 2
     :Всего переменных ПВ - 0
     :Всего переменных ПЦ - 0
-    :Всего переменных ПЛ - 1
+    :Всего переменных ПЛ - 2
     :Всего переменных ТС - 0
     :Всего переменных ТМ - 0
     :Всего переменных ТЧ - 0
@@ -885,9 +895,9 @@
     :Всего локальных переменных - 1
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
-    :Всего последовательностей - 2
+    :Всего последовательностей - 3
     :Всего вызовов процедур - 0
     :Всего вызовов функций - 0
 
@@ -903,7 +913,7 @@
 
     :ПВ - нет
     :ПЦ - нет
-    :ПЛ - 12
+    :ПЛ - 10, 12
     :ТС - нет
     :ТМ - нет
     :ТЧ - нет
@@ -961,9 +971,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -978,8 +989,9 @@
 
 :Последовательности
 
-    :Имена - iGidrolockCraneId, iMdbCraneId
-    :iGidrolockCraneId - [ 1 ] всего элементов 1, iMdbCraneId - [ 12 ] всего элементов 1
+    :Имена - iGidrolockCraneId, iMdbCraneId, iCraneCmdChange
+    :iGidrolockCraneId - [ 1 ] всего элементов 1, iMdbCraneId - [ 12 ] всего элементов 1, 
+    :              iCraneCmdChange - [ 10 ] всего элементов 1
 
 :***************************************************************************************************
 
@@ -993,10 +1005,10 @@
     :Всего переменных ВД - 0
     :Всего переменных ДВ - 0
     :Всего переменных РВ - 0
-    :Всего внутренних переменных - 1
+    :Всего внутренних переменных - 2
     :Всего переменных ПВ - 0
     :Всего переменных ПЦ - 0
-    :Всего переменных ПЛ - 1
+    :Всего переменных ПЛ - 2
     :Всего переменных ТС - 0
     :Всего переменных ТМ - 0
     :Всего переменных ТЧ - 0
@@ -1004,9 +1016,9 @@
     :Всего локальных переменных - 1
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
-    :Всего последовательностей - 2
+    :Всего последовательностей - 3
     :Всего вызовов процедур - 0
     :Всего вызовов функций - 0
 
@@ -1022,7 +1034,7 @@
 
     :ПВ - нет
     :ПЦ - нет
-    :ПЛ - 12
+    :ПЛ - 10, 12
     :ТС - нет
     :ТМ - нет
     :ТЧ - нет
@@ -1080,9 +1092,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -1097,8 +1110,9 @@
 
 :Последовательности
 
-    :Имена - iGidrolockCraneId, iMdbCraneId
-    :iGidrolockCraneId - [ 1 ] всего элементов 1, iMdbCraneId - [ 12 ] всего элементов 1
+    :Имена - iGidrolockCraneId, iMdbCraneId, iCraneCmdChange
+    :iGidrolockCraneId - [ 1 ] всего элементов 1, iMdbCraneId - [ 12 ] всего элементов 1, 
+    :              iCraneCmdChange - [ 10 ] всего элементов 1
 
 :***************************************************************************************************
 
@@ -1123,7 +1137,7 @@
     :Всего локальных переменных - 2
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
     :Всего последовательностей - 3
     :Всего вызовов процедур - 0
@@ -1199,9 +1213,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -1247,7 +1262,7 @@
     :Всего локальных переменных - 3
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
     :Всего последовательностей - 3
     :Всего вызовов процедур - 0
@@ -1323,9 +1338,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -1371,7 +1387,7 @@
     :Всего локальных переменных - 3
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
     :Всего последовательностей - 3
     :Всего вызовов процедур - 0
@@ -1447,9 +1463,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -1495,7 +1512,7 @@
     :Всего локальных переменных - 2
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
     :Всего последовательностей - 2
     :Всего вызовов процедур - 0
@@ -1571,9 +1588,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -1614,7 +1632,7 @@
     :Всего локальных переменных - 2
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
     :Всего последовательностей - 2
     :Всего вызовов процедур - 0
@@ -1690,9 +1708,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 
@@ -1733,7 +1752,7 @@
     :Всего локальных переменных - 2
     :Всего глобальных массивов - 0
     :Всего локальных массивов - 0
-    :Всего глобальных констант - 11
+    :Всего глобальных констант - 14
     :Всего локальных констант - 0
     :Всего последовательностей - 2
     :Всего вызовов процедур - 0
@@ -1809,9 +1828,10 @@
     :Цел32 - нет
     :Цел16 - GIDROLOCK_CRANE_CLOSE = 0, GIDROLOCK_CRANE_CLOSES = 4, GIDROLOCK_CRANE_ERROR = 3, 
     :        GIDROLOCK_CRANE_OPEN = 1, GIDROLOCK_CRANE_OPENS = 5, GIDROLOCK_CRANE_UNDEFINED = 2, 
-    :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12
+    :        GL_CRANE_MAX_TIME_SWITCH = 35, SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, 
+    :        SENSOR_TYPE_WETNESS = 12
     :Цел8 - нет
-    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1
+    :Лог - CMD_GIDROLOCK_CRANE_CLOSE = 0, CMD_GIDROLOCK_CRANE_OPEN = 1, FALSE = 0, TRUE = 1
 
 :Локальные константы
 

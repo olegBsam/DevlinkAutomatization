@@ -7,6 +7,7 @@
 * @пл21 - рв7
 * @пл12 - рв8 управление краном (1 - открыт (белый);0 - закрыт(зелено-желтый))
 * @рв9 - состояние крана
+* @пл10 - смена команды крана
 **)
 
 ПРОЦЕДУРА Gidrolock_InitOnReboot
@@ -19,8 +20,10 @@
 			
 		ДЛЯ iMdbGidrolockCraneWireOpen[13],
 			iMdbGidrolockCraneWireClose[14],
-			iOpcGidrolockCraneCmd[8]
+			iOpcGidrolockCraneCmd[8],
+			iCraneCmdChange[10]
 		{
+			пл[iCraneCmdChange] = 0
 			openCrane = пл[iMdbGidrolockCraneWireOpen]
 			closeCrane = пл[iMdbGidrolockCraneWireClose]
 			рв[iOpcGidrolockCraneCmd] = цв(Decoder_GetGidrolockCraneState(openCrane, closeCrane))
@@ -40,14 +43,21 @@
 			КОНЕЦ
 	
 		ДЛЯ iOpcGidrolockCraneCmd[8],
-			iMdbCraneId[12]
+			iMdbCraneId[12],
+			iCraneCmdChange[10]
 		{		
 			opcCraneControlCmd = вц(рв[iOpcGidrolockCraneCmd])
 			ЕСЛИ (opcCraneControlCmd = GIDROLOCK_CRANE_OPEN){
-				пл[iMdbCraneId] = IS_OPEN_CRANE
+				ЕСЛИ (пл[iMdbCraneId] # IS_OPEN_CRANE){
+					пл[iMdbCraneId] = IS_OPEN_CRANE
+					пл[iCraneCmdChange] = TRUE
+				}
 			}
 			ИНАЧЕ_ЕСЛИ (opcCraneControlCmd = GIDROLOCK_CRANE_CLOSE){
-				пл[iMdbCraneId] = !IS_OPEN_CRANE
+				ЕСЛИ (пл[iMdbCraneId] = IS_OPEN_CRANE){	
+					пл[iMdbCraneId] = !IS_OPEN_CRANE
+					пл[iCraneCmdChange] = TRUE
+				}
 			}
 			рв[iOpcGidrolockCraneCmd] = 2
 		}
@@ -60,8 +70,12 @@
 			НАЧАЛО
 				ЛОГ openCrane
 				ЛОГ closeCrane
+				лог lastCraneCmd
 				ЛОГ isOpenCmdCur
+				ЛОГ isStableState
+				ЛОГ isTmrTransitNotOver
 				ЦЕЛ16 craneState
+				ЦЕЛ16 realCraneState
 			КОНЕЦ
 							
 		ДЛЯ iOpcIsConnectionGidrolockCrane[7],
@@ -69,7 +83,9 @@
 			iMdbGidrolockCraneWireOpen[13],
 			iMdbGidrolockCraneWireClose[14],
 			iOpcGidrolockCraneState[9],
-			iMdbCraneId[12]
+			iMdbCraneId[12],
+			iCraneChangeStateTmr[5],
+			iCraneCmdChange[10]
 		{
 			рв[iOpcIsConnectionGidrolockCrane] = лв(пл[iMdbIsConnectionGidrolockCrane])
 			
@@ -79,20 +95,35 @@
 			craneState = Decoder_GetGidrolockCraneState(openCrane, closeCrane)
 			
 			isOpenCmdCur = пл[iMdbCraneId]
+			isStableState = (craneState = GIDROLOCK_CRANE_CLOSE | craneState = GIDROLOCK_CRANE_OPEN)
+			isTmrTransitNotOver = тс[iCraneChangeStateTmr] <= GL_CRANE_MAX_TIME_SWITCH
 			
-			ЕСЛИ ((craneState = GIDROLOCK_CRANE_UNDEFINED)){
-				ЕСЛИ ((isOpenCmdCur)){
-					рв[iOpcGidrolockCraneState] = GIDROLOCK_CRANE_OPENS
+			ЕСЛИ (пл[iCraneCmdChange]){
+				realCraneState = craneState
+				пл[iCraneCmdChange] = FALSE
+				тс[iCraneChangeStateTmr] = 0
+				вкл тс[iCraneChangeStateTmr]
+				realCraneState = craneState
+			}ИНАЧЕ{
+				ЕСЛИ (isStableState & isTmrTransitNotOver){
+					выкл тс[iCraneChangeStateTmr]
+					тс[iCraneChangeStateTmr] = 0
+					realCraneState = craneState
 				}
-				ИНАЧЕ_ЕСЛИ ((!isOpenCmdCur)){
-					рв[iOpcGidrolockCraneState] = GIDROLOCK_CRANE_CLOSES
+				ИНАЧЕ_ЕСЛИ (!isStableState){
+					ЕСЛИ (isTmrTransitNotOver){
+						ЕСЛИ ((isOpenCmdCur)){
+							realCraneState = GIDROLOCK_CRANE_OPENS
+						}ИНАЧЕ_ЕСЛИ ((!isOpenCmdCur)){
+							realCraneState = GIDROLOCK_CRANE_CLOSES
+						}
+					}ИНАЧЕ{
+						realCraneState = GIDROLOCK_CRANE_ERROR
+						выкл тс[iCraneChangeStateTmr]
+					}
 				}
-				
 			}
-			ИНАЧЕ_ЕСЛИ (craneState # GIDROLOCK_CRANE_ERROR){
-				рв[iOpcGidrolockCraneState] = цв(craneState)
-			}
-			
+			рв[iOpcGidrolockCraneState] = цв(realCraneState)
 		}
 	КОНЕЦ
 
@@ -105,10 +136,14 @@
 		КОНЕЦ
 	НАЧАЛО
 		ДЛЯ iGidrolockCraneId[1],
-			iMdbCraneId[12]	
+			iMdbCraneId[12],
+			iCraneCmdChange[10]
 		{
 			ЕСЛИ (iGidrolockCraneId = gidrolockCraneId)	{
-				пл[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_CLOSE
+				ЕСЛИ (пл[iMdbCraneId] # CMD_GIDROLOCK_CRANE_CLOSE){
+					пл[iCraneCmdChange] = TRUE
+					пл[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_CLOSE
+				}
 				ПРЕРВАТЬ
 			}
 		}
@@ -122,10 +157,14 @@
 		КОНЕЦ
 	НАЧАЛО
 		ДЛЯ iGidrolockCraneId[1],
-			iMdbCraneId[12]
+			iMdbCraneId[12],
+			iCraneCmdChange[10]
 		{
 			ЕСЛИ (iGidrolockCraneId = gidrolockCraneId){
-				пл[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_OPEN
+				ЕСЛИ (пл[iMdbCraneId] # CMD_GIDROLOCK_CRANE_OPEN){
+					пл[iCraneCmdChange] = TRUE
+					пл[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_OPEN
+				}
 				ПРЕРВАТЬ
 			}
 		}
