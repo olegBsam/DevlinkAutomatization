@@ -60,6 +60,7 @@
 			мювюкн
 				кнц openCrane
 				кнц closeCrane
+				кнц isOpenCmdCur
 				жек16 craneState
 			йнмеж
 							
@@ -67,13 +68,31 @@
 			iMdbIsConnectionGidrolockCrane[21],
 			iMdbGidrolockCraneWireOpen[13],
 			iMdbGidrolockCraneWireClose[14],
-			iOpcGidrolockCraneState[9]
+			iOpcGidrolockCraneState[9],
+			iMdbCraneId[12]
 		{
-			openCrane = ОК[iMdbGidrolockCraneWireOpen]
-			closeCrane = ОК[iMdbGidrolockCraneWireClose]	
 			ПБ[iOpcIsConnectionGidrolockCrane] = КБ(ОК[iMdbIsConnectionGidrolockCrane])
+			
+			openCrane = ОК[iMdbGidrolockCraneWireOpen]
+			closeCrane = ОК[iMdbGidrolockCraneWireClose]
+			
 			craneState = Decoder_GetGidrolockCraneState(openCrane, closeCrane)
-			ПБ[iOpcGidrolockCraneState] = ЖБ(craneState)
+			
+			isOpenCmdCur = ОК[iMdbCraneId]
+			
+			еякх ((craneState = GIDROLOCK_CRANE_UNDEFINED)){
+				еякх ((isOpenCmdCur)){
+					ПБ[iOpcGidrolockCraneState] = GIDROLOCK_CRANE_OPENS
+				}
+				хмюве_еякх ((!isOpenCmdCur)){
+					ПБ[iOpcGidrolockCraneState] = GIDROLOCK_CRANE_CLOSES
+				}
+				
+			}
+			хмюве_еякх (craneState # GIDROLOCK_CRANE_ERROR){
+				ПБ[iOpcGidrolockCraneState] = ЖБ(craneState)
+			}
+			
 		}
 	йнмеж
 
@@ -89,7 +108,7 @@
 			iMdbCraneId[12]	
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId)	{
-				ОК[iMdbCraneId]	= 0
+				ОК[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_CLOSE
 				опепбюрэ
 			}
 		}
@@ -106,7 +125,7 @@
 			iMdbCraneId[12]
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId){
-				ОК[iMdbCraneId]	= 1
+				ОК[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_OPEN
 				опепбюрэ
 			}
 		}

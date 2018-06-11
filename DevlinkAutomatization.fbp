@@ -93,7 +93,7 @@ table_id=320
 count=0
 [CONSTANTS]
 table_id=321
-count=9
+count=11
 const1_id=1
 const1_name=SENSOR_TYPE_TEMP
 const1_type=INT16
@@ -139,6 +139,16 @@ const9_name=GIDROLOCK_CRANE_ERROR
 const9_type=INT16
 const9_value=3
 const9_comment=
+const10_id=10
+const10_name=GIDROLOCK_CRANE_CLOSES
+const10_type=INT16
+const10_value=4
+const10_comment=
+const11_id=11
+const11_name=GIDROLOCK_CRANE_OPENS
+const11_type=INT16
+const11_value=5
+const11_comment=
 [PROGRAMS]
 count=1
 program1_name=Main

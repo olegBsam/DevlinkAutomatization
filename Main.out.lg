@@ -89,15 +89,41 @@
     Начало
       Лог openCrane
       Лог closeCrane
+      Лог isOpenCmdCur
       Цел16 craneState
     Конец
-  Для iOpcIsConnectionGidrolockCrane[7], iMdbIsConnectionGidrolockCrane[21], iMdbGidrolockCraneWireOpen[13], iMdbGidrolockCraneWireClose[14], iOpcGidrolockCraneState[9]
+  Для iOpcIsConnectionGidrolockCrane[7], iMdbIsConnectionGidrolockCrane[21], iMdbGidrolockCraneWireOpen[13], iMdbGidrolockCraneWireClose[14], iOpcGidrolockCraneState[9], iMdbCraneId[12]
   {
+    рв[iOpcIsConnectionGidrolockCrane] = лв(пл[iMdbIsConnectionGidrolockCrane])
     openCrane = пл[iMdbGidrolockCraneWireOpen]
     closeCrane = пл[iMdbGidrolockCraneWireClose]
-    рв[iOpcIsConnectionGidrolockCrane] = лв(пл[iMdbIsConnectionGidrolockCrane])
     craneState = Decoder_GetGidrolockCraneState(openCrane, closeCrane)
-    рв[iOpcGidrolockCraneState] = цв(craneState)
+    isOpenCmdCur = пл[iMdbCraneId]
+    Если (craneState = 2)
+    {
+      Если isOpenCmdCur
+      {
+        рв[iOpcGidrolockCraneState] = 5.00000
+      }
+      Иначе
+      {
+        Если (!isOpenCmdCur)
+        {
+          рв[iOpcGidrolockCraneState] = 4.00000
+        }
+        
+      }
+      
+    }
+    Иначе
+    {
+      Если (craneState # 3)
+      {
+        рв[iOpcGidrolockCraneState] = цв(craneState)
+      }
+      
+    }
+    
   }
   
 Конец
