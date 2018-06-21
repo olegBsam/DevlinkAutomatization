@@ -5,14 +5,22 @@
 			рв1 = 1
 		}
 		
+		ЕСЛИ (рв26 = 1)
+		{
+			ЕСЛИ (рв8 # STATE_GIDROLOCK_CRANE_AWAIT){
+				пл13 = 1
+				пл14 = 0
+			}
+		}
+				
 		Msu24_Monitoring
 		Gidrolock_Monitoring
 		Gidrolock_OpcControl
-		
-		если (рв25 = 1){
+			если (рв25 = 1){
 			Gidrolock_CmdClose(1)
 		} ИНАЧЕ_ЕСЛИ (рв25 = 11){
 			Gidrolock_CmdOpen(1)
 		}
-		
+
+	
 	КОНЕЦ
