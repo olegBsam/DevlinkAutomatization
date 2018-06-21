@@ -4,16 +4,16 @@
 
 :Общая статистика
 
-    :Всего переменных БД - 2
+    :Всего переменных БД - 4
     :Всего переменных ВА - 0
     :Всего переменных АВ - 0
     :Всего переменных ВД - 0
     :Всего переменных ДВ - 0
-    :Всего переменных РВ - 2
-    :Всего внутренних переменных - 0
+    :Всего переменных РВ - 4
+    :Всего внутренних переменных - 2
     :Всего переменных ПВ - 0
     :Всего переменных ПЦ - 0
-    :Всего переменных ПЛ - 0
+    :Всего переменных ПЛ - 2
     :Всего переменных ТС - 0
     :Всего переменных ТМ - 0
     :Всего переменных ТЧ - 0
@@ -33,13 +33,13 @@
     :АВ - нет
     :ВД - нет
     :ДВ - нет
-    :РВ - 1, 25
+    :РВ - 1, 8, 25, 26
 
 :Внутренние переменные
 
     :ПВ - нет
     :ПЦ - нет
-    :ПЛ - нет
+    :ПЛ - 13, 14
     :ТС - нет
     :ТМ - нет
     :ТЧ - нет
@@ -95,7 +95,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -224,7 +224,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -279,7 +279,7 @@
     :Всего локальных констант - 0
     :Всего последовательностей - 8
     :Всего вызовов процедур - 0
-    :Всего вызовов функций - 5
+    :Всего вызовов функций - 4
 
 :Переменные БД
 
@@ -349,7 +349,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -386,7 +386,6 @@
     :Decoder_GetGidrolockCraneFullState
     :Decoder_GetGidrolockCraneState
     :вц
-    :лц
     :цв
 
 :***************************************************************************************************
@@ -486,7 +485,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -613,7 +612,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -734,7 +733,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -863,7 +862,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -910,7 +909,7 @@
     :Всего локальных констант - 0
     :Всего последовательностей - 0
     :Всего вызовов процедур - 0
-    :Всего вызовов функций - 0
+    :Всего вызовов функций - 1
 
 :Переменные БД
 
@@ -947,9 +946,9 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - currentCmd, craneState
+    :Цел16 - craneState
     :Цел8 - нет
-    :Лог - isWireOpen, isWireClose
+    :Лог - isWireOpen, isWireClose, currentCmd
 
 :Глобальные массивы
 
@@ -980,7 +979,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -999,6 +998,10 @@
     :Цел16 - нет
     :Цел8 - нет
     :Лог - нет
+
+:Вызовы функций
+
+    :цл
 
 :***************************************************************************************************
 
@@ -1097,7 +1100,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -1222,7 +1225,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -1347,7 +1350,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -1403,7 +1406,7 @@
     :Всего локальных констант - 0
     :Всего последовательностей - 4
     :Всего вызовов процедур - 0
-    :Всего вызовов функций - 2
+    :Всего вызовов функций - 1
 
 :Переменные БД
 
@@ -1473,7 +1476,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -1503,7 +1506,6 @@
 :Вызовы функций
 
     :Decoder_GetGidrolockCraneState
-    :лц
 
 :***************************************************************************************************
 
@@ -1532,7 +1534,7 @@
     :Всего локальных констант - 0
     :Всего последовательностей - 4
     :Всего вызовов процедур - 0
-    :Всего вызовов функций - 2
+    :Всего вызовов функций - 1
 
 :Переменные БД
 
@@ -1602,7 +1604,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -1632,7 +1634,6 @@
 :Вызовы функций
 
     :Decoder_GetGidrolockCraneState
-    :лц
 
 :***************************************************************************************************
 
@@ -1731,7 +1732,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -1853,7 +1854,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 
@@ -1975,7 +1976,7 @@
     :Вещ32 - нет
     :Цел64 - нет
     :Цел32 - нет
-    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 20, 
+    :Цел16 - GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME = 1, GIDROLOCK_CRANE_MAX_SWITCH_TIME = 10, 
     :        SENSOR_TYPE_LIGHT = 10, SENSOR_TYPE_TEMP = 11, SENSOR_TYPE_WETNESS = 12, 
     :        STATE_GIDROLOCK_CRANE_AWAIT = 6, STATE_GIDROLOCK_CRANE_CLOSE = 0, 
     :        STATE_GIDROLOCK_CRANE_CLOSES = 4, STATE_GIDROLOCK_CRANE_ERROR = 3, 

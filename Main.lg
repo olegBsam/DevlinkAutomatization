@@ -5,6 +5,14 @@
 			ПБ1 = 1
 		}
 		
+		еякх (ПБ26 = 1)
+		{
+			еякх (ПБ8 # STATE_GIDROLOCK_CRANE_AWAIT){
+				ОК13 = 1
+				ОК14 = 0
+			}
+		}
+				
 		Msu24_Monitoring
 		Gidrolock_Monitoring
 		Gidrolock_OpcControl
@@ -13,6 +21,6 @@
 		} хмюве_еякх (ПБ25 = 11){
 			Gidrolock_CmdOpen(1)
 		}
-		
+
 	
 	йнмеж
