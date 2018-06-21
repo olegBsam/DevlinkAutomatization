@@ -22,6 +22,7 @@
     
   }
   
+  Gidrolock_Maintenance
   Msu24_Monitoring
   Gidrolock_Monitoring
   Gidrolock_OpcControl
@@ -147,6 +148,41 @@
     }
     
     рв[iOpcGidrolockCraneState] = цв(Decoder_GetGidrolockCraneFullState(craneState, вц(тс[iTmrTsCraneChangeState]), вц(тс[iTmrTsCraneDelayChangeState])))
+  }
+  
+Конец
+
+Процедура Gidrolock_Maintenance
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+      Цел16 day
+      Цел16 hour
+      Цел16 minute
+      Цел16 second
+    Конец
+  (, , day) = СДата()
+  (hour, minute, second) = СВремя()
+  Если (((day = 1) | (day = 16)) & (((hour = 0) & (minute = 0)) & ((second = 0) | (second = 1))))
+  {
+    Для iGidrolockCraneId[1]
+    {
+      Если (Gidrolock_GetStateById(iGidrolockCraneId) = 0)
+      {
+        рв28 = 566.000
+        Gidrolock_CmdOpen(iGidrolockCraneId)
+      }
+      Иначе
+      {
+        рв28 = 567.000
+        Gidrolock_CmdClose(iGidrolockCraneId)
+      }
+      
+    }
+    
   }
   
 Конец
@@ -317,6 +353,34 @@
         рв[iOpcGidrolockCraneCmd] = 1.00000
       }
       
+      Прервать
+    }
+    
+  }
+  
+Конец
+
+Функция Gidrolock_GetStateById
+  Входные_Переменные
+    Начало
+      Цел16 gidrolockCraneId
+    Конец
+  Выходные_Переменные
+    Начало
+      Цел16 gidrolockCraneState
+    Конец
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  Для iGidrolockCraneId[1], iOpcGidrolockCraneState[9]
+  {
+    Если (iGidrolockCraneId = gidrolockCraneId)
+    {
+      gidrolockCraneState = вц(рв[iOpcGidrolockCraneState])
       Прервать
     }
     

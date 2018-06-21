@@ -118,6 +118,35 @@
 
 (*********************************************************************)
 
+опнжедспю Gidrolock_Maintenance
+	мювюкн
+		оепелеммше
+			мювюкн
+				жек16 day
+				жек16 hour
+				жек16 minute
+				жек16 second
+			йнмеж
+		(,,day) = ядЮРЮ()
+		(hour, minute, second) = ябПЕЛЪ()
+		еякх ((day = 1 | day = 16) & (hour = 0 & minute = 0 & (second = 0 | second = 1))){
+			дкъ iGidrolockCraneId[1]
+			{
+				еякх (Gidrolock_GetStateById(iGidrolockCraneId) = STATE_GIDROLOCK_CRANE_CLOSE){
+					ПБ28 = 566
+					Gidrolock_CmdOpen(iGidrolockCraneId)		
+				}
+				хмюве {
+					ПБ28 = 567
+					Gidrolock_CmdClose(iGidrolockCraneId)
+				}
+			}
+		}
+	йнмеж
+		
+
+(*********************************************************************)
+
 тсмйжхъ Gidrolock_CmdClose
 	бундмше_оепелеммше
 		мювюкн
