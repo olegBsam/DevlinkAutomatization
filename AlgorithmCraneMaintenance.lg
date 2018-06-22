@@ -2,7 +2,7 @@
 * Алгоритмы техобслуживания кранов
 * рв28 - идет процедура самоочистки
 ***)
-ПРОЦЕДУРА Gidrolock_Maintenance
+ПРОЦЕДУРА AlgorithmCraneMaintenance_Gidrolock_Maintenance
 	НАЧАЛО
 		ПЕРЕМЕННЫЕ
 			НАЧАЛО
@@ -14,7 +14,7 @@
 		(,,day) = СДата()
 		ЕСЛИ (day = 1 | day = 16){
 			(hour, minute, second) = СВремя()
-			ЕСЛИ (hour = 0 & minute = 0 & (second = 0 | second = 1)){
+			ЕСЛИ (hour = 0 & minute = 0 & second = 1){
 				ДЛЯ iMdbCraneId[12],
 					iOpcGidrolockCraneCmd[8],
 					iOpcGidrolockCraneState[9]
@@ -30,15 +30,18 @@
 						}
 					}
 					ИНАЧЕ_ЕСЛИ (рв28 = CRANE_MAINTENANCE_IS_RUN){
-						ЕСЛИ (рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_OPENS){
+						ЕСЛИ (рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_OPENS | (рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_ERROR & пл[iMdbCraneId])){
 							рв[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_CLOSE
 							рв28 = CRANE_MAINTENANCE_IS_NOT_RUN
-						}ИНАЧЕ_ЕСЛИ (рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_CLOSES){
+						}ИНАЧЕ_ЕСЛИ (рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_CLOSES | (рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_ERROR & !пл[iMdbCraneId])){
 							рв[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_OPEN
 							рв28 = CRANE_MAINTENANCE_IS_NOT_RUN
 						}
 					}
 				}
+			}
+			ИНАЧЕ_ЕСЛИ (hour = 0 & minute = 0 & second = 0){
+				рв28 = CRANE_MAINTENANCE_IS_NOT_RUN
 			}
 		}
 	КОНЕЦ

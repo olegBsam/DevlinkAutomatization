@@ -22,7 +22,7 @@
     
   }
   
-  Gidrolock_Maintenance
+  AlgorithmCraneMaintenance_Gidrolock_Maintenance
   Msu24_Monitoring
   Gidrolock_Monitoring
   Gidrolock_OpcControl
@@ -41,7 +41,7 @@
   
 Конец
 
-Процедура Gidrolock_Maintenance
+Процедура AlgorithmCraneMaintenance_Gidrolock_Maintenance
 Начало
   Константы
     Начало
@@ -54,10 +54,10 @@
       Цел16 second
     Конец
   (, , day) = СДата()
-  Если ((day = 22) | (day = 16))
+  Если ((day = 1) | (day = 16))
   {
     (hour, minute, second) = СВремя()
-    Если (((hour = 16) & (minute = 4)) & (second = 0))
+    Если (((hour = 0) & (minute = 0)) & (second = 1))
     {
       Для iMdbCraneId[12], iOpcGidrolockCraneCmd[8], iOpcGidrolockCraneState[9]
       {
@@ -83,14 +83,14 @@
         {
           Если (рв28 = 1.00000)
           {
-            Если (рв[iOpcGidrolockCraneState] = 5.00000)
+            Если ((рв[iOpcGidrolockCraneState] = 5.00000) | ((рв[iOpcGidrolockCraneState] = 3.00000) & пл[iMdbCraneId]))
             {
               рв[iOpcGidrolockCraneCmd] = 0.000000
               рв28 = 0.000000
             }
             Иначе
             {
-              Если (рв[iOpcGidrolockCraneState] = 4.00000)
+              Если ((рв[iOpcGidrolockCraneState] = 4.00000) | ((рв[iOpcGidrolockCraneState] = 3.00000) & (!пл[iMdbCraneId])))
               {
                 рв[iOpcGidrolockCraneCmd] = 1.00000
                 рв28 = 0.000000
@@ -102,6 +102,14 @@
           
         }
         
+      }
+      
+    }
+    Иначе
+    {
+      Если (((hour = 0) & (minute = 0)) & (second = 0))
+      {
+        рв28 = 0.000000
       }
       
     }
