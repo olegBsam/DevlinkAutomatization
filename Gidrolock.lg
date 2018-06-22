@@ -7,7 +7,6 @@
 * @пл21 - рв7
 * @пл12 - рв8 управление краном (1 - открыт (белый);0 - закрыт(зелено-желтый))
 * @рв9 - состояние крана
-* @пл10 - смена команды крана
 **)
 
 ПРОЦЕДУРА Gidrolock_InitOnReboot
@@ -25,7 +24,7 @@
 		{
 			openCrane = пл[iMdbGidrolockCraneWireOpen]
 			closeCrane = пл[iMdbGidrolockCraneWireClose]
-			рв[iOpcGidrolockCraneCmd] = STATE_GIDROLOCK_CRANE_AWAIT
+			рв[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_AWAIT
 		}
 	КОНЕЦ
 	
@@ -46,13 +45,12 @@
 			iMdbCraneId[12]
 		{		
 			opcCraneControlCmd = вц(рв[iOpcGidrolockCraneCmd])
-			
-			ЕСЛИ (opcCraneControlCmd = STATE_GIDROLOCK_CRANE_OPEN){
+			ЕСЛИ (opcCraneControlCmd = CMD_GIDROLOCK_CRANE_OPEN){
 				ЕСЛИ (рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_CLOSE){
 					пл[iMdbCraneId] = IS_OPEN_CRANE
 				}			
 			}
-			ИНАЧЕ_ЕСЛИ (opcCraneControlCmd = STATE_GIDROLOCK_CRANE_CLOSE){
+			ИНАЧЕ_ЕСЛИ (opcCraneControlCmd = CMD_GIDROLOCK_CRANE_CLOSE){
 				ЕСЛИ (рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_OPEN){	
 					пл[iMdbCraneId] = !IS_OPEN_CRANE
 				}
@@ -65,6 +63,7 @@
 	НАЧАЛО
 		ПЕРЕМЕННЫЕ
 			НАЧАЛО
+				ЛОГ isCraneSwitched
 				ЛОГ openCrane
 				ЛОГ closeCrane
 				ЦЕЛ16 craneState
@@ -76,17 +75,18 @@
 			iOpcGidrolockCraneCmd[8],
 			iMdbCraneId[12],
 			iTmrTsCraneChangeState[5],
-			iTmrTsCraneDelayChangeState[6],
-			iCraneCmdChange[10]
+			iTmrTsCraneDelayChangeState[6]
 		{		
 			openCrane = пл[iMdbGidrolockCraneWireOpen]
 			closeCrane = пл[iMdbGidrolockCraneWireClose]
 			craneState = Decoder_GetGidrolockCraneState(openCrane, closeCrane, пл[iMdbCraneId])
 		
 			:* true, если крану дана какая-то команда
-			ЕСЛИ (рв[iOpcGidrolockCraneCmd] # STATE_GIDROLOCK_CRANE_AWAIT) {
+			ЕСЛИ (рв[iOpcGidrolockCraneCmd] # CMD_GIDROLOCK_CRANE_AWAIT) {
 				:* true, если кран находится в состоянии, перейти в которое ему указывает команда
-				ЕСЛИ (рв[iOpcGidrolockCraneCmd] = цв(craneState)){
+				isCraneSwitched = (рв[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_CLOSE) & (craneState = STATE_GIDROLOCK_CRANE_CLOSE)
+				isCraneSwitched = isCraneSwitched | (рв[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_OPEN) & (craneState = STATE_GIDROLOCK_CRANE_OPEN)
+				ЕСЛИ (isCraneSwitched){
 					выкл тс[iTmrTsCraneChangeState]
 					тс[iTmrTsCraneChangeState] = 0
 					
@@ -94,7 +94,7 @@
 					выкл тс[iTmrTsCraneDelayChangeState]
 					
 					:* Переводим кран в режим ожидания
-					рв[iOpcGidrolockCraneCmd] = STATE_GIDROLOCK_CRANE_AWAIT
+					рв[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_AWAIT
 				}
 				ИНАЧЕ {
 					:* true, если команда указывает перейти из состояния открыт(закрыт) в закрыт(открыт) и состояние еще не достигнуто
@@ -118,34 +118,6 @@
 
 (*********************************************************************)
 
-ПРОЦЕДУРА Gidrolock_Maintenance
-	НАЧАЛО
-		ПЕРЕМЕННЫЕ
-			НАЧАЛО
-				ЦЕЛ16 day
-				ЦЕЛ16 hour
-				ЦЕЛ16 minute
-				ЦЕЛ16 second
-			КОНЕЦ
-		(,,day) = СДата()
-		(hour, minute, second) = СВремя()
-		ЕСЛИ ((day = 1 | day = 16) & (hour = 0 & minute = 0 & (second = 0 | second = 1))){
-			ДЛЯ iGidrolockCraneId[1]
-			{
-				ЕСЛИ (Gidrolock_GetStateById(iGidrolockCraneId) = STATE_GIDROLOCK_CRANE_CLOSE){
-					рв28 = 566
-					Gidrolock_CmdOpen(iGidrolockCraneId)		
-				}
-				ИНАЧЕ {
-					рв28 = 567
-					Gidrolock_CmdClose(iGidrolockCraneId)
-				}
-			}
-		}
-	КОНЕЦ
-		
-
-(*********************************************************************)
 
 ФУНКЦИЯ Gidrolock_CmdClose
 	ВХОДНЫЕ_ПЕРЕМЕННЫЕ
@@ -156,11 +128,10 @@
 		ДЛЯ iGidrolockCraneId[1],
 			iOpcGidrolockCraneCmd[8],
 			iOpcGidrolockCraneState[9],
-			iMdbCraneId[12],
-			iCraneCmdChange[10]
+			iMdbCraneId[12]
 		{
 			ЕСЛИ (iGidrolockCraneId = gidrolockCraneId)	{
-				ЕСЛИ (рв[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_OPEN){
+				ЕСЛИ (рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_OPEN){
 					пл[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_CLOSE
 					рв[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_CLOSE
 				}
@@ -179,8 +150,7 @@
 		ДЛЯ iGidrolockCraneId[1],
 			iMdbCraneId[12],
 			iOpcGidrolockCraneCmd[8],
-			iOpcGidrolockCraneState[9],
-			iCraneCmdChange[10]
+			iOpcGidrolockCraneState[9]
 		{
 			ЕСЛИ (iGidrolockCraneId = gidrolockCraneId){
 				ЕСЛИ (рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_CLOSE){ 

@@ -39,9 +39,9 @@
 		} хмюве_еякх (!isWireOpen & isWireClose){
 			craneState = STATE_GIDROLOCK_CRANE_CLOSE
 		} хмюве{
-			еякх (currentCmd = ЖК(STATE_GIDROLOCK_CRANE_OPEN)){
+			еякх (currentCmd = CMD_GIDROLOCK_CRANE_OPEN){
 				craneState = STATE_GIDROLOCK_CRANE_OPENS
-			} хмюве_еякх (currentCmd = ЖК(STATE_GIDROLOCK_CRANE_CLOSE)){
+			} хмюве_еякх (currentCmd = CMD_GIDROLOCK_CRANE_CLOSE){
 				craneState = STATE_GIDROLOCK_CRANE_CLOSES
 			}
 		}

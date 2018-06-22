@@ -7,7 +7,7 @@
 		
 		еякх (ПБ26 = 1)
 		{
-			еякх (ПБ8 # STATE_GIDROLOCK_CRANE_AWAIT){
+			еякх (ПБ8 # CMD_GIDROLOCK_CRANE_AWAIT){
 				ОК13 = 1
 				ОК14 = 0
 			}
