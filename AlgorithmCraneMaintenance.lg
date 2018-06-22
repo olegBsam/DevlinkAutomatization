@@ -10,37 +10,38 @@
 				жек16 hour
 				жек16 minute
 				жек16 second
+				жек16 craneState
 			йнмеж
 		(,,day) = ядЮРЮ()
-		еякх (day = 1 | day = 16){
+		еякх (day = 22 | day = 16){
 			(hour, minute, second) = ябПЕЛЪ()
-			еякх (hour = 0 & minute = 0 & second = 1){
-				дкъ iMdbCraneId[12],
-					iOpcGidrolockCraneCmd[8],
-					iOpcGidrolockCraneState[9]
+			еякх (hour = 17 & minute = 51 & second = 1){
+				дкъ iGidrolockCraneId[1]
 				{
+					craneState = Gidrolock_GetStateById(iGidrolockCraneId)
+					
 					еякх (ПБ28 = CRANE_MAINTENANCE_IS_NOT_RUN){						
-						еякх (ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_OPEN){
-							ПБ[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_CLOSE
+						еякх (Gidrolock_IsOpened(iGidrolockCraneId)){
+							Gidrolock_CmdClose(iGidrolockCraneId)
 							ПБ28 = CRANE_MAINTENANCE_IS_RUN
 						}
-						хмюве_еякх (ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_CLOSE){
-							ПБ[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_OPEN
+						хмюве_еякх (Gidrolock_IsClosed(iGidrolockCraneId)){
+							Gidrolock_CmdOpen(iGidrolockCraneId)
 							ПБ28 = CRANE_MAINTENANCE_IS_RUN
 						}
 					}
 					хмюве_еякх (ПБ28 = CRANE_MAINTENANCE_IS_RUN){
-						еякх (ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_OPENS | (ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_ERROR & ОК[iMdbCraneId])){
-							ПБ[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_CLOSE
+						еякх (craneState = STATE_GIDROLOCK_CRANE_OPENS | Gidrolock_IsErrorInOpens(iGidrolockCraneId)){
+							Gidrolock_CmdClose(iGidrolockCraneId)
 							ПБ28 = CRANE_MAINTENANCE_IS_NOT_RUN
-						}хмюве_еякх (ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_CLOSES | (ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_ERROR & !ОК[iMdbCraneId])){
-							ПБ[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_OPEN
+						}хмюве_еякх (craneState = STATE_GIDROLOCK_CRANE_CLOSES | Gidrolock_IsErrorInCloses(iGidrolockCraneId)){
+							Gidrolock_CmdOpen(iGidrolockCraneId)
 							ПБ28 = CRANE_MAINTENANCE_IS_NOT_RUN
 						}
 					}
 				}
 			}
-			хмюве_еякх (hour = 0 & minute = 0 & second = 0){
+			хмюве_еякх (hour = 17 & minute = 51 & second = 0){
 				ПБ28 = CRANE_MAINTENANCE_IS_NOT_RUN
 			}
 		}

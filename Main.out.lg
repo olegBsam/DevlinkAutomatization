@@ -52,27 +52,29 @@
       Цел16 hour
       Цел16 minute
       Цел16 second
+      Цел16 craneState
     Конец
   (, , day) = СДата()
-  Если ((day = 1) | (day = 16))
+  Если ((day = 22) | (day = 16))
   {
     (hour, minute, second) = СВремя()
-    Если (((hour = 0) & (minute = 0)) & (second = 1))
+    Если (((hour = 17) & (minute = 51)) & (second = 1))
     {
-      Для iMdbCraneId[12], iOpcGidrolockCraneCmd[8], iOpcGidrolockCraneState[9]
+      Для iGidrolockCraneId[1]
       {
+        craneState = Gidrolock_GetStateById(iGidrolockCraneId)
         Если (рв28 = 0.000000)
         {
-          Если (рв[iOpcGidrolockCraneState] = 1.00000)
+          Если Gidrolock_IsOpened(iGidrolockCraneId)
           {
-            рв[iOpcGidrolockCraneCmd] = 0.000000
+            Gidrolock_CmdClose(iGidrolockCraneId)
             рв28 = 1.00000
           }
           Иначе
           {
-            Если (рв[iOpcGidrolockCraneState] = 0.000000)
+            Если Gidrolock_IsClosed(iGidrolockCraneId)
             {
-              рв[iOpcGidrolockCraneCmd] = 1.00000
+              Gidrolock_CmdOpen(iGidrolockCraneId)
               рв28 = 1.00000
             }
             
@@ -83,16 +85,16 @@
         {
           Если (рв28 = 1.00000)
           {
-            Если ((рв[iOpcGidrolockCraneState] = 5.00000) | ((рв[iOpcGidrolockCraneState] = 3.00000) & пл[iMdbCraneId]))
+            Если ((craneState = 5) | Gidrolock_IsErrorInOpens(iGidrolockCraneId))
             {
-              рв[iOpcGidrolockCraneCmd] = 0.000000
+              Gidrolock_CmdClose(iGidrolockCraneId)
               рв28 = 0.000000
             }
             Иначе
             {
-              Если ((рв[iOpcGidrolockCraneState] = 4.00000) | ((рв[iOpcGidrolockCraneState] = 3.00000) & (!пл[iMdbCraneId])))
+              Если ((craneState = 4) | Gidrolock_IsErrorInCloses(iGidrolockCraneId))
               {
-                рв[iOpcGidrolockCraneCmd] = 1.00000
+                Gidrolock_CmdOpen(iGidrolockCraneId)
                 рв28 = 0.000000
               }
               
@@ -107,7 +109,7 @@
     }
     Иначе
     {
-      Если (((hour = 0) & (minute = 0)) & (second = 0))
+      Если (((hour = 17) & (minute = 51)) & (second = 0))
       {
         рв28 = 0.000000
       }
@@ -360,7 +362,7 @@
   {
     Если (iGidrolockCraneId = gidrolockCraneId)
     {
-      Если (рв[iOpcGidrolockCraneState] = 1.00000)
+      Если ((рв[iOpcGidrolockCraneState] = 1.00000) | (рв[iOpcGidrolockCraneState] = 5.00000))
       {
         пл[iMdbCraneId] = 0
         рв[iOpcGidrolockCraneCmd] = 0.000000
@@ -392,12 +394,156 @@
   {
     Если (iGidrolockCraneId = gidrolockCraneId)
     {
-      Если (рв[iOpcGidrolockCraneState] = 0.000000)
+      Если ((рв[iOpcGidrolockCraneState] = 0.000000) | (рв[iOpcGidrolockCraneState] = 4.00000))
       {
         пл[iMdbCraneId] = 1
         рв[iOpcGidrolockCraneCmd] = 1.00000
       }
       
+      Прервать
+    }
+    
+  }
+  
+Конец
+
+Функция Gidrolock_GetStateById
+  Входные_Переменные
+    Начало
+      Цел16 gidrolockCraneId
+    Конец
+  Выходные_Переменные
+    Начало
+      Цел16 gidrolockCraneState
+    Конец
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  Для iGidrolockCraneId[1], iOpcGidrolockCraneState[9]
+  {
+    Если (iGidrolockCraneId = gidrolockCraneId)
+    {
+      gidrolockCraneState = вц(рв[iOpcGidrolockCraneState])
+      Прервать
+    }
+    
+  }
+  
+Конец
+
+Функция Gidrolock_IsClosed
+  Входные_Переменные
+    Начало
+      Цел16 gidrolockCraneId
+    Конец
+  Выходные_Переменные
+    Начало
+      Лог isClosedCrane
+    Конец
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+      Вещ32 craneState
+    Конец
+  Для iGidrolockCraneId[1], iOpcGidrolockCraneState[9]
+  {
+    Если (iGidrolockCraneId = gidrolockCraneId)
+    {
+      craneState = рв[iOpcGidrolockCraneState]
+      isClosedCrane = (craneState = 0.000000)
+      Прервать
+    }
+    
+  }
+  
+Конец
+
+Функция Gidrolock_IsOpened
+  Входные_Переменные
+    Начало
+      Цел16 gidrolockCraneId
+    Конец
+  Выходные_Переменные
+    Начало
+      Лог isOpenedCrane
+    Конец
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+      Вещ32 craneState
+    Конец
+  Для iGidrolockCraneId[1], iOpcGidrolockCraneState[9]
+  {
+    Если (iGidrolockCraneId = gidrolockCraneId)
+    {
+      craneState = рв[iOpcGidrolockCraneState]
+      isOpenedCrane = (craneState = 1.00000)
+      Прервать
+    }
+    
+  }
+  
+Конец
+
+Функция Gidrolock_IsErrorInCloses
+  Входные_Переменные
+    Начало
+      Цел16 gidrolockCraneId
+    Конец
+  Выходные_Переменные
+    Начало
+      Лог isErrorInCloses
+    Конец
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  Для iGidrolockCraneId[1], iOpcGidrolockCraneState[9], iMdbCraneId[12]
+  {
+    Если (iGidrolockCraneId = gidrolockCraneId)
+    {
+      isErrorInCloses = ((рв[iOpcGidrolockCraneState] = 3.00000) & (!пл[iMdbCraneId]))
+      Прервать
+    }
+    
+  }
+  
+Конец
+
+Функция Gidrolock_IsErrorInOpens
+  Входные_Переменные
+    Начало
+      Цел16 gidrolockCraneId
+    Конец
+  Выходные_Переменные
+    Начало
+      Лог isErrorInOpens
+    Конец
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  Для iGidrolockCraneId[1], iOpcGidrolockCraneState[9], iMdbCraneId[12]
+  {
+    Если (iGidrolockCraneId = gidrolockCraneId)
+    {
+      isErrorInOpens = ((рв[iOpcGidrolockCraneState] = 3.00000) & пл[iMdbCraneId])
       Прервать
     }
     
