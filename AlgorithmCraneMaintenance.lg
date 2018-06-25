@@ -1,51 +1,101 @@
 (** 
 * юКЦНПХРЛШ РЕУНАЯКСФХБЮМХЪ ЙПЮМНБ
-* ПБ28 - ХДЕР ОПНЖЕДСПЮ ЯЮЛННВХЯРЙХ
+* ПБ28, ПБ29 - ХДЕР ОПНЖЕДСПЮ ЯЮЛННВХЯРЙХ
 ***)
 опнжедспю AlgorithmCraneMaintenance_Gidrolock_Maintenance
 	мювюкн
 		оепелеммше
 			мювюкн
-				жек16 day
-				жек16 hour
-				жек16 minute
-				жек16 second
-				жек16 craneState
+				жек16 clearingDay1
+				жек16 clearingDay2
+				жек16 clearingHour		
 			йнмеж
-		(,,day) = ядЮРЮ()
-		еякх (day = 22 | day = 16){
-			(hour, minute, second) = ябПЕЛЪ()
-			еякх (hour = 17 & minute = 51 & second = 1){
-				дкъ iGidrolockCraneId[1]
-				{
-					craneState = Gidrolock_GetStateById(iGidrolockCraneId)
-					
-					еякх (ПБ28 = CRANE_MAINTENANCE_IS_NOT_RUN){						
-						еякх (Gidrolock_IsOpened(iGidrolockCraneId)){
-							Gidrolock_CmdClose(iGidrolockCraneId)
-							ПБ28 = CRANE_MAINTENANCE_IS_RUN
-						}
-						хмюве_еякх (Gidrolock_IsClosed(iGidrolockCraneId)){
-							Gidrolock_CmdOpen(iGidrolockCraneId)
-							ПБ28 = CRANE_MAINTENANCE_IS_RUN
-						}
-					}
-					хмюве_еякх (ПБ28 = CRANE_MAINTENANCE_IS_RUN){
-						еякх (craneState = STATE_GIDROLOCK_CRANE_OPENS | Gidrolock_IsErrorInOpens(iGidrolockCraneId)){
-							Gidrolock_CmdClose(iGidrolockCraneId)
-							ПБ28 = CRANE_MAINTENANCE_IS_NOT_RUN
-						}хмюве_еякх (craneState = STATE_GIDROLOCK_CRANE_CLOSES | Gidrolock_IsErrorInCloses(iGidrolockCraneId)){
-							Gidrolock_CmdOpen(iGidrolockCraneId)
-							ПБ28 = CRANE_MAINTENANCE_IS_NOT_RUN
-						}
-					}
-				}
-			}
-			хмюве_еякх (hour = 17 & minute = 51 & second = 0){
-				ПБ28 = CRANE_MAINTENANCE_IS_NOT_RUN
-			}
+		clearingDay1 = 1
+		clearingDay2 = 16
+		clearingHour = 0	
+		дкъ iGidrolockCraneId[1, 2],
+			iOpcClearingSt[28, 29],
+			iClearingMinute[0, 2],
+			iClearingSecond[0, 0]
+		{
+			ПБ[iOpcClearingSt] = _Gidrolock_ClearingAlgorithm(ПБ[iOpcClearingSt], iGidrolockCraneId, clearingDay1, clearingDay2, clearingHour, iClearingMinute, iClearingSecond)
 		}
 	йнмеж
 		
+		
 
 (*********************************************************************)
+
+тсмйжхъ _Gidrolock_ClearingAlgorithm
+	бундмше_оепелеммше	
+		мювюкн
+			беы lastMaintenanceState
+			жек16 iGidrolockCraneId
+			жек16 day1
+			жек16 day2
+			жек16 hour
+			жек16 minute
+			жек16 second
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			беы maintenanceState
+		йнмеж
+	мювюкн
+		оепелеммше
+			мювюкн
+				жек16 sysDay
+				жек16 sysHour
+				жек16 sysMinute
+				жек16 sysSecond
+				жек16 craneState
+			йнмеж
+		maintenanceState = lastMaintenanceState
+		(,,sysDay) = ядЮРЮ()
+		еякх (sysDay = day1 | sysDay = day2){
+			(sysHour, sysMinute, sysSecond) = ябПЕЛЪ()
+			еякх (sysHour = hour & sysMinute = minute & (sysSecond = second + 1)){
+				craneState = Gidrolock_GetStateById(iGidrolockCraneId)
+				maintenanceState = _Gidrolock_MaintenanceControl(lastMaintenanceState, craneState, iGidrolockCraneId)
+			}
+			хмюве_еякх (sysHour = hour & sysMinute = minute & sysSecond = second){
+				maintenanceState = CRANE_MAINTENANCE_IS_NOT_RUN
+			}
+		}
+	йнмеж
+
+(*********************************************************************)
+
+тсмйжхъ _Gidrolock_MaintenanceControl
+	бундмше_оепелеммше
+		мювюкн
+			беы lastMaintenanceState
+			жек16 craneState
+			жек16 iGidrolockCraneId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			беы maintenanceState
+		йнмеж
+	мювюкн
+		maintenanceState = lastMaintenanceState
+		еякх (lastMaintenanceState = CRANE_MAINTENANCE_IS_NOT_RUN){						
+			еякх (Gidrolock_IsOpened(iGidrolockCraneId)){
+				Gidrolock_CmdClose(iGidrolockCraneId)
+				maintenanceState = CRANE_MAINTENANCE_IS_RUN
+			}
+			хмюве_еякх (Gidrolock_IsClosed(iGidrolockCraneId)){
+				Gidrolock_CmdOpen(iGidrolockCraneId)
+				maintenanceState = CRANE_MAINTENANCE_IS_RUN
+			}
+		}
+		хмюве_еякх (lastMaintenanceState = CRANE_MAINTENANCE_IS_RUN){
+			еякх (craneState = STATE_GIDROLOCK_CRANE_OPENS | Gidrolock_IsErrorInOpens(iGidrolockCraneId)){
+				Gidrolock_CmdClose(iGidrolockCraneId)
+				maintenanceState = CRANE_MAINTENANCE_IS_NOT_RUN
+			}хмюве_еякх (craneState = STATE_GIDROLOCK_CRANE_CLOSES | Gidrolock_IsErrorInCloses(iGidrolockCraneId)){
+				Gidrolock_CmdOpen(iGidrolockCraneId)
+				maintenanceState = CRANE_MAINTENANCE_IS_NOT_RUN
+			}
+		}
+	йнмеж
