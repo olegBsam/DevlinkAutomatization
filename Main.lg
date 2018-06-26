@@ -13,7 +13,7 @@
 			}
 		}
 				
-		AlgorithmCraneMaintenance_Gidrolock_Maintenance
+		AlgorithmGidrolockMaintenance_Start
 		Msu24_Monitoring
 		Gidrolock_Monitoring
 		Gidrolock_OpcControl

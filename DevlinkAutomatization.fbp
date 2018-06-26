@@ -80,7 +80,7 @@ BottomMargin=100
 Orientation=1
 Format=9
 [FILE6]
-name=AlgorithmCraneMaintenance.lg
+name=AlgorithmGidrolockMaintenance.lg
 type=program
 LeftMargin=100
 TopMargin=100
