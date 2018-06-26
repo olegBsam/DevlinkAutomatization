@@ -30,7 +30,7 @@
 	бундмше_оепелеммше	
 		мювюкн
 			беы lastMaintenanceState
-			жек16 iGidrolockCraneId
+			жек16 gidrolockCraneId
 			жек16 dayOfFirstClearInMonth
 			жек16 dayOfSecondClearInMonth
 			жек16 hourOfClear
@@ -55,8 +55,8 @@
 		еякх (sysDay = dayOfFirstClearInMonth | sysDay = dayOfSecondClearInMonth){
 			(sysHour, sysMinute, sysSecond) = ябПЕЛЪ()
 			еякх (sysHour = hourOfClear & sysMinute = minuteOfClear & (sysSecond = secondOfClear + 1)){
-				craneState = Gidrolock_GetStateById(iGidrolockCraneId)
-				maintenanceState = _AlgorithmGidrolockMaintenance_Control(lastMaintenanceState, craneState, iGidrolockCraneId)
+				craneState = Gidrolock_GetStateById(gidrolockCraneId)
+				maintenanceState = _AlgorithmGidrolockMaintenance_Control(lastMaintenanceState, craneState, gidrolockCraneId)
 			}
 			хмюве_еякх (sysHour = hourOfClear & sysMinute = minuteOfClear & sysSecond = secondOfClear){
 				maintenanceState = CRANE_MAINTENANCE_IS_NOT_RUN
