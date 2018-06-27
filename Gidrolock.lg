@@ -280,10 +280,41 @@
 	мювюкн
 		дкъ iGidrolockCraneId[1, 2],
 			iOpcGidrolockCraneState[9, 11],
+			
 			iMdbCraneId[12, 15]
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId){
 				isErrorInOpens = ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_ERROR & ОК[iMdbCraneId]
+				опепбюрэ
+			}
+		}
+	йнмеж
+
+(*********************************************************************)
+
+тсмйжхъ Gidrolock_CmdChangeState
+	бундмше_оепелеммше
+		мювюкн
+			жек16 gidrolockCraneId
+		йнмеж
+		
+	мювюкн
+		дкъ iGidrolockCraneId[1, 2],
+			iOpcGidrolockCraneState[9, 11],
+			iOpcGidrolockCraneCmd[8, 10],
+			iMdbCraneId[12, 15]
+		{
+			еякх (iGidrolockCraneId = gidrolockCraneId){
+				еякх (Gidrolock_IsOpened(gidrolockCraneId)){
+					еякх (ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_OPEN | ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_OPENS){
+						ПБ[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_CLOSE
+					}
+				}
+				хмюве_еякх (Gidrolock_IsClosed(gidrolockCraneId)){
+					еякх (ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_CLOSE | ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_CLOSES){ 
+						ПБ[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_OPEN
+					}
+				}
 				опепбюрэ
 			}
 		}
