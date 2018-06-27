@@ -26,8 +26,6 @@
 			хмюве{
 				ПБ[iOpcClearingSt] = CRANE_MAINTENANCE_IS_NOT_RUN
 			}
-				
-:			ПБ[iOpcClearingSt] = _AlgorithmGidrolockMaintenance_TimeCheck(ПБ[iOpcClearingSt], iGidrolockCraneId, clearingDay1, clearingDay2, clearingHour, iClearingMinute, iClearingSecond)
 		}
 	йнмеж
 
@@ -106,82 +104,3 @@
 			isClearingTime = ((sysHour = hourOfClear) & (sysMinute = minuteOfClear) & (sysSecond = secondOfClear))
 		}
 	йнмеж
-	
-
-
-(*********************************************************************)
-(*	
-тсмйжхъ _AlgorithmGidrolockMaintenance_TimeCheck
-	бундмше_оепелеммше	
-		мювюкн
-			беы lastMaintenanceState
-			жек16 gidrolockCraneId
-			жек16 dayOfFirstClearInMonth
-			жек16 dayOfSecondClearInMonth
-			жек16 hourOfClear
-			жек16 minuteOfClear
-			жек16 secondOfClear
-		йнмеж
-	бшундмше_оепелеммше
-		мювюкн
-			беы maintenanceState
-		йнмеж
-	мювюкн
-		оепелеммше
-			мювюкн
-				жек16 sysDay
-				жек16 sysHour
-				жек16 sysMinute
-				жек16 sysSecond
-				жек16 craneState
-			йнмеж
-		maintenanceState = lastMaintenanceState
-		(,,sysDay) = ядЮРЮ()
-		еякх (sysDay = dayOfFirstClearInMonth | sysDay = dayOfSecondClearInMonth){
-			(sysHour, sysMinute, sysSecond) = ябПЕЛЪ()
-			еякх (sysHour = hourOfClear & sysMinute = minuteOfClear & (sysSecond = secondOfClear + 1)){
-				maintenanceState = _AlgorithmGidrolockMaintenance_Control(lastMaintenanceState, craneState, gidrolockCraneId)
-			}
-			хмюве_еякх (sysHour = hourOfClear & sysMinute = minuteOfClear & sysSecond = secondOfClear){
-				maintenanceState = CRANE_MAINTENANCE_IS_NOT_RUN
-			}
-		}
-	йнмеж
-*)
-(*********************************************************************)
-(*
-тсмйжхъ _AlgorithmGidrolockMaintenance_Control
-	бундмше_оепелеммше
-		мювюкн
-			беы lastMaintenanceState
-			жек16 craneState
-			жек16 gidrolockCraneId
-		йнмеж
-	бшундмше_оепелеммше
-		мювюкн
-			беы maintenanceState
-		йнмеж
-	мювюкн
-		maintenanceState = lastMaintenanceState
-		еякх (lastMaintenanceState = CRANE_MAINTENANCE_IS_NOT_RUN){						
-			еякх (Gidrolock_IsOpened(gidrolockCraneId)){
-				Gidrolock_CmdClose(gidrolockCraneId)
-				maintenanceState = CRANE_MAINTENANCE_IS_RUN
-			}
-			хмюве_еякх (Gidrolock_IsClosed(gidrolockCraneId)){
-				Gidrolock_CmdOpen(gidrolockCraneId)
-				maintenanceState = CRANE_MAINTENANCE_IS_RUN
-			}
-		}
-		хмюве_еякх (lastMaintenanceState = CRANE_MAINTENANCE_IS_RUN){
-			еякх (craneState = STATE_GIDROLOCK_CRANE_OPENS | Gidrolock_IsErrorInOpens(gidrolockCraneId)){
-				Gidrolock_CmdClose(gidrolockCraneId)
-				maintenanceState = CRANE_MAINTENANCE_IS_NOT_RUN
-			}
-			хмюве_еякх (craneState = STATE_GIDROLOCK_CRANE_CLOSES | Gidrolock_IsErrorInCloses(gidrolockCraneId)){
-				Gidrolock_CmdOpen(gidrolockCraneId)
-				maintenanceState = CRANE_MAINTENANCE_IS_NOT_RUN
-			}
-		}
-	йнмеж
-*)
