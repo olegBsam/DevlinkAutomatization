@@ -1,106 +1,59 @@
-(** 
-* юКЦНПХРЛШ РЕУНАЯКСФХБЮМХЪ ЙПЮМНБ
-* ПБ28, ПБ29 - ХМДХЙЮРНП ОПНЖЕДСПШ ЯНЛННВХЯРЙХ
-***)
 опнжедспю AlgorithmGidrolockMaintenance_Start
 	мювюкн
-		оепелеммше
-			мювюкн
-				жек16 clearingDay1
-				жек16 clearingDay2
-				жек16 clearingHour		
-				кнц isMaintenanceTime
-			йнмеж
-		clearingDay1 = 27
-		clearingDay2 = 16
-		clearingHour = 17	
-		дкъ iGidrolockCraneId[1, 2],
-			iOpcClearingSt[28, 29],
-			iClearingMinute[11, 12],
-			iClearingSecond[0, 0]
-		{
-			isMaintenanceTime = _AlgorithmGidrolockMaintenance_IsClearingTime(clearingDay1, clearingDay2, clearingHour, iClearingMinute, iClearingSecond)
-			еякх(isMaintenanceTime){
-				ПБ[iOpcClearingSt] = _AlgorithmGidrolockMaintenance_RunClearing(ПБ[iOpcClearingSt], iGidrolockCraneId)
-			}
-			хмюве{
-				ПБ[iOpcClearingSt] = CRANE_MAINTENANCE_IS_NOT_RUN
+		еякх (AlgorithmGidrolockMaintenance_isClearingTime() & ПБ27 # CRANES_MAINTENANCE_IS_RUN){
+			AlgorithmGidrolockMaintenance_PreparedForClearing
+		}
+		еякх (ПБ27 = CRANES_MAINTENANCE_IS_RUN){
+			еякх (Gidrolock_IsAllCraneInStopeState()){
+				еякх (Gidrolock_CheckedNotFinishedCleringCrane()){
+					ПБ27 = CRANES_MAINTENANCE_IS_FINISHED
+				}
 			}
 		}
 	йнмеж
 
 (*********************************************************************)
 
-тсмйжхъ _AlgorithmGidrolockMaintenance_RunClearing
-	
-	бундмше_оепелеммше
-		мювюкн
-			беы lastMaintenanceState
-			жек16 gidrolockCraneId
-		йнмеж
-		
-	бшундмше_оепелеммше
-		мювюкн
-			беы newMaintenanceState
-		йнмеж
-	
+опнжедспю AlgorithmGidrolockMaintenance_PreparedForClearing
 	мювюкн
-		
-		оепелеммше
-			мювюкн
-				жек16 craneState
-			йнмеж
-			
-		craneState = Gidrolock_GetStateById(gidrolockCraneId)
-		newMaintenanceState = lastMaintenanceState
-		еякх (lastMaintenanceState = CRANE_MAINTENANCE_IS_NOT_RUN){
-			newMaintenanceState = CRANE_MAINTENANCE_IS_RUN
-			Gidrolock_CmdChangeState(gidrolockCraneId)
-		}
-		хмюве_еякх (lastMaintenanceState = CRANE_MAINTENANCE_IS_RUN){
-			еякх (craneState = STATE_GIDROLOCK_CRANE_OPENS | Gidrolock_IsErrorInOpens(gidrolockCraneId)){
-				Gidrolock_CmdClose(gidrolockCraneId)
-				newMaintenanceState = CRANE_MAINTENANCE_IS_NOT_RUN
-			}
-			хмюве_еякх (craneState = STATE_GIDROLOCK_CRANE_CLOSES | Gidrolock_IsErrorInCloses(gidrolockCraneId)){
-				Gidrolock_CmdOpen(gidrolockCraneId)
-				newMaintenanceState = CRANE_MAINTENANCE_IS_NOT_RUN
-			}
+		ПБ27 = CRANES_MAINTENANCE_IS_RUN
+		дкъ iOpcClearingSt[28, 29]
+		{
+			ПБ[iOpcClearingSt] = CRANE_MAINTENANCE_IS_NOT_RUN
 		}
 	йнмеж
 
+
 (*********************************************************************)
 
-тсмйжхъ _AlgorithmGidrolockMaintenance_IsClearingTime
-
-	бундмше_оепелеммше
-		мювюкн
-			жек16 dayOfFirstClearInMonth
-			жек16 dayOfSecondClearInMonth
-			жек16 hourOfClear
-			жек16 minuteOfClear
-			жек16 secondOfClear
-		йнмеж
-		
+тсмйжхъ AlgorithmGidrolockMaintenance_isClearingTime
+			
 	бшундмше_оепелеммше
 		мювюкн
 			кнц isClearingTime
 		йнмеж
 		
 	мювюкн
+		йнмярюмрш
+			мювюкн
+				жек16 FIRST_CLEARING_DAY_IN_MONTH = 1
+				жек16 SECOND_CLEARING_DAY_IN_MONTH = 30
+				жек16 HOUR_OF_CLEAR = 18
+				жек16 MINUTE_OF_CLEAR = 48
+				жек16 SECOND_OF_CLEAR = 0
+			йнмеж
+		
 		оепелеммше
 			мювюкн
 				жек16 sysDay
 				жек16 sysHour
 				жек16 sysMinute
 				жек16 sysSecond
-				жек16 craneState
 			йнмеж
-			
 		(,,sysDay) = ядЮРЮ()
 		isClearingTime = FALSE
-		еякх (sysDay = dayOfFirstClearInMonth | sysDay = dayOfSecondClearInMonth){
+		еякх (sysDay = FIRST_CLEARING_DAY_IN_MONTH | sysDay = SECOND_CLEARING_DAY_IN_MONTH){
 			(sysHour, sysMinute, sysSecond) = ябПЕЛЪ()
-			isClearingTime = ((sysHour = hourOfClear) & (sysMinute = minuteOfClear) & (sysSecond = secondOfClear))
+			isClearingTime = ((sysHour = БЖ(ПБ20)) & (sysMinute = БЖ(ПБ19)) & (sysSecond = SECOND_OF_CLEAR))
 		}
 	йнмеж

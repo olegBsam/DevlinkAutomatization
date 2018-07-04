@@ -13,15 +13,19 @@
 			}
 		}
 				
-		AlgorithmGidrolockMaintenance_Start
+		
 		Msu24_Monitoring
 		Gidrolock_Monitoring
 		Gidrolock_OpcControl
-			если (рв25 = 1){
+		если (рв25 = 1){
 			Gidrolock_CmdClose(1)
 		} ИНАЧЕ_ЕСЛИ (рв25 = 11){
 			Gidrolock_CmdOpen(1)
 		}
-
+		AlgorithmGidrolockMaintenance_Start
 	
 	КОНЕЦ
+	
+(***
+* Если кран поворачивается, а состояние не 
+*****)
