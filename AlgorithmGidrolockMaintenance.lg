@@ -5,7 +5,7 @@
 		}
 		еякх (ПБ27 = CRANES_MAINTENANCE_IS_RUN){
 			еякх (Gidrolock_IsAllCraneInStopeState()){
-				еякх (Gidrolock_CheckedNotFinishedCleringCrane()){
+				еякх (Gidrolock_CheckNotFinishedCleringCrane()){
 					ПБ27 = CRANES_MAINTENANCE_IS_FINISHED
 				}
 			}
@@ -36,10 +36,10 @@
 	мювюкн
 		йнмярюмрш
 			мювюкн
-				жек16 FIRST_CLEARING_DAY_IN_MONTH = 1
-				жек16 SECOND_CLEARING_DAY_IN_MONTH = 30
-				жек16 HOUR_OF_CLEAR = 18
-				жек16 MINUTE_OF_CLEAR = 48
+				жек16 FIRST_CLEARING_DAY_IN_MONTH = 4
+				жек16 SECOND_CLEARING_DAY_IN_MONTH = 16
+				жек16 HOUR_OF_CLEAR = 13
+				жек16 MINUTE_OF_CLEAR = 22
 				жек16 SECOND_OF_CLEAR = 0
 			йнмеж
 		
