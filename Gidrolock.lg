@@ -315,6 +315,7 @@
 			мювюкн
 				кнц isFinishedCraneState
 			йнмеж
+			
 		isAllCraneInStopeState = TRUE
 		
 		дкъ	iOpcClearingSt[28, 29],
