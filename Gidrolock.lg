@@ -271,14 +271,22 @@
 		}
 	йнмеж
 	
+
 (****************************************************************)
 
 тсмйжхъ Gidrolock_CheckNotFinishedCleringCrane
 	бшундмше_оепелеммше
 		мювюкн
 			кнц isClearingFinished
+			жек16 maintenanceStep
 		йнмеж
 	мювюкн
+	йнмярюмрш
+		мювюкн
+			жек16 MAINTENANCE_FIRST_STEP = 1
+			жек16 MAINTENANCE_TWO_STEP = 2
+			жек16 MAINTENANCE_IS_ABORTED = 3
+		йнмеж
 		isClearingFinished = FALSE
 		дкъ	iOpcClearingSt[28, 29],
 			iOpcGidrolockCraneState[9, 11],
@@ -287,15 +295,18 @@
 			еякх (ПБ[iOpcGidrolockCraneState] # STATE_GIDROLOCK_CRANE_ERROR){
 				еякх (ПБ[iOpcClearingSt] # CRANE_MAINTENANCE_IS_FINISHED){
 					еякх (ПБ[iOpcClearingSt] = CRANE_MAINTENANCE_IS_NOT_RUN){
-						ПБ24 = ПБ[iOpcGidrolockCraneState]
-						Gidrolock_CmdChangeState(iGidrolockCraneId)
-						ПБ[iOpcClearingSt] = CRANE_MAINTENANCE_IS_RUN
+						maintenanceStep = MAINTENANCE_FIRST_STEP
+						:ПБ24 = ПБ[iOpcGidrolockCraneState]
+						:Gidrolock_CmdChangeState(iGidrolockCraneId)
+						:ПБ[iOpcClearingSt] = CRANE_MAINTENANCE_IS_RUN
 					}
 					хмюве_еякх (ПБ[iOpcClearingSt] = CRANE_MAINTENANCE_IS_RUN){
+						maintenanceStep = MAINTENANCE_IS_ABORTED
 						еякх (ПБ24 # ПБ[iOpcGidrolockCraneState]) {
-							Gidrolock_CmdChangeState(iGidrolockCraneId)
+							maintenanceStep = MAINTENANCE_TWO_STEP
+							:Gidrolock_CmdChangeState(iGidrolockCraneId)
 						}
-						ПБ[iOpcClearingSt] = CRANE_MAINTENANCE_IS_FINISHED
+						:ПБ[iOpcClearingSt] = CRANE_MAINTENANCE_IS_FINISHED
 					}
 					бшунд
 				}
