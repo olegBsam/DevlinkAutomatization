@@ -228,4 +228,14 @@ DiscreteInput=0
 DiscreteOutput=0
 HandInput=0
 [BREAKPOINTS]
-file_count=0
+file_name1=AlgorithmGidrolockMaintenance.lg
+bp_count1=4
+bp_line1=32
+bp_state1=1
+bp_line2=34
+bp_state2=1
+bp_line3=35
+bp_state3=1
+bp_line4=40
+bp_state4=1
+file_count=1

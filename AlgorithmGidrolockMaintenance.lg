@@ -18,23 +18,38 @@
 
 опнжедспю AlgorithmGidrolockMaintenance_Start
 	мювюкн
+	
 		оепелеммше
 			мювюкн
-				жек16 isMaintenanceRun
+				кнц isMaintenanceRun
+				кнц isClearingFinished
+				кнц isChangeCraneState
+				кнц isCurrentCraneClearing
+				беы resultCraneState
 			йнмеж
+		isCurrentCraneClearing = FALSE
 		isMaintenanceRun = ПБ27 # CRANES_MAINTENANCE_IS_RUN
-		еякх (AlgorithmGidrolockMaintenance_isClearingTime() & !isMaintenanceRun){
+		еякх (AlgorithmGidrolockMaintenance_isClearingTime() & isMaintenanceRun){
 			AlgorithmGidrolockMaintenance_PreparedForClearing
 		}
-		еякх (isMaintenanceRun){
+		еякх (ПБ27 = CRANES_MAINTENANCE_IS_RUN){
 			еякх (Gidrolock_IsAllCraneInStopeState()){
 				дкъ iOpcClearingSt[28, 29],
 					iOpcGidrolockCraneState[9, 11],
-					iGidrolockCraneId[1, 2],
-					iMdbCraneId[12, 15]
+					iGidrolockCraneId[1, 2]
 				{
-					еякх (Gidrolock_CheckedNotFinishedCleringCrane()){
-						ПБ27 = CRANES_MAINTENANCE_IS_FINISHED
+					еякх (ПБ[iOpcClearingSt] # CRANE_MAINTENANCE_IS_FINISHED){
+						(isCurrentCraneClearing, isClearingFinished, isChangeCraneState, resultCraneState) = AlgorithmGidrolockMaintenance_MaintenanceStateCheck(ПБ[iOpcClearingSt], ПБ[iOpcGidrolockCraneState], ПБ[iGidrolockCraneId])
+						еякх (isClearingFinished){
+							ПБ27 = CRANES_MAINTENANCE_IS_FINISHED
+						}
+						еякх (isChangeCraneState){
+							Gidrolock_CmdChangeState(iGidrolockCraneId)
+						}
+						ПБ[iOpcClearingSt] = resultCraneState
+						еякх (isCurrentCraneClearing){
+							опепбюрэ
+						}
 					}
 				}
 			}
@@ -43,25 +58,50 @@
 
 (*********************************************************************)
 
-тсмйжхъ AlgorithmGidrolockMaintenance_CheckedNotFinishedCleringCrane
+тсмйжхъ AlgorithmGidrolockMaintenance_MaintenanceStateCheck
 	
 	бундмше_оепелеммше
 		мювюкн
-			
+			беы opcClearingSt
+			беы opcGidrolockCraneState
+			беы gidrolockCraneId
 		йнмеж
 		
 	бшундмше_оепелеммше
 		мювюкн
-			
+			кнц isCurrentCraneClearing
+			кнц isClearingFinished
+			кнц isChangeCraneState
+			беы resultCraneState
 		йнмеж
 	
 	мювюкн
-		йнмярюмрш
-			мювюкн
-				
-			йнмеж
-				
+	
+		resultCraneState = opcClearingSt
+		isClearingFinished = FALSE
+		isChangeCraneState = FALSE
+		isCurrentCraneClearing = FALSE
 		
+		еякх (opcGidrolockCraneState # STATE_GIDROLOCK_CRANE_ERROR){
+			еякх (opcClearingSt # CRANE_MAINTENANCE_IS_FINISHED){
+				еякх (opcClearingSt = CRANE_MAINTENANCE_IS_NOT_RUN){
+					isChangeCraneState = TRUE
+					resultCraneState = CRANE_MAINTENANCE_IS_RUN
+					ПБ24 = opcGidrolockCraneState
+					isCurrentCraneClearing = TRUE
+				}
+				хмюве_еякх (opcClearingSt = CRANE_MAINTENANCE_IS_RUN){
+					еякх (ПБ24 # opcGidrolockCraneState) {
+						isChangeCraneState = TRUE
+						::Gidrolock_CmdChangeState(iGidrolockCraneId)
+					}
+					isCurrentCraneClearing = TRUE
+					resultCraneState = CRANE_MAINTENANCE_IS_FINISHED
+				}
+				бшунд
+			}
+		}
+		isClearingFinished = TRUE
 	йнмеж
 
 
@@ -90,7 +130,7 @@
 		йнмярюмрш
 			мювюкн
 				жек16 FIRST_CLEARING_DAY_IN_MONTH = 1
-				жек16 SECOND_CLEARING_DAY_IN_MONTH = 30
+				жек16 SECOND_CLEARING_DAY_IN_MONTH = 14
 				жек16 HOUR_OF_CLEAR = 18
 				жек16 MINUTE_OF_CLEAR = 48
 				жек16 SECOND_OF_CLEAR = 0
