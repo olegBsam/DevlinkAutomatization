@@ -28,12 +28,16 @@
   Если (рв25 = 1.00000)
   {
     Gidrolock_CmdClose(1)
+    Gidrolock_CmdClose(2)
+    рв25 = 0.000000
   }
   Иначе
   {
     Если (рв25 = 11.0000)
     {
       Gidrolock_CmdOpen(1)
+      Gidrolock_CmdOpen(2)
+      рв25 = 0.000000
     }
     
   }
@@ -50,7 +54,7 @@
       Лог openCrane
       Лог closeCrane
     Конец
-  Для iMdbGidrolockCraneWireOpen[13], iMdbGidrolockCraneWireClose[14], iOpcGidrolockCraneCmd[8], iMdbCraneId[12]
+  Для iMdbGidrolockCraneWireOpen[13, 16], iMdbGidrolockCraneWireClose[14, 17], iOpcGidrolockCraneCmd[8, 10], iMdbCraneId[12, 15]
   {
     openCrane = пл[iMdbGidrolockCraneWireOpen]
     closeCrane = пл[iMdbGidrolockCraneWireClose]
@@ -63,36 +67,20 @@
 Начало
   Константы
     Начало
-      Лог IS_OPEN_CRANE = 1
     Конец
   Переменные
     Начало
-      Цел16 opcCraneControlCmd
+      Лог cmdOpen
     Конец
+  cmdOpen = 1
   Для iOpcGidrolockCraneCmd[8], iOpcGidrolockCraneState[9], iMdbCraneId[12]
   {
-    opcCraneControlCmd = вц(рв[iOpcGidrolockCraneCmd])
-    Если (opcCraneControlCmd = 1)
-    {
-      Если (рв[iOpcGidrolockCraneState] = 0.000000)
-      {
-        пл[iMdbCraneId] = 1
-      }
-      
-    }
-    Иначе
-    {
-      Если (opcCraneControlCmd = 0)
-      {
-        Если (рв[iOpcGidrolockCraneState] = 1.00000)
-        {
-          пл[iMdbCraneId] = 0
-        }
-        
-      }
-      
-    }
-    
+    пл[iMdbCraneId] = _Gidrolock_OpcControl(рв[iOpcGidrolockCraneCmd], рв[iOpcGidrolockCraneState], пл[iMdbCraneId], cmdOpen)
+  }
+  
+  Для iOpcGidrolockCraneCmd[10], iOpcGidrolockCraneState[11], iMdbCraneId[15]
+  {
+    пл[iMdbCraneId] = _Gidrolock_OpcControl(рв[iOpcGidrolockCraneCmd], рв[iOpcGidrolockCraneState], пл[iMdbCraneId], (!cmdOpen))
   }
   
 Конец
@@ -106,47 +94,33 @@
     Начало
       Лог openCrane
       Лог closeCrane
-      Цел16 craneState
+      Лог mdbCraneState
+      Вещ32 opcGidrolockCraneState
+      Вещ32 opcGidrolockCraneCmd
+      Цел16 delayTmr
+      Цел16 switchTmr
     Конец
-  Для iMdbGidrolockCraneWireOpen[13], iMdbGidrolockCraneWireClose[14], iOpcGidrolockCraneState[9], iOpcGidrolockCraneCmd[8], iMdbCraneId[12], iTmrTsCraneChangeState[5], iTmrTsCraneDelayChangeState[6], iCraneCmdChange[10]
+  Для iMdbGidrolockCraneWireOpen[13], iMdbGidrolockCraneWireClose[14], iOpcGidrolockCraneState[9], iOpcGidrolockCraneCmd[8], iMdbCraneId[12], iTmrTsCraneChangeState[5], iTmrTsCraneDelayChangeState[6]
   {
     openCrane = пл[iMdbGidrolockCraneWireOpen]
     closeCrane = пл[iMdbGidrolockCraneWireClose]
-    craneState = Decoder_GetGidrolockCraneState(openCrane, closeCrane, пл[iMdbCraneId])
-    Если (рв[iOpcGidrolockCraneCmd] # 6.00000)
-    {
-      Если (рв[iOpcGidrolockCraneCmd] = цв(craneState))
-      {
-        Выкл тс[iTmrTsCraneChangeState]
-        тс[iTmrTsCraneChangeState] = 0.000000
-        тс[iTmrTsCraneDelayChangeState] = 0.000000
-        Выкл тс[iTmrTsCraneDelayChangeState]
-        рв[iOpcGidrolockCraneCmd] = 6.00000
-      }
-      Иначе
-      {
-        Если (((craneState = 1) | (craneState = 0)) & (тс[iTmrTsCraneDelayChangeState] = 0.000000))
-        {
-          тс[iTmrTsCraneDelayChangeState] = 0.000000
-          Вкл тс[iTmrTsCraneDelayChangeState]
-          тс[iTmrTsCraneChangeState] = 0.000000
-          Вкл тс[iTmrTsCraneChangeState]
-        }
-        Иначе
-        {
-          Если ((craneState = 5) | (craneState = 4))
-          {
-            тс[iTmrTsCraneDelayChangeState] = 0.000000
-            Выкл тс[iTmrTsCraneDelayChangeState]
-          }
-          
-        }
-        
-      }
-      
-    }
-    
-    рв[iOpcGidrolockCraneState] = цв(Decoder_GetGidrolockCraneFullState(craneState, вц(тс[iTmrTsCraneChangeState]), вц(тс[iTmrTsCraneDelayChangeState])))
+    opcGidrolockCraneState = рв[iOpcGidrolockCraneState]
+    opcGidrolockCraneCmd = рв[iOpcGidrolockCraneCmd]
+    delayTmr = iTmrTsCraneDelayChangeState
+    switchTmr = iTmrTsCraneChangeState
+    (рв[iOpcGidrolockCraneCmd], рв[iOpcGidrolockCraneState]) = _Gidrolock_Monitoring(openCrane, closeCrane, opcGidrolockCraneState, opcGidrolockCraneCmd, пл[iMdbCraneId], switchTmr, delayTmr)
+  }
+  
+  Для iMdbGidrolockCraneWireOpen[16], iMdbGidrolockCraneWireClose[17], iOpcGidrolockCraneState[11], iOpcGidrolockCraneCmd[10], iMdbCraneId[15], iTmrTsCraneChangeState[7], iTmrTsCraneDelayChangeState[8]
+  {
+    openCrane = (!пл[iMdbGidrolockCraneWireOpen])
+    closeCrane = (!пл[iMdbGidrolockCraneWireClose])
+    mdbCraneState = (!пл[iMdbCraneId])
+    opcGidrolockCraneState = рв[iOpcGidrolockCraneState]
+    opcGidrolockCraneCmd = рв[iOpcGidrolockCraneCmd]
+    delayTmr = iTmrTsCraneDelayChangeState
+    switchTmr = iTmrTsCraneChangeState
+    (рв[iOpcGidrolockCraneCmd], рв[iOpcGidrolockCraneState]) = _Gidrolock_Monitoring(openCrane, closeCrane, opcGidrolockCraneState, opcGidrolockCraneCmd, mdbCraneState, switchTmr, delayTmr)
   }
   
 Конец
@@ -260,6 +234,120 @@
   
 Конец
 
+Функция _Gidrolock_OpcControl
+  Входные_Переменные
+    Начало
+      Вещ32 opcGidrolockCraneCmd
+      Вещ32 opcGidrolockCraneState
+      Лог lastMdbCraneState
+      Лог cmdOpen
+    Конец
+  Выходные_Переменные
+    Начало
+      Лог newMdbCraneState
+    Конец
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  newMdbCraneState = lastMdbCraneState
+  Если (opcGidrolockCraneCmd = 1.00000)
+  {
+    Если (opcGidrolockCraneState = 0.000000)
+    {
+      newMdbCraneState = cmdOpen
+    }
+    
+  }
+  Иначе
+  {
+    Если (opcGidrolockCraneCmd = 0.000000)
+    {
+      Если (opcGidrolockCraneState = 1.00000)
+      {
+        newMdbCraneState = (!cmdOpen)
+      }
+      
+    }
+    
+  }
+  
+Конец
+
+Функция _Gidrolock_Monitoring
+  Входные_Переменные
+    Начало
+      Лог mdbGidrolockCraneWireOpen
+      Лог mdbGidrolockCraneWireClose
+      Вещ32 opcGidrolockCraneState
+      Вещ32 opcGidrolockCraneCmd
+      Лог mdbCraneState
+      Цел16 tmrTsCraneChangeState
+      Цел16 tmrTsCraneDelayChangeState
+    Конец
+  Выходные_Переменные
+    Начало
+      Вещ32 newOpcGidrolockCraneCmd
+      Вещ32 newOpcGidrolockCraneState
+    Конец
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+      Цел16 craneState
+    Конец
+  newOpcGidrolockCraneCmd = opcGidrolockCraneCmd
+  newOpcGidrolockCraneState = opcGidrolockCraneState
+  Для iTmrTsCraneChangeState[5, 7], iTmrTsCraneDelayChangeState[6, 8]
+  {
+    Если ((iTmrTsCraneChangeState = tmrTsCraneChangeState) & (iTmrTsCraneDelayChangeState = tmrTsCraneDelayChangeState))
+    {
+      craneState = Decoder_GetGidrolockCraneState(mdbGidrolockCraneWireOpen, mdbGidrolockCraneWireClose, mdbCraneState)
+      Если (opcGidrolockCraneCmd # 6.00000)
+      {
+        Если (opcGidrolockCraneCmd = цв(craneState))
+        {
+          Выкл тс[iTmrTsCraneChangeState]
+          тс[iTmrTsCraneChangeState] = 0.000000
+          тс[iTmrTsCraneDelayChangeState] = 0.000000
+          Выкл тс[iTmrTsCraneDelayChangeState]
+          newOpcGidrolockCraneCmd = 6.00000
+        }
+        Иначе
+        {
+          Если (((craneState = 1) | (craneState = 0)) & (тс[iTmrTsCraneDelayChangeState] = 0.000000))
+          {
+            тс[iTmrTsCraneDelayChangeState] = 0.000000
+            Вкл тс[iTmrTsCraneDelayChangeState]
+            тс[iTmrTsCraneChangeState] = 0.000000
+            Вкл тс[iTmrTsCraneChangeState]
+          }
+          Иначе
+          {
+            Если ((craneState = 5) | (craneState = 4))
+            {
+              тс[iTmrTsCraneDelayChangeState] = 0.000000
+              Выкл тс[iTmrTsCraneDelayChangeState]
+            }
+            
+          }
+          
+        }
+        
+      }
+      
+      newOpcGidrolockCraneState = цв(Decoder_GetGidrolockCraneFullState(craneState, вц(тс[iTmrTsCraneChangeState]), вц(тс[iTmrTsCraneDelayChangeState])))
+    }
+    
+  }
+  
+Конец
+
 Функция Gidrolock_CmdClose
   Входные_Переменные
     Начало
@@ -275,17 +363,32 @@
   Переменные
     Начало
     Конец
-  Для iGidrolockCraneId[1], iOpcGidrolockCraneCmd[8], iOpcGidrolockCraneState[9], iMdbCraneId[12], iCraneCmdChange[10]
+  Для iGidrolockCraneId[1], iOpcGidrolockCraneCmd[8], iOpcGidrolockCraneState[9], iMdbCraneId[12]
   {
     Если (iGidrolockCraneId = gidrolockCraneId)
     {
-      Если (рв[iOpcGidrolockCraneCmd] = 1.00000)
+      Если (рв[iOpcGidrolockCraneState] = 1.00000)
       {
         пл[iMdbCraneId] = 0
         рв[iOpcGidrolockCraneCmd] = 0.000000
       }
       
-      Прервать
+      Выход
+    }
+    
+  }
+  
+  Для iGidrolockCraneId[2], iOpcGidrolockCraneCmd[10], iOpcGidrolockCraneState[11], iMdbCraneId[15]
+  {
+    Если (iGidrolockCraneId = gidrolockCraneId)
+    {
+      Если (рв[iOpcGidrolockCraneState] = 1.00000)
+      {
+        пл[iMdbCraneId] = 1
+        рв[iOpcGidrolockCraneCmd] = 0.000000
+      }
+      
+      Выход
     }
     
   }
@@ -307,7 +410,7 @@
   Переменные
     Начало
     Конец
-  Для iGidrolockCraneId[1], iMdbCraneId[12], iOpcGidrolockCraneCmd[8], iOpcGidrolockCraneState[9], iCraneCmdChange[10]
+  Для iGidrolockCraneId[1], iMdbCraneId[12], iOpcGidrolockCraneCmd[8], iOpcGidrolockCraneState[9]
   {
     Если (iGidrolockCraneId = gidrolockCraneId)
     {
@@ -317,7 +420,22 @@
         рв[iOpcGidrolockCraneCmd] = 1.00000
       }
       
-      Прервать
+      Выход
+    }
+    
+  }
+  
+  Для iGidrolockCraneId[2], iMdbCraneId[15], iOpcGidrolockCraneCmd[10], iOpcGidrolockCraneState[11]
+  {
+    Если (iGidrolockCraneId = gidrolockCraneId)
+    {
+      Если (рв[iOpcGidrolockCraneState] = 0.000000)
+      {
+        пл[iMdbCraneId] = 0
+        рв[iOpcGidrolockCraneCmd] = 1.00000
+      }
+      
+      Выход
     }
     
   }

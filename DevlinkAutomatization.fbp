@@ -189,4 +189,8 @@ DiscreteInput=0
 DiscreteOutput=0
 HandInput=0
 [BREAKPOINTS]
-file_count=0
+file_name1=Main.lg
+bp_count1=1
+bp_line1=21
+bp_state1=1
+file_count=1

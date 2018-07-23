@@ -16,10 +16,15 @@
 		Msu24_Monitoring
 		Gidrolock_Monitoring
 		Gidrolock_OpcControl
-			если (рв25 = 1){
+		
+		если (рв25 = 1){
 			Gidrolock_CmdClose(1)
+			Gidrolock_CmdClose(2)
+			рв25 = 0
 		} ИНАЧЕ_ЕСЛИ (рв25 = 11){
 			Gidrolock_CmdOpen(1)
+			Gidrolock_CmdOpen(2)
+			рв25 = 0
 		}
 
 	

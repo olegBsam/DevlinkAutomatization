@@ -6,7 +6,7 @@ PositionX=37
 PositionY=8
 SizeX=1206
 SizeY=630
-ShowType=1
+ShowType=3
 [FILE2]
 name=Main.lg
 PositionX=0
