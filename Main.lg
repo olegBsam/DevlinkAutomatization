@@ -1,5 +1,13 @@
 опнцпюллю Main
 	мювюкн
+		оепелеммше
+			мювюкн
+				жек16  time1
+				жек16  time2
+			йнмеж
+		
+		(,,time1) = ябПЕЛЪ()
+		
 		еякх (ПБ1 = 0){
 			Initialization_OnReboot
 			ПБ1 = 1
@@ -16,11 +24,18 @@
 		Msu24_Monitoring
 		Gidrolock_Monitoring
 		Gidrolock_OpcControl
-			ЕЯКХ (ПБ25 = 1){
+		
+		ЕЯКХ (ПБ25 = 1){
 			Gidrolock_CmdClose(1)
+			Gidrolock_CmdClose(2)
+			ПБ25 = 0
 		} хмюве_еякх (ПБ25 = 11){
 			Gidrolock_CmdOpen(1)
+			Gidrolock_CmdOpen(2)
+			ПБ25 = 0
 		}
-
-	
+		
+		(,,time2) = ябПЕЛЪ()
+		ПБ3 = ЖБ(time2 - time1)
+		
 	йнмеж
