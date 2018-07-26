@@ -416,3 +416,18 @@
 			}
 		}
 	КОНЕЦ
+	
+(*
+* Сохранение уставок
+*
+**)
+
+ПРОЦЕДУРА SaveSetting
+	НАЧАЛО
+		ЕСЛИ (рв23 = 1){
+			ДЛЯ iSettingsNumber[1...25]
+			{
+				ЗаписьЦ(iSettingsNumber, вц(рв[iSettingsNumber]))
+			}
+		}
+	КОНЕЦ

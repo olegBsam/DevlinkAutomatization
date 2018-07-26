@@ -5,7 +5,10 @@
     Конец
   Переменные
     Начало
+      Цел16 time1
+      Цел16 time2
     Конец
+  (, , time1) = СВремя()
   Если (рв1 = 0.000000)
   {
     Initialization_OnReboot
@@ -42,6 +45,8 @@
     
   }
   
+  (, , time2) = СВремя()
+  рв3 = цв((time2 - time1))
 Конец
 
 Процедура Gidrolock_InitOnReboot
