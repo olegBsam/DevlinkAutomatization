@@ -5,10 +5,7 @@
     Конец
   Переменные
     Начало
-      Цел16 time1
-      Цел16 time2
     Конец
-  (, , time1) = СВремя()
   Если (рв1 = 0.000000)
   {
     Initialization_OnReboot
@@ -45,8 +42,44 @@
     
   }
   
-  (, , time2) = СВремя()
-  рв3 = цв((time2 - time1))
+  Bolid_CheckState
+Конец
+
+Процедура Bolid_CheckState
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  рв15 = лв(пл22)
+  BolidSMK_CheckState
+Конец
+
+Процедура BolidSMK_CheckState
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+      Цел16 numberNewEvent
+    Конец
+  Для iSmkBolid[13], iSmkBolidDecodFirst[13], iSmkBolidDecodSecond[14], iDwlState[16]
+  {
+    рв[iDwlState] = 1.00000
+    (рв[iSmkBolidDecodFirst], рв[iSmkBolidDecodSecond]) = Decoder_GetBolidSmkCode(пц[iSmkBolid])
+    Если (рв[iSmkBolidDecodFirst] = -69.0000)
+    {
+      рв[iDwlState] = 0.000000
+    }
+    
+    numberNewEvent = пц15
+    пц16 = numberNewEvent
+    рв22 = цв(пц17)
+  }
+  
 Конец
 
 Процедура Gidrolock_InitOnReboot
@@ -237,6 +270,27 @@
     
   }
   
+Конец
+
+Функция Decoder_GetBolidSmkCode
+  Входные_Переменные
+    Начало
+      Цел16 inputCode
+    Конец
+  Выходные_Переменные
+    Начало
+      Вещ32 firstByte
+      Вещ32 secondByte
+    Конец
+Начало
+  Константы
+    Начало
+    Конец
+  Переменные
+    Начало
+    Конец
+  firstByte = цв(АСдВп(inputCode, 8))
+  secondByte = цв(ИБ(inputCode, 255))
 Конец
 
 Функция _Gidrolock_OpcControl

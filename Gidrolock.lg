@@ -14,6 +14,7 @@
 (*
 Готовая функция где-то потерялась. Переделать
 *)
+
 ПРОЦЕДУРА Gidrolock_InitOnReboot
 	НАЧАЛО
 		ПЕРЕМЕННЫЕ
@@ -34,6 +35,7 @@
 	КОНЕЦ
 	
 (*********************************************************************)
+
 ПРОЦЕДУРА Gidrolock_OpcControl
 	НАЧАЛО
 		ПЕРЕМЕННЫЕ
@@ -413,21 +415,6 @@
 				craneState = Decoder_GetGidrolockCraneState(!пл[iMdbCraneOpenWire], !пл[iMdbCraneCloseWire], !пл[iMdbCraneId])
 				isOpenedCrane = (craneState = STATE_GIDROLOCK_CRANE_OPEN)
 				ВЫХОД
-			}
-		}
-	КОНЕЦ
-	
-(*
-* Сохранение уставок
-*
-**)
-
-ПРОЦЕДУРА SaveSetting
-	НАЧАЛО
-		ЕСЛИ (рв23 = 1){
-			ДЛЯ iSettingsNumber[1...25]
-			{
-				ЗаписьЦ(iSettingsNumber, вц(рв[iSettingsNumber]))
 			}
 		}
 	КОНЕЦ

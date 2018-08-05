@@ -46,3 +46,18 @@
 			}
 		}
 	йнмеж
+	
+тсмйжхъ Decoder_GetBolidSmkCode
+	бундмше_оепелеммше
+		мювюкн
+			жек16 inputCode
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			беы firstByte
+			беы secondByte
+		йнмеж
+	мювюкн
+		firstByte = ЖБ(юяДбО(inputCode, 8))
+		secondByte = ЖБ(ха(inputCode, 255))
+	йнмеж
