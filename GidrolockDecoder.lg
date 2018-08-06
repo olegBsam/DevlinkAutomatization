@@ -1,0 +1,48 @@
+(**
+*	Содержит функции интерпретации состояний устройств и тд.
+**)
+
+ФУНКЦИЯ GidrolockDecoder_GetGidrolockCraneFullState
+	ВХОДНЫЕ_ПЕРЕМЕННЫЕ
+		НАЧАЛО
+			ЦЕЛ16 craneState
+			ЦЕЛ16 craneSwitchTmr
+			ЦЕЛ16 craneDelaySwitchTmr
+		КОНЕЦ
+	ВЫХОДНЫЕ_ПЕРЕМЕННЫЕ
+		НАЧАЛО
+			ЦЕЛ16 realCraneState
+		КОНЕЦ
+	НАЧАЛО
+		:* true, если время переключения меньше максимального времени
+		ЕСЛИ (craneSwitchTmr <= GIDROLOCK_CRANE_MAX_SWITCH_TIME & craneDelaySwitchTmr < GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME){
+				realCraneState = craneState
+		}ИНАЧЕ{
+			realCraneState = STATE_GIDROLOCK_CRANE_ERROR
+		}	
+	КОНЕЦ
+	
+ФУНКЦИЯ GidrolockDecoder_GetGidrolockCraneState
+	ВХОДНЫЕ_ПЕРЕМЕННЫЕ
+		НАЧАЛО
+			ЛОГ isWireOpen 
+			ЛОГ isWireClose
+			ЛОГ currentCmd
+		КОНЕЦ
+	ВЫХОДНЫЕ_ПЕРЕМЕННЫЕ
+		НАЧАЛО
+			ЦЕЛ16 craneState
+		КОНЕЦ
+	НАЧАЛО
+		ЕСЛИ (isWireOpen & !isWireClose){
+			craneState = STATE_GIDROLOCK_CRANE_OPEN
+		} ИНАЧЕ_ЕСЛИ (!isWireOpen & isWireClose){
+			craneState = STATE_GIDROLOCK_CRANE_CLOSE
+		} ИНАЧЕ{
+			ЕСЛИ (currentCmd = цл(STATE_GIDROLOCK_CRANE_OPEN)){
+				craneState = STATE_GIDROLOCK_CRANE_OPENS
+			} ИНАЧЕ_ЕСЛИ (currentCmd = цл(STATE_GIDROLOCK_CRANE_CLOSE)){
+				craneState = STATE_GIDROLOCK_CRANE_CLOSES
+			}
+		}
+	КОНЕЦ

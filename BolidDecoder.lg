@@ -1,0 +1,14 @@
+тсмйжхъ BolidDecoder_GetBolidSmkCode
+	бундмше_оепелеммше
+		мювюкн
+			жек16 inputCode
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			жек16 firstByte
+			жек16 secondByte
+		йнмеж
+	мювюкн
+		firstByte = юяДбО(inputCode, 8)
+		secondByte = ха(inputCode, 255)
+	йнмеж

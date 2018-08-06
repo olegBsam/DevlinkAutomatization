@@ -1,26 +1,40 @@
 (**
-*	рв12 - код смк
-*	рв13 - ст байт кода СМК
-*   рв14 - мл байт кода СМК
-*   dwlState - 1 связь c смк есть
+*	рв13
+*   dwlState -  0 нет соединения
+*				1 закрыто
+*				2 открыто
 **)
 
 ПРОЦЕДУРА BolidSMK_CheckState
 	НАЧАЛО
+		КОНСТАНТЫ
+			НАЧАЛО
+				ЦЕЛ16 CONNECTION_LOST = -69
+				ЦЕЛ16 SMK_RECOVERY = 47
+				ЦЕЛ16 SMK_DISCONNECTED = 0
+				ЦЕЛ16 SMK_NOT_ALARM = 1
+				ЦЕЛ16 SMK_ALARM = 2
+			КОНЕЦ
 		ПЕРЕМЕННЫЕ
 			НАЧАЛО
-				ЦЕЛ16 numberNewEvent
+				ЦЕЛ16 lByte
+				ЦЕЛ16 hByte
 			КОНЕЦ
-			
 		ДЛЯ iSmkBolid[13],
-			iSmkBolidDecodFirst[13],
-			iSmkBolidDecodSecond[14],
 			iDwlState[16]
-		{
-			рв[iDwlState] = 1
-			(рв[iSmkBolidDecodFirst], рв[iSmkBolidDecodSecond]) = Decoder_GetBolidSmkCode(пц[iSmkBolid])
-			ЕСЛИ (рв[iSmkBolidDecodFirst] = -69){
-				рв[iDwlState] = 0
+		{	
+			(hByte, lByte) = BolidDecoder_GetBolidSmkCode(пц[iSmkBolid])
+			
+			ЕСЛИ (hByte = CONNECTION_LOST){
+				рв[iDwlState] = SMK_DISCONNECTED
+			}
+			ИНАЧЕ_ЕСЛИ (lByte = SMK_RECOVERY){
+				ЕСЛИ (hByte = 3 | hByte = 36){
+					рв[iDwlState] = SMK_ALARM
+				}
+				ИНАЧЕ_ЕСЛИ (hByte = 109 | hByte =  24 | hByte =  35){
+					рв[iDwlState] = SMK_NOT_ALARM
+				}
 			}
 		}
 	КОНЕЦ
