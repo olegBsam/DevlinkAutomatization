@@ -2,7 +2,7 @@
 *	Содержит функции интерпретации состояний устройств и тд.
 **)
 
-ФУНКЦИЯ Decoder_GetGidrolockCraneFullState
+ФУНКЦИЯ GidrolockDecoder_GetGidrolockCraneFullState
 	ВХОДНЫЕ_ПЕРЕМЕННЫЕ
 		НАЧАЛО
 			ЦЕЛ16 craneState
@@ -22,7 +22,7 @@
 		}	
 	КОНЕЦ
 	
-ФУНКЦИЯ Decoder_GetGidrolockCraneState
+ФУНКЦИЯ GidrolockDecoder_GetGidrolockCraneState
 	ВХОДНЫЕ_ПЕРЕМЕННЫЕ
 		НАЧАЛО
 			ЛОГ isWireOpen 

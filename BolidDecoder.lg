@@ -1,0 +1,37 @@
+тсмйжхъ BolidDecoder_GetSmkState
+	бундмше_оепелеммше
+		мювюкн
+			жек16 dwSmkState
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			беы32 smkSimpleState
+		йнмеж
+	мювюкн
+		оепелеммше
+			мювюкн
+				жек16 hByte
+				жек16 lByte
+			йнмеж
+		
+		(hByte, lByte) = DataParse_SplitOnBytes(dwSmkState)
+		
+		еякх (hByte = BOLID_SMK_DPLS_DAMAGED | lByte = BOLID_SMK_DPLS_DAMAGED){
+			smkSimpleState = BOLID_SMK_STATE_DISCONNECTED
+		}
+		хмюве_еякх (hByte = BOLID_SMK_ALARM | lByte = BOLID_SMK_ALARM){
+			smkSimpleState = BOLID_SMK_STATE_ALARM
+		}
+		хмюве_еякх (hByte = BOLID_SMK_ENTRANCE_VIOLATION | lByte = BOLID_SMK_ENTRANCE_VIOLATION){
+			smkSimpleState = BOLID_SMK_STATE_ALARM
+		}
+		хмюве_еякх (hByte = BOLID_SMK_DISARMING | hByte =  BOLID_SMK_ARMING | hByte =  BOLID_SMK_ENTRANCE_RECOVERY){
+			smkSimpleState = BOLID_SMK_STATE_NOT_ALARM
+		}
+		хмюве_еякх (lByte = BOLID_SMK_DISARMING | lByte =  BOLID_SMK_ARMING | lByte =  BOLID_SMK_ENTRANCE_RECOVERY){
+			smkSimpleState = BOLID_SMK_STATE_NOT_ALARM
+		}
+		хмюве{
+			smkSimpleState = BOLID_SMK_ERROR_CODE
+		}
+	йнмеж

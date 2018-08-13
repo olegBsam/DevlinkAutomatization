@@ -1,0 +1,12 @@
+(**
+*	_@iSmkBolid - код смк (слово)
+*	_@iDwlState - состояние смк в OPC
+**)
+ПРОЦЕДУРА BolidSMK_CheckState
+	НАЧАЛО
+		ДЛЯ iSmkBolid[13],
+			iDwlState[16]
+		{	
+			рв[iDwlState] = BolidDecoder_GetSmkState(пц[iSmkBolid])
+		}
+	КОНЕЦ

@@ -14,6 +14,7 @@
 (*
 Готовая функция где-то потерялась. Переделать
 *)
+
 ПРОЦЕДУРА Gidrolock_InitOnReboot
 	НАЧАЛО
 		ПЕРЕМЕННЫЕ
@@ -34,6 +35,7 @@
 	КОНЕЦ
 	
 (*********************************************************************)
+
 ПРОЦЕДУРА Gidrolock_OpcControl
 	НАЧАЛО
 		ПЕРЕМЕННЫЕ
@@ -186,7 +188,7 @@
 		{
 			ЕСЛИ (iTmrTsCraneChangeState = tmrTsCraneChangeState & iTmrTsCraneDelayChangeState = tmrTsCraneDelayChangeState)
 			{
-				craneState = Decoder_GetGidrolockCraneState(mdbGidrolockCraneWireOpen, mdbGidrolockCraneWireClose, mdbCraneState)
+				craneState = GidrolockDecoder_GetGidrolockCraneState(mdbGidrolockCraneWireOpen, mdbGidrolockCraneWireClose, mdbCraneState)
 			
 				:* true, если крану дана какая-то команда
 				ЕСЛИ (opcGidrolockCraneCmd # STATE_GIDROLOCK_CRANE_AWAIT) {
@@ -217,7 +219,7 @@
 						}
 					}
 				}
-				newOpcGidrolockCraneState = цв(Decoder_GetGidrolockCraneFullState(craneState, вц(тс[iTmrTsCraneChangeState]), вц(тс[iTmrTsCraneDelayChangeState])))
+				newOpcGidrolockCraneState = цв(GidrolockDecoder_GetGidrolockCraneFullState(craneState, вц(тс[iTmrTsCraneChangeState]), вц(тс[iTmrTsCraneDelayChangeState])))
 			}
 		}
 	КОНЕЦ
@@ -351,7 +353,7 @@
 			iMdbCraneCloseWire[14]
 		{
 			ЕСЛИ (iGidrolockCraneId = gidrolockCraneId){
-				craneState = Decoder_GetGidrolockCraneState(пл[iMdbCraneOpenWire], пл[iMdbCraneCloseWire], пл[iMdbCraneId])
+				craneState = GidrolockDecoder_GetGidrolockCraneState(пл[iMdbCraneOpenWire], пл[iMdbCraneCloseWire], пл[iMdbCraneId])
 				isClosedCrane = (craneState = STATE_GIDROLOCK_CRANE_CLOSE)
 				ПРЕРВАТЬ
 			}
@@ -364,7 +366,7 @@
 			iMdbCraneCloseWire[17]
 		{
 			ЕСЛИ (iGidrolockCraneId = gidrolockCraneId){
-				craneState = Decoder_GetGidrolockCraneState(!пл[iMdbCraneOpenWire], !пл[iMdbCraneCloseWire], !пл[iMdbCraneId])
+				craneState = GidrolockDecoder_GetGidrolockCraneState(!пл[iMdbCraneOpenWire], !пл[iMdbCraneCloseWire], !пл[iMdbCraneId])
 				isClosedCrane = (craneState = STATE_GIDROLOCK_CRANE_CLOSE)
 				ПРЕРВАТЬ
 			}
@@ -397,7 +399,7 @@
 			iMdbCraneCloseWire[14]
 		{
 			ЕСЛИ (iGidrolockCraneId = gidrolockCraneId){
-				craneState = Decoder_GetGidrolockCraneState(пл[iMdbCraneOpenWire], пл[iMdbCraneCloseWire], пл[iMdbCraneId])
+				craneState = GidrolockDecoder_GetGidrolockCraneState(пл[iMdbCraneOpenWire], пл[iMdbCraneCloseWire], пл[iMdbCraneId])
 				isOpenedCrane = (craneState = STATE_GIDROLOCK_CRANE_OPEN)
 				ВЫХОД
 			}
@@ -410,24 +412,9 @@
 			iMdbCraneCloseWire[17]
 		{
 			ЕСЛИ (iGidrolockCraneId = gidrolockCraneId){
-				craneState = Decoder_GetGidrolockCraneState(!пл[iMdbCraneOpenWire], !пл[iMdbCraneCloseWire], !пл[iMdbCraneId])
+				craneState = GidrolockDecoder_GetGidrolockCraneState(!пл[iMdbCraneOpenWire], !пл[iMdbCraneCloseWire], !пл[iMdbCraneId])
 				isOpenedCrane = (craneState = STATE_GIDROLOCK_CRANE_OPEN)
 				ВЫХОД
-			}
-		}
-	КОНЕЦ
-	
-(*
-* Сохранение уставок
-*
-**)
-
-ПРОЦЕДУРА SaveSetting
-	НАЧАЛО
-		ЕСЛИ (рв23 = 1){
-			ДЛЯ iSettingsNumber[1...25]
-			{
-				ЗаписьЦ(iSettingsNumber, вц(рв[iSettingsNumber]))
 			}
 		}
 	КОНЕЦ

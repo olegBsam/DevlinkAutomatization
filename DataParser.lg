@@ -1,0 +1,14 @@
+тсмйжхъ DataParse_SplitOnBytes
+	бундмше_оепелеммше
+		мювюкн
+			жек16 inputByte
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			жек16 hByte
+			жек16 lByte
+		йнмеж
+	мювюкн
+		hByte = юяДбО(inputByte, 8)
+		lByte = ха(inputByte, 255)
+	йнмеж	
