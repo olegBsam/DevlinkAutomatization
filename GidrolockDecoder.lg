@@ -15,11 +15,13 @@
 		КОНЕЦ
 	НАЧАЛО
 		:* true, если время переключения меньше максимального времени
-		ЕСЛИ (craneSwitchTmr <= GIDROLOCK_CRANE_MAX_SWITCH_TIME & craneDelaySwitchTmr < GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME){
+		ЕСЛИ (craneSwitchTmr <= GIDROLOCK_CRANE_MAX_SWITCH_TIME & craneDelaySwitchTmr <= GIDROLOCK_CRANE_MAX_DELAY_SWITCH_TIME){
+			
 				realCraneState = craneState
 		}ИНАЧЕ{
 			realCraneState = STATE_GIDROLOCK_CRANE_ERROR
-		}	
+		}
+	
 	КОНЕЦ
 	
 ФУНКЦИЯ GidrolockDecoder_GetGidrolockCraneState

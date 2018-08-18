@@ -27,7 +27,7 @@
 			ПБ25 = 0
 		}
 		
-		Gidrolock_Maintenance
+		AlgorithmGidrolockMaintenance_Start
 		Bolid_CheckState
 		
 	йнмеж
