@@ -17,8 +17,8 @@
 			мювюкн
 				жек16 TARGET_DATA_FIRST = 20
 				жек16 TARGET_DATA_SECOND = 15
-				жек16 TARGET_HOUR = 17
-				жек16 TARGET_MINUTE = 32
+				жек16 TARGET_HOUR = 19
+				жек16 TARGET_MINUTE = 7
 				жек16 TARGET_SECOND = 0
 			йнмеж
 		

@@ -240,7 +240,7 @@
 			iMdbCraneId[12]
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId)	{
-				еякх (ПБ[iOpcGidrolockCraneState] = CMD_GIDROLOCK_CRANE_OPEN){
+				еякх (ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_OPEN){
 					ОК[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_CLOSE
 					ПБ[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_CLOSE
 				}
@@ -255,7 +255,7 @@
 			iMdbCraneId[15]
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId)	{
-				еякх (ПБ[iOpcGidrolockCraneState] = CMD_GIDROLOCK_CRANE_OPEN){
+				еякх (ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_OPEN){
 					ОК[iMdbCraneId]	= !CMD_GIDROLOCK_CRANE_CLOSE
 					ПБ[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_CLOSE
 				}
@@ -424,17 +424,17 @@
 тсмйжхъ Gidrolock_CmdInverseState
 	бундмше_оепелеммше
 		мювюкн
-			кнц opcGidrolockCraneState
+			беы opcGidrolockCraneState
 		йнмеж
 	бшундмше_оепелеммше
 		мювюкн
-			кнц opcGidrolockCraneCmd
+			беы opcGidrolockCraneCmd
 		йнмеж
 	мювюкн
-		еякх (opcGidrolockCraneState){
-			opcGidrolockCraneCmd = FALSE
-		}хмюве {
-			opcGidrolockCraneCmd = TRUE
+		еякх (opcGidrolockCraneState = STATE_GIDROLOCK_CRANE_CLOSE){
+			opcGidrolockCraneCmd = CMD_GIDROLOCK_CRANE_OPEN
+		}хмюве_еякх (opcGidrolockCraneState = STATE_GIDROLOCK_CRANE_OPEN) {
+			opcGidrolockCraneCmd = CMD_GIDROLOCK_CRANE_CLOSE
 		}
 	йнмеж
 
@@ -448,12 +448,16 @@
 	мювюкн
 		isAllCraneStop = FALSE
 	
-		дкъ iOpcGidrolockCraneState[9, 11]
+		дкъ iOpcGidrolockCraneState[9, 11],
+			iOpcGidrolockCraneCmd[8, 10]
 		{
 			еякх (ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_CLOSES ){
 				бшунд
 			}
 			хмюве_еякх (ПБ[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_OPENS){
+				бшунд
+			}
+			хмюве_еякх (ПБ[iOpcGidrolockCraneCmd] # STATE_GIDROLOCK_CRANE_AWAIT){
 				бшунд
 			}
 		}
@@ -474,7 +478,8 @@
 		оепелеммше
 			мювюкн
 				кнц skipIteration
-				жек16 lastClearingCraneId	
+				жек16 lastClearingCraneId
+				беы stateOFSavedCrane
 			йнмеж
 		йнмярюмрш
 			мювюкн
@@ -502,7 +507,8 @@
 				еякх(ПБ[iOpcGidrolockClearingState] = IS_NOT_CLEARED){
 					еякх (ПБ[iOpcGidrolockCraneState] # STATE_GIDROLOCK_CRANE_ERROR & ПБ[iOpcGidrolockCraneState] # STATE_GIDROLOCK_CRANE_UNDEFINED){
 						lastClearingCraneId = iGidrolockCraneId
-						ОК[iMdbCraneId] = Gidrolock_CmdInverseState(ОК[iMdbCraneId])
+						stateOFSavedCrane = ПБ[iOpcGidrolockCraneState]
+						ПБ[iOpcGidrolockCraneCmd] = Gidrolock_CmdInverseState(ПБ[iOpcGidrolockCraneState])
 						бшунд
 					}
 				}
@@ -510,9 +516,8 @@
 			хмюве_еякх (lastClearingCraneId # 0){
 				еякх (lastClearingCraneId = iGidrolockCraneId){
 					lastClearingCraneId = 0
-					ОК[iMdbCraneId] = Gidrolock_CmdInverseState(ОК[iMdbCraneId])
+					ПБ[iOpcGidrolockCraneCmd] = stateOFSavedCrane
 					ПБ[iOpcGidrolockClearingState] = IS_CLEARED
-					skipIteration = TRUE
 					бшунд
 				}
 			}
