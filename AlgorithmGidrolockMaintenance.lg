@@ -15,10 +15,10 @@
 			
 		йнмярюмрш
 			мювюкн
-				жек16 TARGET_DATA_FIRST = 18
+				жек16 TARGET_DATA_FIRST = 20
 				жек16 TARGET_DATA_SECOND = 15
-				жек16 TARGET_HOUR = 19
-				жек16 TARGET_MINUTE = 45
+				жек16 TARGET_HOUR = 16
+				жек16 TARGET_MINUTE = 1
 				жек16 TARGET_SECOND = 0
 			йнмеж
 		

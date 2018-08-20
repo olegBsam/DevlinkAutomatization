@@ -7,17 +7,18 @@
 		
 		ЕСЛИ (рв26 = 1)
 		{
-			ЕСЛИ (рв8 # STATE_GIDROLOCK_CRANE_AWAIT){
+			ЕСЛИ (рв8 # CMD_GIDROLOCK_CRANE_AWAIT){
 				пл13 = 1
 				пл14 = 0
 			}
 		}
 				
+		
 		Msu24_Monitoring
 		Gidrolock_Monitoring
 		Gidrolock_OpcControl
 		
-		если (рв25 = 1){
+		ЕСЛИ (рв25 = 1){
 			Gidrolock_CmdClose(1)
 			Gidrolock_CmdClose(2)
 			рв25 = 0
@@ -26,7 +27,6 @@
 			Gidrolock_CmdOpen(2)
 			рв25 = 0
 		}
-		
 		AlgorithmGidrolockMaintenance_Start
 		Bolid_CheckState
 		

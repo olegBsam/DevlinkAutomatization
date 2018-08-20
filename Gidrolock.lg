@@ -7,7 +7,6 @@
 * @пл21 - рв7
 * @пл12 - рв8 управление краном (1 - открыт (белый);0 - закрыт(зелено-желтый))
 * @рв9 - состояние крана
-* @пл10 - смена команды крана
 **)
 
 
@@ -27,13 +26,14 @@
 			iMdbGidrolockCraneWireClose[14,17],
 			iOpcGidrolockCraneCmd[8,10],
 			iMdbCraneId[12,15]
+
 		{
 			openCrane = пл[iMdbGidrolockCraneWireOpen]
 			closeCrane = пл[iMdbGidrolockCraneWireClose]
-			рв[iOpcGidrolockCraneCmd] = STATE_GIDROLOCK_CRANE_AWAIT
+			рв[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_AWAIT
 		}
 	КОНЕЦ
-	
+
 (*********************************************************************)
 
 ПРОЦЕДУРА Gidrolock_OpcControl
@@ -42,7 +42,7 @@
 			НАЧАЛО
 				ЛОГ cmdOpen
 			КОНЕЦ
-			
+
 		cmdOpen = TRUE
 		
 		:Обработка кранов прямого действия
@@ -80,7 +80,6 @@
 			ЛОГ newMdbCraneState
 		КОНЕЦ
 	НАЧАЛО
-	
 		newMdbCraneState = lastMdbCraneState
 		
 		ЕСЛИ (opcGidrolockCraneCmd = STATE_GIDROLOCK_CRANE_OPEN){
@@ -103,6 +102,7 @@
 	НАЧАЛО
 		ПЕРЕМЕННЫЕ
 			НАЧАЛО
+				ЛОГ isCraneSwitched
 				ЛОГ openCrane
 				ЛОГ closeCrane
 				ЛОГ mdbCraneState
@@ -111,6 +111,7 @@
 				ЦЕЛ16 delayTmr
 				ЦЕЛ16 switchTmr
 			КОНЕЦ
+
 		
 		:Обработка кранов прямого действия	
 		ДЛЯ iMdbGidrolockCraneWireOpen[13],
@@ -234,7 +235,7 @@
 			ЦЕЛ16 gidrolockCraneId
 		КОНЕЦ
 	НАЧАЛО
-		
+
 		:Обработка кранов прямого действия
 		ДЛЯ iGidrolockCraneId[1],
 			iOpcGidrolockCraneCmd[8],
@@ -244,6 +245,7 @@
 			ЕСЛИ (iGidrolockCraneId = gidrolockCraneId)	{
 				ЕСЛИ (рв[iOpcGidrolockCraneState] = CMD_GIDROLOCK_CRANE_OPEN){
 					пл[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_CLOSE
+
 					рв[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_CLOSE
 				}
 				ВЫХОД
@@ -267,13 +269,14 @@
 	КОНЕЦ
 
 (*********************************************************************)
+
 ФУНКЦИЯ Gidrolock_CmdOpen
 	ВХОДНЫЕ_ПЕРЕМЕННЫЕ
 		НАЧАЛО
 			ЦЕЛ16 gidrolockCraneId
 		КОНЕЦ
 	НАЧАЛО
-	
+
 		:Обработка кранов прямого действия
 		ДЛЯ iGidrolockCraneId[1],
 			iMdbCraneId[12],
@@ -281,8 +284,8 @@
 			iOpcGidrolockCraneState[9]
 		{
 			ЕСЛИ (iGidrolockCraneId = gidrolockCraneId){
-				ЕСЛИ (рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_CLOSE){ 
-					пл[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_OPEN
+				ЕСЛИ (рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_CLOSE | рв[iOpcGidrolockCraneState] = STATE_GIDROLOCK_CRANE_CLOSES){ 
+					:пл[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_OPEN
 					рв[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_OPEN
 				}
 				ВЫХОД
@@ -318,7 +321,6 @@
 		КОНЕЦ
 	
 	НАЧАЛО
-	
 		:Обработка кранов обоих типов
 		ДЛЯ iGidrolockCraneId[1,2],
 			iOpcGidrolockCraneState[9,11]
@@ -345,9 +347,8 @@
 	НАЧАЛО
 		ПЕРЕМЕННЫЕ
 			НАЧАЛО
-				ЦЕЛ16 craneState
+				ВЕЩ32 craneState
 			КОНЕЦ
-			
 		:Обработка кранов прямого действия
 		ДЛЯ iGidrolockCraneId[1],
 			iMdbCraneId[12],	
@@ -391,9 +392,9 @@
 	НАЧАЛО
 		ПЕРЕМЕННЫЕ
 			НАЧАЛО
-				ЦЕЛ16 craneState 
+				ВЕЩ32 craneState 
 			КОНЕЦ
-			
+
 		:Обработка кранов прямого действия
 		ДЛЯ iGidrolockCraneId[1],
 			iMdbCraneId[12],
@@ -507,6 +508,7 @@
 				ВЫХОД
 			}
 		}
+
 		
 		isClearingCompleted = TRUE	
 	КОНЕЦ
