@@ -24,37 +24,23 @@
 		
 		еякх (!isMaintenanceRun){
 			isMaintenanceRun = _AlgorithmGidrolockMaintenance_CheckBimonthlyClearingTime(TARGET_DATA_FIRST, TARGET_DATA_SECOND, TARGET_HOUR, TARGET_MINUTE, TARGET_SECOND)
-			isClearingCompleted = TRUE
+			_AlgorithmGidrolockMaintenance_PrepareToClearing()
 		}
 		
 		еякх (isMaintenanceRun){
 			еякх (Gidrolock_IsAllCraneStop()){
-				isClearingCompleted = _AlgorithmGidrolockMaintenance_Clearing(isClearingCompleted)
+				isClearingCompleted = Gidrolock_Maintenance()
 				isMaintenanceRun = !isClearingCompleted
 			}
 		}
 			
 	йнмеж
 
-тсмйжхъ _AlgorithmGidrolockMaintenance_Clearing
-	бундмше_оепелеммше
-		мювюкн
-			кнц isMaintenanceRun
-		йнмеж
-	
-	бшундмше_оепелеммше
-		мювюкн
-			кнц isClearingContinues
-		йнмеж
-	
+тсмйжхъ _AlgorithmGidrolockMaintenance_PrepareToClearing
 	мювюкн
-		еякх (isMaintenanceRun){
-			дкъ iOpcGidrolockClearingState[22, 23]{
-				ПБ[iOpcGidrolockClearingState] = 0
-			}
-		}
-		isClearingContinues = Gidrolock_Maintenance()
-				
+		дкъ iOpcGidrolockClearingState[22, 23]{
+			ПБ[iOpcGidrolockClearingState] = 0
+		}				
 	йнмеж
 
 тсмйжхъ _AlgorithmGidrolockMaintenance_CheckBimonthlyClearingTime
