@@ -16,6 +16,8 @@
 		Msu24_Monitoring
 		Gidrolock_Monitoring
 		Gidrolock_OpcControl
+		Belimo_Monitoring
+		Belimo_OpcControl
 		
 		если (рв25 = 1){
 			Gidrolock_CmdClose(1)
@@ -29,5 +31,6 @@
 		
 		Bolid_CheckState
 		AlgorithmGidrolockMaintenance_Start
+		BelimoVirtual_Emulation
 		
 	КОНЕЦ

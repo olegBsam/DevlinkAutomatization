@@ -1,0 +1,16 @@
+ÏĞÎÖÅÄÓĞÀ BelimoVirtual_Emulation
+	ÍÀ×ÀËÎ
+		ÄËß iOpcBelimoCraneState[20,22],
+			iMdbBelimoCraneState[2,4],
+			iOpcBelimoCraneCmd[19,21],
+			iMdbBelimoCraneCmd[3,5]
+		{
+			ÅÑËÈ (ïâ[iMdbBelimoCraneCmd] > ïâ[iMdbBelimoCraneState]){
+				ïâ[iMdbBelimoCraneState] = 0.0296 + ïâ[iMdbBelimoCraneState]
+			}ÈÍÀ×Å_ÅÑËÈ (ïâ[iMdbBelimoCraneCmd] < ïâ[iMdbBelimoCraneState]){
+				ïâ[iMdbBelimoCraneState] = ïâ[iMdbBelimoCraneState] - 0.0296
+			}
+		}
+		
+		
+	ÊÎÍÅÖ
