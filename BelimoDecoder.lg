@@ -2,7 +2,7 @@
 * бУНДМНЕ ГМЮВЕМХЕ НР 2 ДН 10 БНКЭР
 *)
 
-тсмйжхъ BelimoDecoder_VoltageToPercent
+тсмйжхъ BelimoDecoder_StateVoltageToPercent
 	бундмше_оепелеммше
 		мювюкн
 			беы32 stateInVolt
@@ -16,10 +16,11 @@
 			мювюкн
 				беы32 MIN_THRESHOLD = 2
 				беы32 MAX_THRESHOLD = 10
+				
 				беы32 TRANSFORM_KOEF = 12.5
-				беы32 TRANSFORM_OFFSET = 25
+				беы32 TRANSFORM_OFFSET = -25
 			йнмеж
-	
+			
 		еякх (stateInVolt < MIN_THRESHOLD){
 			stateInPerc	= -1
 		}
@@ -27,12 +28,43 @@
 			stateInPerc = -1
 		}
 		хмюве{
-			stateInPerc = TRANSFORM_KOEF * stateInVolt - TRANSFORM_OFFSET
-		}
+			stateInPerc = TRANSFORM_KOEF * stateInVolt + TRANSFORM_OFFSET
+		}		
+		
 	йнмеж
 	
 (*****************************************************************)
 
+тсмйжхъ BelimoDecoder_CmdVoltageToPercent
+	бундмше_оепелеммше
+		мювюкн
+			беы32 cmdInVolt
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			беы32 cmdInPerc
+		йнмеж
+	мювюкн
+	
+		йнмярюмрш
+			мювюкн
+				беы32 MIN_THRESHOLD = 0
+				беы32 MAX_THRESHOLD = 10
+			йнмеж
+			
+		еякх (cmdInVolt < MIN_THRESHOLD){
+			cmdInPerc = -1
+		}
+		хмюве_еякх (cmdInVolt > MAX_THRESHOLD){
+			cmdInPerc = -1
+		}
+		хмюве{
+			cmdInPerc = cmdInVolt * 10
+		}
+	йнмеж
+	
+
+(*****************************************************************)
 тсмйжхъ BelimoDecoder_PercentToVoltage
 	бундмше_оепелеммше
 		мювюкн
@@ -43,13 +75,8 @@
 			беы32 stateInVolt
 		йнмеж
 	мювюкн
-		йнмярюмрш
-			мювюкн
-				беы32 TRANSFORM_KOEF = 0.08
-				беы32 TRANSFORM_OFFSET = 2
-			йнмеж
 		еякх (stateInPerc >= 0 & stateInPerc <= 100){
-			stateInVolt = stateInPerc * TRANSFORM_KOEF + TRANSFORM_OFFSET
+			stateInVolt = stateInPerc / 10
 		}
 		хмюве{
 			stateInVolt = -1

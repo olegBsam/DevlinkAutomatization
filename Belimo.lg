@@ -7,15 +7,29 @@
 * @рв15, 16 связь с УСО ввода и вывода первого крана соответственно
 * @рв17, 18 связь с УСО ввода и вывода второго крана соответственно
 * @рв19, 21 - управление кранами
-* @рв20, 22 - состояние кранов
+* @рв20, 24- положение кранов
+* @рв27, 28 - состояние крана (0 - закрыт, 1 - открыт, -1 обрыв)
 *)
 
 ПРОЦЕДУРА Belimo_Monitoring
-	НАЧАЛО
-		ДЛЯ iOpcBelimoCraneState[20,22],
-			iMdbBelimoCraneState[2,4]	
+	НАЧАЛО			
+		ДЛЯ iOpcBelimoCranePosition[20,24],
+			iOpcBelimoCraneState[27,28],
+			iMdbBelimoCraneState[2,4]
 		{
-			рв[iOpcBelimoCraneState] = BelimoDecoder_VoltageToPercent(пв[iMdbBelimoCraneState])
+			рв[iOpcBelimoCranePosition] = BelimoDecoder_StateVoltageToPercent(пв[iMdbBelimoCraneState])
+			ЕСЛИ (пв[iMdbBelimoCraneState] = -8888 | рв[iOpcBelimoCranePosition] = -1){
+				рв[iOpcBelimoCraneState] = -1
+			}
+			ИНАЧЕ_ЕСЛИ (рв[iOpcBelimoCranePosition] > 99){
+				рв[iOpcBelimoCraneState] = 0
+			}
+			ИНАЧЕ_ЕСЛИ (рв[iOpcBelimoCranePosition] < 0.5){
+				рв[iOpcBelimoCraneState] = 1
+			}
+			ИНАЧЕ{
+				рв[iOpcBelimoCraneState] = 1
+			}
 		}
 	КОНЕЦ
 
@@ -96,7 +110,7 @@
 			iMdbBelimoCraneState[2,4]
 		{
 			ЕСЛИ (craneId = iCraneId){
-				craneStateById = BelimoDecoder_VoltageToPercent(пв[iMdbBelimoCraneState])
+				craneStateById = BelimoDecoder_StateVoltageToPercent(пв[iMdbBelimoCraneState])
 				ВЫХОД
 			}
 		}
@@ -118,7 +132,7 @@
 			iMdbBelimoCraneState[2,4]
 		{
 			ЕСЛИ (craneId = iCraneId){
-				ЕСЛИ (BelimoDecoder_VoltageToPercent(пв[iMdbBelimoCraneState]) = 100){
+				ЕСЛИ (BelimoDecoder_StateVoltageToPercent(пв[iMdbBelimoCraneState]) = 100){
 					isClosed = TRUE
 				}
 				ВЫХОД
@@ -142,7 +156,7 @@
 			iMdbBelimoCraneState[2,4]
 		{
 			ЕСЛИ (craneId = iCraneId){
-				ЕСЛИ (BelimoDecoder_VoltageToPercent(пв[iMdbBelimoCraneState]) = 0){
+				ЕСЛИ (BelimoDecoder_StateVoltageToPercent(пв[iMdbBelimoCraneState]) = 0){
 					isOpened = TRUE
 				}
 				ВЫХОД
