@@ -295,7 +295,7 @@ const27_comment=
 [PROGRAMS]
 count=1
 program1_name=Main
-program1_line=1
+program1_line=4
 program1_filename=Main.lg
 program1_loadtocontrdb=1
 [DEBUG_VARIABLES]

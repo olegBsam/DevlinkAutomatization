@@ -1,21 +1,17 @@
+(*
+* @ПВ2,4 - выходное значения крана
+*)
+
 ПРОГРАММА Main
 	НАЧАЛО
 		ЕСЛИ (рв1 = 0){
 			Initialization_OnReboot
 			рв1 = 1
+			
 			пв2 = 2
 			пв4 = 2
 		}
-		
-		ЕСЛИ (рв26 = 1)
-		{
-			ЕСЛИ (рв8 # STATE_GIDROLOCK_CRANE_AWAIT){
-				пл13 = 1
-				пл14 = 0
-			}
-		}
 				
-		
 		Msu24_Monitoring
 		Gidrolock_Monitoring
 		Gidrolock_OpcControl
@@ -23,17 +19,6 @@
 		Belimo_Monitoring
 		Belimo_OpcControl
 	
-		
-		если (рв25 = 1){
-			Gidrolock_CmdClose(1)
-			Gidrolock_CmdClose(2)
-			рв25 = 0
-		} ИНАЧЕ_ЕСЛИ (рв25 = 11){
-			Gidrolock_CmdOpen(1)
-			Gidrolock_CmdOpen(2)
-			рв25 = 0
-		}
-		
 		Bolid_CheckState
 	
 		AlgorithmGidrolockMaintenance_Start

@@ -2,7 +2,7 @@
 	ÍÀ×ÀËÎ
 		ÏÅĞÅÌÅÍÍÛÅ
 			ÍÀ×ÀËÎ
-				ÂÅÙ shag
+				ÂÅÙ voltPerSecond
 				ÂÅÙ cmdPerc
 				ÂÅÙ statePerc
 				ÂÅÙ prevSecond
@@ -12,18 +12,18 @@
 			ÍÀ×ÀËÎ
 				ÂÅÙ MIN_VOLT = 0.0
 				ÂÅÙ MAX_VOLT = 10.0
-				ÂÅÙ FULL_SWITCH_TIME = 90.0
+				ÂÅÙ FULL_SWITCH_TIME_IN_SEC = 90.0
 			ÊÎÍÅÖ
 		
 		ÅÑËÈ (òñ9 = 0){
 			òñ9 = 1
 			âêë òñ9
-			
 		}
+			
 		ÅÑËÈ (òñ9 > prevSecond + 1.25){
 			prevSecond = òñ9
 			
-			shag = (MAX_VOLT - MIN_VOLT) / FULL_SWITCH_TIME
+			voltPerSecond = (MAX_VOLT - MIN_VOLT) / FULL_SWITCH_TIME_IN_SEC
 			
 			ÄËß iMdbBelimoCraneState[2,4],
 				iMdbBelimoCraneCmd[3,5],
@@ -33,10 +33,10 @@
 				statePerc = BelimoDecoder_StateVoltageToPercent(ïâ[iMdbBelimoCraneState])
 				
 				ÅÑËÈ (cmdPerc > statePerc + 1){
-					ïâ[iMdbBelimoCraneState] = ïâ[iMdbBelimoCraneState] + shag
+					ïâ[iMdbBelimoCraneState] = ïâ[iMdbBelimoCraneState] + voltPerSecond
 				}
 				ÈÍÀ×Å_ÅÑËÈ (cmdPerc < statePerc - 1){
-					ïâ[iMdbBelimoCraneState] = ïâ[iMdbBelimoCraneState] - shag
+					ïâ[iMdbBelimoCraneState] = ïâ[iMdbBelimoCraneState] - voltPerSecond
 				}
 			}
 		}
