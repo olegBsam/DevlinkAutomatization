@@ -1,0 +1,33 @@
+:*ПБ 31-50
+
+опнжедспю WaterRiser_Monitoring
+	мювюкн
+		дкъ opcRiserState[1..9],
+			opcBackFlowState[1..9],
+			opcSinkState[1..9],
+			opcSupplyState[1..9],
+			opcBackFlowCraneState[1..9],
+			opcSinkCraneState[1..9],
+			opcSupplyCraneState[1..9]
+		 {
+		 	ПБ[opcRiserState] = WaterRiser_GetRiserState(ПБ[opcBackFlowCraneState],ПБ[opcSinkCraneState],ПБ[opcSupplyCraneState])
+		 }
+	йнмеж
+	
+тсмйжхъ WaterRiser_GetRiserState
+	
+	бундмше_оепелеммше
+		мювюкн
+			беы opcBackFlowCraneState
+			беы opcSinkCraneState
+			беы opcSupplyCraneState
+		йнмеж
+		
+	бшундмше_оепелеммше
+		мювюкн
+			
+		йнмеж
+		
+	мювюкн
+		
+	йнмеж
