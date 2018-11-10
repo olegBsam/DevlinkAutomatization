@@ -1,0 +1,196 @@
+(**
+* бЯОНЛНЦЮРЕКЭМШИ ЛНДСКЭ ПЮАНРШ Я ЙПЮМЮЛХ.
+*
+**)
+
+
+:*ТСМЙЖХЪ ОНКСВЕМХЪ ЯНЯРНЪМХЪ ЙПЮМЮ КЧАНЦН РХОЮ
+
+тсмйжхъ WaterRiserCraneHelper_GetCraneState
+	бундмше_оепелеммше
+		мювюкн
+			жек craneId
+		йнмеж
+
+	бшундмше_оепелеммше
+		мювюкн
+			беы state
+		йнмеж
+	
+	мювюкн
+		оепелеммше
+			мювюкн
+				беы craneState
+				кнц isSuccess
+			йнмеж
+			
+		(craneState, isSuccess) = _WaterRiserCraneHelper_GetBelimoCraneStateOrDefault(craneId)
+		
+		еякх (isSuccess = FALSE){
+			(craneState, isSuccess) = _WaterRiserCraneHelper_GetGidrolockCraneStateOrDefault(craneId)
+			
+			еякх (isSuccess = FALSE){
+				craneState = GET_STATE_ERROR
+			}
+		}
+		
+	йнмеж
+	
+(*****************************************************************)
+	
+(*
+* мХФЕ ТСМЙЖХХ ОНКСВЮЧЫХЕ ЯНЯРНЪМХЕ ЙПЮМЮ СЙЮГЮММНЦН РХОЮ
+* Х ОПЕНАПЮГСЧЫХЕ ЕЦН Й НАЫЕЛС РХОС ЯНЯРНЪМХЪ ЙПЮМНБ
+*)
+
+тсмйжхъ _WaterRiserCraneHelper_GetBelimoCraneStateOrDefault
+	бундмше_оепелеммше
+		мювюкн
+			жек craneId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			беы craneState
+			кнц isSuccess
+		йнмеж
+
+	мювюкн
+		craneState = Belimo_GetStateById(craneId)
+		
+		еякх (craneState # GET_STATE_ERROR){
+		
+			еякх (craneState = 100){
+				craneState = STATE_CRANE_CLOSE
+			}
+			хмюве_еякх (craneState = 0){
+				craneState = STATE_CRANE_OPEN
+			}
+			хмюве{
+				craneState = STATE_CRANE_UNDEFINE
+			}	
+			
+			isSuccess = TRUE
+		}
+		хмюве{
+			isSuccess = FALSE
+		}
+					
+	йнмеж
+
+(*****************************************************************)
+
+тсмйжхъ _WaterRiserCraneHelper_GetGidrolockCraneStateOrDefault
+	бундмше_оепелеммше
+		мювюкн
+			жек craneId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			беы craneState
+			кнц isSuccess
+		йнмеж
+
+	мювюкн
+		craneState = Gidrolock_GetStateById(craneId)
+		
+		еякх (craneState # GET_STATE_ERROR){
+		
+			еякх (craneState = STATE_GIDROLOCK_CRANE_OPEN){
+				craneState = STATE_CRANE_OPEN
+			}				
+			еякх (craneState = STATE_GIDROLOCK_CRANE_CLOSE){
+				craneState = STATE_CRANE_CLOSE
+			}
+			хмюве{
+				craneState = STATE_CRANE_UNDEFINE
+			}		
+			
+			isSuccess = TRUE
+		}
+		хмюве{
+			isSuccess = FALSE
+		}
+					
+	йнмеж
+	
+
+(*****************************************************************)
+(*****************************************************************)
+
+(*
+* ТСМЙЖХЪ СЯРЮМНБЙХ ЯНЯРНЪМХЪ ЙПЮМЮ КЧАНЦН РХОЮ
+*)	
+тсмйжхъ WaterRiserCraneHelper_SetCraneState
+	бундмше_оепелеммше
+		мювюкн
+			жек craneId
+			беы craneCmd
+		йнмеж
+	
+	мювюкн
+		оепелеммше
+			мювюкн
+				кнц isSuccess
+			йнмеж
+			
+		isSuccess = _WaterRiserCraneHelper_SetBelimoCraneStateOrDefault(craneId, craneCmd)
+		
+		еякх (isSuccess = FALSE){
+			isSuccess = _WaterRiserCraneHelper_SetGidrolockCraneStateOrDefault(craneId, craneCmd)
+		}
+		
+	йнмеж
+
+(*****************************************************************)
+	
+(*
+* мХФЕ ТСМЙЖХХ НРОПЮБЙХ ЙНЛЮМДШ ЙПЮМЮЛ СЙЮГЮММНЦН РХОЮ
+*)
+
+тсмйжхъ _WaterRiserCraneHelper_SetGidrolockCraneStateOrDefault
+	бундмше_оепелеммше
+		мювюкн
+			жек craneId
+			беы craneCmd
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			кнц isSuccess
+		йнмеж
+
+	мювюкн
+	
+		еякх (craneCmd = STATE_CRANE_OPEN){
+			isSuccess = Gidrolock_CmdOpen(craneId)
+		}
+		хмюве_еякх (craneCmd = STATE_CRANE_CLOSE){
+			isSuccess = Gidrolock_CmdClose(craneId)
+		}
+					
+	йнмеж
+	
+(*****************************************************************)
+
+тсмйжхъ _WaterRiserCraneHelper_SetBelimoCraneStateOrDefault
+	бундмше_оепелеммше
+		мювюкн
+			жек craneId
+			беы craneCmd
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			кнц isSuccess
+		йнмеж
+
+	мювюкн
+	
+		еякх (craneCmd = STATE_CRANE_OPEN){
+			isSuccess = Belimo_CmdOpen(craneId)
+		}
+		хмюве_еякх (craneCmd = STATE_CRANE_CLOSE){
+			isSuccess = Belimo_CmdClose(craneId)
+		}
+					
+	йнмеж
+	
+(*****************************************************************)

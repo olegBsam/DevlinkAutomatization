@@ -1,33 +1,106 @@
+(**
+* лНДСКЭ СОПЮБКЕМХЪ ЯРНЪЙЮЛХ
+*
+*)
+
 :*ПБ 31-50
+
 
 опнжедспю WaterRiser_Monitoring
 	мювюкн
-		дкъ opcRiserState[1..9],
-			opcBackFlowState[1..9],
-			opcSinkState[1..9],
-			opcSupplyState[1..9],
-			opcBackFlowCraneState[1..9],
-			opcSinkCraneState[1..9],
-			opcSupplyCraneState[1..9]
-		 {
-		 	ПБ[opcRiserState] = WaterRiser_GetRiserState(ПБ[opcBackFlowCraneState],ПБ[opcSinkCraneState],ПБ[opcSupplyCraneState])
-		 }
+		оепелеммше
+			мювюкн
+				беы sinkCraneState
+				беы supplyCraneState
+				беы backFlowCraneState
+			йнмеж
+		дкъ opcRiserState[31],
+			sinkCraneId[1],
+			supplyCraneId[2],
+			backFlowCraneId[3]
+		{
+			sinkCraneState = WaterRiserCraneHelper_GetCraneState(sinkCraneId)
+			supplyCraneState = WaterRiserCraneHelper_GetCraneState(supplyCraneId)
+			backFlowCraneState = WaterRiserCraneHelper_GetCraneState(backFlowCraneId)
+		
+			ПБ[opcRiserState] = WaterRiser_GetRiserState(backFlowCraneState, sinkCraneState, supplyCraneState)
+		}
 	йнмеж
 	
+(*****************************************************************)
+
 тсмйжхъ WaterRiser_GetRiserState
 	
 	бундмше_оепелеммше
 		мювюкн
-			беы opcBackFlowCraneState
-			беы opcSinkCraneState
-			беы opcSupplyCraneState
+			беы backFlowCraneState
+			беы sinkCraneState
+			беы supplyCraneState
 		йнмеж
 		
 	бшундмше_оепелеммше
 		мювюкн
-			
+			беы riserState
 		йнмеж
 		
 	мювюкн
+
+		еякх (sinkCraneState = STATE_CRANE_OPEN){
+			еякх (backFlowCraneState = STATE_CRANE_CLOSE & supplyCraneState = STATE_CRANE_CLOSE){
+				riserState = STATE_CRANE_CLOSE
+			}
+		}
+		хмюве{
+			еякх (backFlowCraneState = STATE_CRANE_OPEN & supplyCraneState = STATE_CRANE_OPEN){
+				riserState = STATE_CRANE_OPEN
+			}
+		}	
+		riserState = STATE_CRANE_UNDEFINE
+	йнмеж
+
+(*****************************************************************)
+
+опнжедспю WarterRiser_OpcControl
+	мювюкн
+		дкъ opcRiserCmd[32],
+			opcRiserState[31],
+			sinkCraneId[1],
+			supplyCraneId[2],
+			backFlowCraneId[3]
+		{
+			еякх (ПБ[opcRiserCmd] = CMD_WATER_RISER_CLOSE & ПБ[opcRiserState] = STATE_CRANE_OPEN){			
+				WaterRiser_SetRiserState(backFlowCraneId, sinkCraneId, supplyCraneId, CMD_WATER_RISER_CLOSE)
+			}
+			хмюве_еякх (ПБ[opcRiserCmd] = CMD_WATER_RISER_OPEN & ПБ[opcRiserState] = STATE_CRANE_CLOSE){
+				WaterRiser_SetRiserState(backFlowCraneId, sinkCraneId, supplyCraneId, CMD_WATER_RISER_OPEN)
+			}
+		}
+	йнмеж
+
+
+(*****************************************************************)
+
+тсмйжхъ WaterRiser_SetRiserState
+	
+	бундмше_оепелеммше
+		мювюкн
+			жек backFlowCraneId
+			жек sinkCraneId
+			жек supplyCraneId
+			беы waterRiserCmd
+		йнмеж
+		
+	мювюкн
+	
+		еякх (waterRiserCmd = STATE_CRANE_OPEN){
+			WaterRiserCraneHelper_SetCraneState(backFlowCraneId, STATE_CRANE_OPEN)
+			WaterRiserCraneHelper_SetCraneState(sinkCraneId, STATE_CRANE_CLOSE)
+			WaterRiserCraneHelper_SetCraneState(supplyCraneId, STATE_CRANE_OPEN)
+		}
+		хмюве_еякх(waterRiserCmd = STATE_CRANE_CLOSE){
+			WaterRiserCraneHelper_SetCraneState(backFlowCraneId, STATE_CRANE_CLOSE)
+			WaterRiserCraneHelper_SetCraneState(sinkCraneId, STATE_CRANE_OPEN)
+			WaterRiserCraneHelper_SetCraneState(supplyCraneId, STATE_CRANE_CLOSE)
+		}
 		
 	йнмеж

@@ -61,17 +61,23 @@
 		мювюкн
 			жек craneId
 		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			кнц isSuccess
+		йнмеж
 	мювюкн
-		дкъ iCraneId[1,2],
+		дкъ iCraneId[3,4],
 			iOpcBelimoCraneCmd[19,21],
 			iMdbBelimoCraneCmd[3,5]
 		{
 			еякх (craneId = iCraneId){
 				ПБ[iOpcBelimoCraneCmd] = 0
 				ОБ[iMdbBelimoCraneCmd]= BelimoDecoder_PercentToVoltage(0)
+				isSuccess = TRUE
 				бшунд
 			}
 		}
+		isSuccess = FALSE
 	йнмеж
 	
 (*****************************************************************)
@@ -81,32 +87,42 @@
 		мювюкн
 			жек craneId
 		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			кнц isSuccess
+		йнмеж
 	мювюкн
-		дкъ iCraneId[1,2],
+		дкъ iCraneId[3,4],
 			iOpcBelimoCraneCmd[19,21],
 			iMdbBelimoCraneCmd[3,5]
 		{
 			еякх (craneId = iCraneId){
 				ПБ[iOpcBelimoCraneCmd] = 100
 				ОБ[iMdbBelimoCraneCmd]= BelimoDecoder_PercentToVoltage(100)
+				isSuccess = TRUE
 				бшунд
 			}
 		}
+		isSuccess = FALSE
 	йнмеж
 	
 (*****************************************************************)
 
 тсмйжхъ Belimo_GetStateById
+
 	бундмше_оепелеммше
 		мювюкн
 			жек craneId
 		йнмеж
+		
 	бшундмше_оепелеммше
 		мювюкн
 			беы craneStateById
 		йнмеж
+		
 	мювюкн
-		дкъ iCraneId[1,2],
+	
+		дкъ iCraneId[3,4],
 			iMdbBelimoCraneState[2,4]
 		{
 			еякх (craneId = iCraneId){
@@ -114,6 +130,7 @@
 				бшунд
 			}
 		}
+		craneStateById = GET_STATE_ERROR
 	йнмеж
 	
 (*****************************************************************)
@@ -128,7 +145,7 @@
 			кнц isClosed
 		йнмеж
 	мювюкн
-		дкъ iCraneId[1,2],
+		дкъ iCraneId[3,4],
 			iMdbBelimoCraneState[2,4]
 		{
 			еякх (craneId = iCraneId){
@@ -152,7 +169,7 @@
 			кнц isOpened
 		йнмеж
 	мювюкн
-		дкъ iCraneId[1,2],
+		дкъ iCraneId[3,4],
 			iMdbBelimoCraneState[2,4]
 		{
 			еякх (craneId = iCraneId){

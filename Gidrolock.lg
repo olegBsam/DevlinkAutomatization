@@ -231,6 +231,10 @@
 		мювюкн
 			жек16 gidrolockCraneId
 		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			кнц isSuccess
+		йнмеж
 	мювюкн
 		
 		:нАПЮАНРЙЮ ЙПЮМНБ ОПЪЛНЦН ДЕИЯРБХЪ
@@ -244,6 +248,7 @@
 					ОК[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_CLOSE
 					ПБ[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_CLOSE
 				}
+				isSuccess = TRUE
 				бшунд
 			}
 		}
@@ -259,9 +264,11 @@
 					ОК[iMdbCraneId]	= !CMD_GIDROLOCK_CRANE_CLOSE
 					ПБ[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_CLOSE
 				}
+				isSuccess = TRUE
 				бшунд
 			}
 		}
+		isSuccess = FALSE
 	йнмеж
 
 (*********************************************************************)
@@ -269,6 +276,10 @@
 	бундмше_оепелеммше
 		мювюкн
 			жек16 gidrolockCraneId
+		йнмеж
+	бшундмше_оепелеммше
+		мювюкн
+			кнц isSuccess
 		йнмеж
 	мювюкн
 	
@@ -283,6 +294,7 @@
 					ОК[iMdbCraneId]	= CMD_GIDROLOCK_CRANE_OPEN
 					ПБ[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_OPEN
 				}
+				isSuccess = TRUE
 				бшунд
 			}
 		}
@@ -298,9 +310,11 @@
 					ОК[iMdbCraneId]	= !CMD_GIDROLOCK_CRANE_OPEN
 					ПБ[iOpcGidrolockCraneCmd] = CMD_GIDROLOCK_CRANE_OPEN
 				}
+				isSuccess = TRUE
 				бшунд
 			}
 		}
+		isSuccess = FALSE
 	йнмеж
 
 (*********************************************************************)
@@ -312,7 +326,7 @@
 		йнмеж
 	бшундмше_оепелеммше
 		мювюкн
-			жек16 gidrolockCraneState
+			беы craneStateById
 		йнмеж
 	
 	мювюкн
@@ -322,10 +336,11 @@
 			iOpcGidrolockCraneState[9,11]
 		{
 			еякх (iGidrolockCraneId = gidrolockCraneId){
-				gidrolockCraneState = БЖ(ПБ[iOpcGidrolockCraneState])
-				опепбюрэ
+				craneStateById = ПБ[iOpcGidrolockCraneState]
+				бшунд
 			}
 		}
+		craneStateById = GET_STATE_ERROR
 	йнмеж
 
 (*********************************************************************)
