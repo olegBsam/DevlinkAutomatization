@@ -6,12 +6,14 @@
 	ÍÀ×ÀËÎ
 		ÅÑËÈ (ğâ1 = 0){
 			Initialization_OnReboot
+			
+			
 			ğâ1 = 1
 			
 			ïâ2 = 2
 			ïâ4 = 2
 		}
-				
+		
 		Msu24_Monitoring
 		Gidrolock_Monitoring
 		Gidrolock_OpcControl
@@ -24,5 +26,8 @@
 		AlgorithmGidrolockMaintenance_Start
 		
 		BelimoVirtual_Emulation
+		
+		WaterRiser_Monitoring
+		WarterRiser_OpcControl
 		
 	ÊÎÍÅÖ

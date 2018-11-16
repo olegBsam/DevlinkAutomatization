@@ -8,22 +8,29 @@
 
 опнжедспю WaterRiser_Monitoring
 	мювюкн
+	
 		оепелеммше
 			мювюкн
 				беы sinkCraneState
 				беы supplyCraneState
 				беы backFlowCraneState
 			йнмеж
-		дкъ opcRiserState[31],
-			sinkCraneId[1],
-			supplyCraneId[2],
-			backFlowCraneId[3]
+			
+		дкъ opcRiserState[59],
+			sinkCraneId[3],
+			supplyCraneId[1],
+			backFlowCraneId[2]
 		{
 			sinkCraneState = WaterRiserCraneHelper_GetCraneState(sinkCraneId)
 			supplyCraneState = WaterRiserCraneHelper_GetCraneState(supplyCraneId)
 			backFlowCraneState = WaterRiserCraneHelper_GetCraneState(backFlowCraneId)
-		
+			
+			ПБ50 = sinkCraneState
+			ПБ51 = supplyCraneState
+			ПБ52 = backFlowCraneState
+			
 			ПБ[opcRiserState] = WaterRiser_GetRiserState(backFlowCraneState, sinkCraneState, supplyCraneState)
+			
 		}
 	йнмеж
 	
@@ -48,31 +55,37 @@
 		еякх (sinkCraneState = STATE_CRANE_OPEN){
 			еякх (backFlowCraneState = STATE_CRANE_CLOSE & supplyCraneState = STATE_CRANE_CLOSE){
 				riserState = STATE_CRANE_CLOSE
+				бшунд
 			}
 		}
-		хмюве{
+		хмюве_еякх (sinkCraneState = STATE_CRANE_CLOSE){
 			еякх (backFlowCraneState = STATE_CRANE_OPEN & supplyCraneState = STATE_CRANE_OPEN){
 				riserState = STATE_CRANE_OPEN
+				бшунд
 			}
 		}	
+		
 		riserState = STATE_CRANE_UNDEFINE
+		
 	йнмеж
 
 (*****************************************************************)
 
 опнжедспю WarterRiser_OpcControl
 	мювюкн
-		дкъ opcRiserCmd[32],
-			opcRiserState[31],
-			sinkCraneId[1],
-			supplyCraneId[2],
-			backFlowCraneId[3]
+		дкъ opcRiserCmd[60],
+			opcRiserState[59],
+			sinkCraneId[3],
+			supplyCraneId[1],
+			backFlowCraneId[2]
 		{
-			еякх (ПБ[opcRiserCmd] = CMD_WATER_RISER_CLOSE & ПБ[opcRiserState] = STATE_CRANE_OPEN){			
+			еякх (ПБ[opcRiserCmd] = CMD_WATER_RISER_CLOSE & ПБ[opcRiserState] # STATE_CRANE_CLOSE){			
 				WaterRiser_SetRiserState(backFlowCraneId, sinkCraneId, supplyCraneId, CMD_WATER_RISER_CLOSE)
+				ПБ54 = 999
 			}
-			хмюве_еякх (ПБ[opcRiserCmd] = CMD_WATER_RISER_OPEN & ПБ[opcRiserState] = STATE_CRANE_CLOSE){
+			хмюве_еякх (ПБ[opcRiserCmd] = CMD_WATER_RISER_OPEN & ПБ[opcRiserState] # STATE_CRANE_OPEN){
 				WaterRiser_SetRiserState(backFlowCraneId, sinkCraneId, supplyCraneId, CMD_WATER_RISER_OPEN)
+				ПБ54 = -999
 			}
 		}
 	йнмеж
@@ -92,12 +105,12 @@
 		
 	мювюкн
 	
-		еякх (waterRiserCmd = STATE_CRANE_OPEN){
+		еякх (waterRiserCmd = CMD_WATER_RISER_OPEN){
 			WaterRiserCraneHelper_SetCraneState(backFlowCraneId, STATE_CRANE_OPEN)
 			WaterRiserCraneHelper_SetCraneState(sinkCraneId, STATE_CRANE_CLOSE)
 			WaterRiserCraneHelper_SetCraneState(supplyCraneId, STATE_CRANE_OPEN)
 		}
-		хмюве_еякх(waterRiserCmd = STATE_CRANE_CLOSE){
+		хмюве_еякх(waterRiserCmd = CMD_WATER_RISER_CLOSE){
 			WaterRiserCraneHelper_SetCraneState(backFlowCraneId, STATE_CRANE_CLOSE)
 			WaterRiserCraneHelper_SetCraneState(sinkCraneId, STATE_CRANE_OPEN)
 			WaterRiserCraneHelper_SetCraneState(supplyCraneId, STATE_CRANE_CLOSE)

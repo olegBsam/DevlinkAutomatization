@@ -16,21 +16,18 @@
 		мювюкн
 			беы state
 		йнмеж
-	
 	мювюкн
 		оепелеммше
 			мювюкн
-				беы craneState
 				кнц isSuccess
 			йнмеж
-			
-		(craneState, isSuccess) = _WaterRiserCraneHelper_GetBelimoCraneStateOrDefault(craneId)
 		
-		еякх (isSuccess = FALSE){
-			(craneState, isSuccess) = _WaterRiserCraneHelper_GetGidrolockCraneStateOrDefault(craneId)
-			
-			еякх (isSuccess = FALSE){
-				craneState = GET_STATE_ERROR
+		(state, isSuccess) = _WaterRiserCraneHelper_GetGidrolockCraneStateOrDefault(craneId)
+		
+		еякх (!isSuccess){
+			(state, isSuccess) = _WaterRiserCraneHelper_GetBelimoCraneStateOrDefault(craneId)
+			еякх (!isSuccess){
+				state = GET_STATE_ERROR
 			}
 		}
 		
@@ -59,10 +56,10 @@
 		
 		еякх (craneState # GET_STATE_ERROR){
 		
-			еякх (craneState = 100){
+			еякх (craneState > 99){
 				craneState = STATE_CRANE_CLOSE
 			}
-			хмюве_еякх (craneState = 0){
+			хмюве_еякх (craneState < 1){
 				craneState = STATE_CRANE_OPEN
 			}
 			хмюве{
@@ -92,13 +89,12 @@
 
 	мювюкн
 		craneState = Gidrolock_GetStateById(craneId)
-		
 		еякх (craneState # GET_STATE_ERROR){
 		
-			еякх (craneState = STATE_GIDROLOCK_CRANE_OPEN){
+			еякх (craneState = STATE_GIDROLOCK_CRANE_OPEN){				
 				craneState = STATE_CRANE_OPEN
-			}				
-			еякх (craneState = STATE_GIDROLOCK_CRANE_CLOSE){
+			}
+			хмюве_еякх (craneState = STATE_GIDROLOCK_CRANE_CLOSE){
 				craneState = STATE_CRANE_CLOSE
 			}
 			хмюве{
@@ -109,6 +105,9 @@
 		}
 		хмюве{
 			isSuccess = FALSE
+				:*
+				ПБ40 = 7
+				:*
 		}
 					
 	йнмеж
